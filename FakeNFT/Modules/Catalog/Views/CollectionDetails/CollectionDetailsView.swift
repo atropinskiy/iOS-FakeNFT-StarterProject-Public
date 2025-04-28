@@ -12,9 +12,9 @@ struct CollectionDetailsView: View {
         ScrollView {
             VStack(spacing: 0) {
                 Image("MockCollectionImg")
-                    .resizable() // просто делаем изображение изменяемым
+                    .resizable()
                     .frame(width: UIScreen.main.bounds.width, height: 310)
-                    .clipped() // чтобы не вылезало за границы
+                    .clipped()
 
                 VStack(spacing: 0) {
                     CollectionDescriptionView()

@@ -10,7 +10,6 @@ import WebKit
 
 struct AuthorDetailsView: View {
     var body: some View {
-        // Используем WebView с URL
         WebView(url: URL(string: "http://practicum.yandex.ru/")!)
     }
 }

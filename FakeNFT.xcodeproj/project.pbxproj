@@ -26,7 +26,6 @@
 		220DB2152DBF78A6001F6169 /* CatalogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220DB2142DBF789F001F6169 /* CatalogViewModel.swift */; };
 		220DB2172DBF7CD6001F6169 /* CollectionDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220DB2162DBF7CD6001F6169 /* CollectionDetailsView.swift */; };
 		220DB2192DBF7E81001F6169 /* AuthorDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220DB2182DBF7E81001F6169 /* AuthorDetailsView.swift */; };
-		220DB21B2DBF7EA8001F6169 /* NFTCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220DB21A2DBF7EA8001F6169 /* NFTCardView.swift */; };
 		220DB21E2DBF85CC001F6169 /* CatalogCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220DB21D2DBF85CC001F6169 /* CatalogCell.swift */; };
 		220DB2212DBF9AF2001F6169 /* CollectionDescriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220DB2202DBF9AF2001F6169 /* CollectionDescriptionView.swift */; };
 		220DB2232DBFA102001F6169 /* CatalogCollectionGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220DB2222DBFA102001F6169 /* CatalogCollectionGridView.swift */; };
@@ -102,7 +101,6 @@
 		220DB2142DBF789F001F6169 /* CatalogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatalogViewModel.swift; sourceTree = "<group>"; };
 		220DB2162DBF7CD6001F6169 /* CollectionDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionDetailsView.swift; sourceTree = "<group>"; };
 		220DB2182DBF7E81001F6169 /* AuthorDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorDetailsView.swift; sourceTree = "<group>"; };
-		220DB21A2DBF7EA8001F6169 /* NFTCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NFTCardView.swift; sourceTree = "<group>"; };
 		220DB21D2DBF85CC001F6169 /* CatalogCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatalogCell.swift; sourceTree = "<group>"; };
 		220DB2202DBF9AF2001F6169 /* CollectionDescriptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionDescriptionView.swift; sourceTree = "<group>"; };
 		220DB2222DBFA102001F6169 /* CatalogCollectionGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatalogCollectionGridView.swift; sourceTree = "<group>"; };
@@ -353,7 +351,6 @@
 				220DB21F2DBF93EF001F6169 /* CollectionDetails */,
 				220DB21C2DBF7F2E001F6169 /* Main */,
 				220DB2142DBF789F001F6169 /* CatalogViewModel.swift */,
-				220DB21A2DBF7EA8001F6169 /* NFTCardView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -699,7 +696,6 @@
 				22BB22EC2DB29ED500D61BF5 /* StatView.swift in Sources */,
 				3FC8C39329D246BA0081F015 /* DateFormatters+Presets.swift in Sources */,
 				0CFCB7422A78013E0009A829 /* Nft.swift in Sources */,
-				220DB21B2DBF7EA8001F6169 /* NFTCardView.swift in Sources */,
 				0CF2C2DD2A783CE600FDC837 /* ErrorView.swift in Sources */,
 				22BB22F02DB29EF500D61BF5 /* CatalogView.swift in Sources */,
 				0C79EE682A76DE0900EE90EA /* NftDetailPresenter.swift in Sources */,

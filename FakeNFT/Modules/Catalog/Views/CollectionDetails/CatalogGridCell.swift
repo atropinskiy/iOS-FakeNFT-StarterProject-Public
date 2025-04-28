@@ -92,7 +92,6 @@ private struct CatalogTrash: View {
                     .padding(.trailing, 12)
                     .padding(.top, 12)
             }
-            
         }
     }
 }

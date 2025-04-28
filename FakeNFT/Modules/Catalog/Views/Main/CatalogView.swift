@@ -32,7 +32,6 @@ struct CatalogView: View {
                 }
                 
                 ScrollView {
-                    // Каждая ячейка обернута в NavigationLink для перехода на другой экран
                     NavigationLink(destination: CollectionDetailsView()) {
                         CatalogCell()
                     }
@@ -46,7 +45,6 @@ struct CatalogView: View {
                 .padding(.top, 20)
             }
             .padding(16)
-            
         }
     }
 }

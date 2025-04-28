@@ -15,8 +15,8 @@ struct CollectionDescriptionView: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
             HStack {
                 Text("Автор коллекции")
-                NavigationLink(destination: AuthorDetailsView().withCustomBackButton()) { // Переход на новый экран
-                    Text("John Doe")  // Ссылка, которая будет вести на новый экран
+                NavigationLink(destination: AuthorDetailsView().withCustomBackButton()) {
+                    Text("John Doe")
                         .foregroundColor(.blue)
                 }
             }

@@ -11,17 +11,17 @@ struct CatalogCollectionGridView: View {
     let images = ["MockNFTImg", "MockNFTImg", "MockNFTImg", "MockNFTImg", "MockNFTImg", "MockNFTImg", "MockNFTImg", "MockNFTImg", "MockNFTImg", "MockNFTImg"] // Ваши изображения
     
     let columns = [
-        GridItem(.flexible()),  // Первый столбец
-        GridItem(.flexible()),  // Второй столбец
-        GridItem(.flexible())   // Третий столбец
+        GridItem(.flexible()),
+        GridItem(.flexible()),
+        GridItem(.flexible())
     ]
     
     var body: some View {
-        LazyVGrid(columns: columns, spacing: 20) {  // Настройка грид
+        LazyVGrid(columns: columns, spacing: 20) {
             ForEach(Array(images.enumerated()), id: \.offset) { index, image in
                 CatalogGridCell(imgName: image)
             }
         }
-        .padding()  // Добавляем отступы для грид
+        .padding()
     }
 }
