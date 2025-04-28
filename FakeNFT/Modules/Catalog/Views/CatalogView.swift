@@ -8,7 +8,13 @@
 import SwiftUI
 
 struct CatalogView: View {
+    @StateObject var viewModel = CatalogViewModel()
+    
+    
     var body: some View {
+        NavigationStack(path: $viewModel.path) {
+            
+        }
         Text("Тут каталог")
     }
 }

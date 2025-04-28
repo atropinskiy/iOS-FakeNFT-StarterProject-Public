@@ -23,6 +23,7 @@
 		0CFCB7492A7808900009A829 /* TestCatalogController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CFCB7482A7808900009A829 /* TestCatalogController.swift */; };
 		0CFCB74B2A780EA80009A829 /* UIView+Constraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CFCB74A2A780EA80009A829 /* UIView+Constraints.swift */; };
 		0CFCB74E2A7817DC0009A829 /* NftStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CFCB74D2A7817DC0009A829 /* NftStorage.swift */; };
+		220DB2152DBF78A6001F6169 /* CatalogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220DB2142DBF789F001F6169 /* CatalogViewModel.swift */; };
 		22BB22E82DB29CD600D61BF5 /* TabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22BB22E72DB29CD600D61BF5 /* TabBarView.swift */; };
 		22BB22EA2DB29EBD00D61BF5 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22BB22E92DB29EBD00D61BF5 /* ProfileView.swift */; };
 		22BB22EC2DB29ED500D61BF5 /* StatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22BB22EB2DB29ED500D61BF5 /* StatView.swift */; };
@@ -87,6 +88,7 @@
 		0CFCB7482A7808900009A829 /* TestCatalogController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestCatalogController.swift; sourceTree = "<group>"; };
 		0CFCB74A2A780EA80009A829 /* UIView+Constraints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Constraints.swift"; sourceTree = "<group>"; };
 		0CFCB74D2A7817DC0009A829 /* NftStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NftStorage.swift; sourceTree = "<group>"; };
+		220DB2142DBF789F001F6169 /* CatalogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatalogViewModel.swift; sourceTree = "<group>"; };
 		22BB22E72DB29CD600D61BF5 /* TabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
 		22BB22E92DB29EBD00D61BF5 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		22BB22EB2DB29ED500D61BF5 /* StatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatView.swift; sourceTree = "<group>"; };
@@ -280,6 +282,7 @@
 		22BB22E22DB29C5800D61BF5 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				220DB2142DBF789F001F6169 /* CatalogViewModel.swift */,
 				22BB22EF2DB29EF500D61BF5 /* CatalogView.swift */,
 			);
 			path = Views;
@@ -627,6 +630,7 @@
 				0C79EE682A76DE0900EE90EA /* NftDetailPresenter.swift in Sources */,
 				3F68069B29CBBAF100B4F915 /* ProductDetailsTableViewController.swift in Sources */,
 				0CFCB7402A78002A0009A829 /* ExamplePutService.swift in Sources */,
+				220DB2152DBF78A6001F6169 /* CatalogViewModel.swift in Sources */,
 				3F6806D529CBBEC700B4F915 /* NetworkTask.swift in Sources */,
 				0CF2C2DB2A783C1B00FDC837 /* LoadingView.swift in Sources */,
 				22BB22EE2DB29EE300D61BF5 /* CartView.swift in Sources */,
