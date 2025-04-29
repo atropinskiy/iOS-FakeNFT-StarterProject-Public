@@ -15,34 +15,26 @@ final class NetworkService: NetworkServiceProtocol, ObservableObject {
     func fetchRequest<T: Decodable>(
         endpoint: Endpoint,
         method: HTTPMethod,
-        idNumber: Int? = nil,
-        encodableData: Encodable? = nil
-    ) async throws -> T? {
+        idNumber: Int? = nil
+    ) async throws -> T {
         
-        guard let url = URL(string: "\(RequestConstants.baseURL)\(endpoint.rawValue) + \(String(describing: idNumber ?? nil))") else {
+        let urlString = "\(RequestConstants.baseURL)\(endpoint.rawValue)" + (idNumber.map { "\($0)" } ?? "")
+        guard let url = URL(string: urlString) else {
             print("fetchRequest - Invalid URL")
             throw URLError(.badURL)
         }
-        
+            
         var request = URLRequest(url: url)
         request.httpMethod = method.rawValue
         
         var modifiedHeaders = apiHeaders
         
         if method == .put {
-            modifiedHeaders["Content-Type"] = "application/x-www-form-urlencoded"
+            modifiedHeaders["Content-Type"] = "application/json"
         }
         
         modifiedHeaders.forEach { key, value in
             request.setValue(value, forHTTPHeaderField: key)
-        }
-        
-        if let encodableData = encodableData {
-            do {
-                request.httpBody = try JSONEncoder().encode(encodableData)
-            } catch {
-                print("JSON coding error: \(error.localizedDescription)")
-            }
         }
         
         let (data, response) = try await URLSession.shared.data(for: request)
@@ -52,8 +44,9 @@ final class NetworkService: NetworkServiceProtocol, ObservableObject {
             throw URLError(.badServerResponse)
         }
         
-        if !(200...299).contains(httpResponse.statusCode) {
+        guard (200...299).contains(httpResponse.statusCode) else {
             print("Server error: \(httpResponse.statusCode)")
+            print("Response body: \(String(data: data, encoding: .utf8) ?? "N/A")")
             throw URLError(.badServerResponse)
         }
         
@@ -62,9 +55,8 @@ final class NetworkService: NetworkServiceProtocol, ObservableObject {
             return try decoder.decode(T.self, from: data)
         } catch {
             print("JSON decoding error: \(error.localizedDescription)")
+            print("Raw response: \(String(data: data, encoding: .utf8) ?? "N/A")")
             throw error
         }
     }
-    
 }
-

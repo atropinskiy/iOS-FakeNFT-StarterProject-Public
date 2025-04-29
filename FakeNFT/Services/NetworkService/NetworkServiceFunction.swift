@@ -23,17 +23,23 @@ enum Endpoint: String {
 
 final class NetworkServiceFunction {
     @MainActor static let shared = NetworkServiceFunction()
+    private let networkService = NetworkService()
     
-    private var networkService: NetworkService
+    private init() {}
     
-    private init() {
-        self.networkService = NetworkService()
+    /// Fetch currency by id number
+    func fetchCurrency(by id: Int) async throws -> Currency {
+        try await networkService.fetchRequest(endpoint: .currencyIdGet, method: .get, idNumber: id)
     }
     
+    /// Fetch all currencies array
+    func fetchCurrencies() async throws -> [Currency] {
+        try await networkService.fetchRequest(endpoint: .currencyGet, method: .get)
+    }
     
-    func currencyIdGet(currencyId: String) async throws -> CurrencyIdResponse? {
-        try await networkService.fetchRequest(endpoint: .currencyIdGet, method: .get, idNumber: <#T##String?#>, encodableData: <#T##(any Encodable)?#>)
-        )
+    /// Fetch first order
+    func fetchOrder(by id: Int) async throws -> Order {
+        try await networkService.fetchRequest(endpoint: .orderGetPut, method: .get, idNumber: id)
     }
     
    }
