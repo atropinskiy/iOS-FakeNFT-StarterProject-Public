@@ -6,15 +6,14 @@
 //
 import ProgressHUD
 
-class ProgressHUDService {
+final class ProgressHUDService {
     static let shared = ProgressHUDService()
+    private init() {}
     
-    // Показываем ProgressHUD
     func showProgress(message: String = "Загрузка...") {
         ProgressHUD.show(message)
     }
     
-    // Скрываем ProgressHUD
     func dismiss() {
         ProgressHUD.dismiss()
     }

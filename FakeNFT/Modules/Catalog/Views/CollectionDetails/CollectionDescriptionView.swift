@@ -13,8 +13,9 @@ struct CollectionDescriptionView: View {
             Text("Peach")
                 .font(.system(size: 22, weight: .bold))
                 .frame(maxWidth: .infinity, alignment: .leading)
+
             HStack {
-                Text("Автор коллекции")
+                Text("Автор коллекции:")
                 NavigationLink(destination: AuthorDetailsView().withCustomBackButton()) {
                     Text("John Doe")
                         .foregroundColor(.blue)
@@ -22,12 +23,16 @@ struct CollectionDescriptionView: View {
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.top, 16)
-            Text("Персиковый — как облака над закатным солнцемв океане. В этой коллекции совмещены трогательная нежность и живая игривость сказочных зефирных зверей.")
+
+            Text("Персиковый — как облака над закатным солнцем в океане. В этой коллекции совмещены трогательная нежность и живая игривость сказочных зефирных зверей.")
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.top, 8)
+                .lineLimit(nil) // Убираем ограничение на количество строк
+                .fixedSize(horizontal: false, vertical: true) // Разрешаем вертикальное растяжение
         }
         .padding(.horizontal, 16)
         .padding(.top, 16)
     }
 }
+
 

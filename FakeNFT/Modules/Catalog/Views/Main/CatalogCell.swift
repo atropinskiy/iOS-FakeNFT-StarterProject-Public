@@ -12,8 +12,11 @@ struct CatalogCell: View {
         VStack(spacing: 0) {
             Image("MockCollectionImg")
                 .resizable()
-                .scaledToFill()
-                .frame(maxWidth: .infinity)
+                .aspectRatio(contentMode: .fill)
+                .frame(maxWidth: .infinity) // Задаем максимальную ширину
+                .frame(height: 140) // Задаем фиксированную высоту
+                .cornerRadius(12)
+                .clipped()
             Text("Коллекция 1")
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .font(.system(size: 17, weight: .bold))

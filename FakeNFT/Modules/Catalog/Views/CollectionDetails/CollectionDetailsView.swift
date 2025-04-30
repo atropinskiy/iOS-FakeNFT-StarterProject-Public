@@ -13,13 +13,16 @@ struct CollectionDetailsView: View {
             VStack(spacing: 0) {
                 Image("MockCollectionImg")
                     .resizable()
-                    .frame(width: UIScreen.main.bounds.width, height: 310)
+                    .scaledToFit()
                     .clipped()
+                    .mask(RoundedRectangle(cornerRadius: 12, style: .continuous)
+                            .padding(.top, 0))
 
                 VStack(spacing: 0) {
                     CollectionDescriptionView()
                     CatalogCollectionGridView()
                 }
+                .frame(minHeight: 0, maxHeight: .infinity)
             }
         }
         .ignoresSafeArea(edges: .top)

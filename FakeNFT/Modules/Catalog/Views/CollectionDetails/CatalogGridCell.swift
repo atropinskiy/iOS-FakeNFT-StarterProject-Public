@@ -22,6 +22,7 @@ struct CatalogGridCell: View {
                 Image(imgName)
                     .resizable()
                     .frame(width: 108, height: 108)
+                    .cornerRadius(12)
                 
                 Button(action: {
                     likeState.toggle()
@@ -88,9 +89,8 @@ private struct CatalogTrash: View {
             Button(action: {
                 inCart.toggle()
             }) {
-                Image(inCart ? "CatalogTrash" : "CatalogTrashCross")
-                    .padding(.trailing, 12)
-                    .padding(.top, 12)
+                Image(inCart ? .catalogTrash : .catalogTrashCross)
+                    .padding([.top, .trailing], 12)
             }
         }
     }

@@ -30,8 +30,8 @@
 		220DB2212DBF9AF2001F6169 /* CollectionDescriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220DB2202DBF9AF2001F6169 /* CollectionDescriptionView.swift */; };
 		220DB2232DBFA102001F6169 /* CatalogCollectionGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220DB2222DBFA102001F6169 /* CatalogCollectionGridView.swift */; };
 		220DB2252DBFA405001F6169 /* CatalogGridCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220DB2242DBFA405001F6169 /* CatalogGridCell.swift */; };
-		220DB2282DBFC3E2001F6169 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220DB2272DBFC3DF001F6169 /* View.swift */; };
-		220DB2302DBFD6E3001F6169 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220DB22F2DBFD6D8001F6169 /* Color.swift */; };
+		220DB2282DBFC3E2001F6169 /* View+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220DB2272DBFC3DF001F6169 /* View+Extensions.swift */; };
+		220DB2302DBFD6E3001F6169 /* Color+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220DB22F2DBFD6D8001F6169 /* Color+Extensions.swift */; };
 		220DB2332DBFE5C8001F6169 /* ViewModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220DB2322DBFE5C6001F6169 /* ViewModifiers.swift */; };
 		220DB2382DBFF52B001F6169 /* ProgressHudService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220DB2372DBFF51D001F6169 /* ProgressHudService.swift */; };
 		22BB22E82DB29CD600D61BF5 /* TabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22BB22E72DB29CD600D61BF5 /* TabBarView.swift */; };
@@ -105,8 +105,8 @@
 		220DB2202DBF9AF2001F6169 /* CollectionDescriptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionDescriptionView.swift; sourceTree = "<group>"; };
 		220DB2222DBFA102001F6169 /* CatalogCollectionGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatalogCollectionGridView.swift; sourceTree = "<group>"; };
 		220DB2242DBFA405001F6169 /* CatalogGridCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatalogGridCell.swift; sourceTree = "<group>"; };
-		220DB2272DBFC3DF001F6169 /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
-		220DB22F2DBFD6D8001F6169 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
+		220DB2272DBFC3DF001F6169 /* View+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extensions.swift"; sourceTree = "<group>"; };
+		220DB22F2DBFD6D8001F6169 /* Color+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extensions.swift"; sourceTree = "<group>"; };
 		220DB2322DBFE5C6001F6169 /* ViewModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModifiers.swift; sourceTree = "<group>"; };
 		220DB2372DBFF51D001F6169 /* ProgressHudService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressHudService.swift; sourceTree = "<group>"; };
 		22BB22E72DB29CD600D61BF5 /* TabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
@@ -247,8 +247,8 @@
 		220DB2262DBFC3D4001F6169 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				220DB22F2DBFD6D8001F6169 /* Color.swift */,
-				220DB2272DBFC3DF001F6169 /* View.swift */,
+				220DB22F2DBFD6D8001F6169 /* Color+Extensions.swift */,
+				220DB2272DBFC3DF001F6169 /* View+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -712,7 +712,7 @@
 				558E39E72C68CE0A00FB86AC /* NftService.swift in Sources */,
 				3F68069729CBBAF100B4F915 /* AppDelegate.swift in Sources */,
 				220DB2382DBFF52B001F6169 /* ProgressHudService.swift in Sources */,
-				220DB2302DBFD6E3001F6169 /* Color.swift in Sources */,
+				220DB2302DBFD6E3001F6169 /* Color+Extensions.swift in Sources */,
 				3F68069929CBBAF100B4F915 /* SceneDelegate.swift in Sources */,
 				0C79EE6C2A76DE2E00EE90EA /* ServicesAssemly.swift in Sources */,
 				22BB22E82DB29CD600D61BF5 /* TabBarView.swift in Sources */,
@@ -720,7 +720,7 @@
 				3FC8C39129D2453B0081F015 /* ExamplePutRequest.swift in Sources */,
 				0CFCB7462A78064B0009A829 /* NftDetailCellModel.swift in Sources */,
 				220DB2212DBF9AF2001F6169 /* CollectionDescriptionView.swift in Sources */,
-				220DB2282DBFC3E2001F6169 /* View.swift in Sources */,
+				220DB2282DBFC3E2001F6169 /* View+Extensions.swift in Sources */,
 				220DB2192DBF7E81001F6169 /* AuthorDetailsView.swift in Sources */,
 				0CFCB74B2A780EA80009A829 /* UIView+Constraints.swift in Sources */,
 				3F6806D729CBC50A00B4F915 /* CellsReusingUtils.swift in Sources */,

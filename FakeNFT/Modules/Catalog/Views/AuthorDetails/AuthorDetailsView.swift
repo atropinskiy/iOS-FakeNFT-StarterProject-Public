@@ -9,18 +9,25 @@ import SwiftUI
 import WebKit
 
 struct AuthorDetailsView: View {
+    private let urlString = "http://practicum.yandex.ru/"
+
     var body: some View {
-        WebView(url: URL(string: "http://practicum.yandex.ru/")!)
+        if let url = URL(string: urlString) {
+            WebView(url: url)
+        } else {
+            Text("Неверный адрес сайта.")
+                .foregroundColor(.red)
+        }
     }
 }
 
 struct WebView: UIViewRepresentable {
     let url: URL
-    let progressHud = ProgressHUDService()
+    let progressHud = ProgressHUDService.shared
     
     @State private var isLoading = true
 
-    class Coordinator: NSObject, WKNavigationDelegate {
+    final class Coordinator: NSObject, WKNavigationDelegate {
         var parent: WebView
 
         init(parent: WebView) {
