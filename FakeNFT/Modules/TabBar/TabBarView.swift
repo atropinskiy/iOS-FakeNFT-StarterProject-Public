@@ -46,7 +46,7 @@ struct TabBarView: View {
                     }
                 }
         }
-        .accentColor(Color(.blueUn))
+        .accentColor(Color(.tBlueUn))
     }
 }
 
