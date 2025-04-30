@@ -27,9 +27,24 @@ final class NetworkServiceFunction {
     
     private init() {}
     
-    /// Fetch currency by id number
-    func fetchCurrency(by id: Int) async throws -> Currency {
-        try await networkService.fetchRequest(endpoint: .currencyIdGet, method: .get, idNumber: id)
+    /// Fetch all collection list
+    func fetchCollections() async throws -> [Collection] {
+        try await networkService.fetchRequest(endpoint: .collectionsGet, method: .get)
+    }
+    
+    /// Fetch collection by id number
+    func fetchCollection(by id: String) async throws -> Collection {
+        try await networkService.fetchRequest(endpoint: .collectionIdGet, method: .get, idNumber: id)
+    }
+    
+    /// Fetch all nfts
+    func fetchNfts() async throws -> [NFT] {
+        try await networkService.fetchRequest(endpoint: .nftGet, method: .get)
+    }
+    
+    /// Fetch nft with id
+    func fetchNft(with id: String) async throws -> NFT {
+        try await networkService.fetchRequest(endpoint: .nftIdGet, method: .get, idNumber: id)
     }
     
     /// Fetch all currencies array
@@ -37,13 +52,50 @@ final class NetworkServiceFunction {
         try await networkService.fetchRequest(endpoint: .currencyGet, method: .get)
     }
     
+    /// Fetch currency by id number
+    func fetchCurrency(by id: Int) async throws -> Currency {
+        try await networkService.fetchRequest(endpoint: .currencyIdGet, method: .get, currencyID: id)
+    }
+    
     /// Fetch first order
-    func fetchOrder(by id: Int) async throws -> Order {
+    func fetchOrder(by id: String) async throws -> Order {
         try await networkService.fetchRequest(endpoint: .orderGetPut, method: .get, idNumber: id)
     }
     
+    /// Fetch payment success
+    func fetchPayment(by id: Int) async throws -> Payment {
+        try await networkService.fetchRequest(endpoint: .paymentCurrencyIdGet, method: .get, currencyID: id)
+    }
+    
     /// Add/delete new nft in Cart
+    func uploadNFTSToCart(by id: String, nfts: [String]) async throws -> Order {
+        let uploadedNFTS = NFTToCart(nfts: nfts)
+        
+        let updatedOrder: Order = try await networkService.fetchRequest(endpoint: .orderGetPut, method: .put, idNumber: id, encodableData: uploadedNFTS)
+        return updatedOrder
+    }
     
+    /// Fetch user profile
+    func fetchProfile() async throws -> Profile {
+        try await networkService.fetchRequest(endpoint: .profileGetPut, method: .get, idNumber: "1")
+    }
     
-   }
+    /// Add profile information
+    func uploadProfile(by id: String, with profile: Profile) async throws -> Profile {
+        let uploadedProfile = UploadProfile(name: profile.name, description: profile.description, website: profile.website, likes: profile.likes)
+        
+        let updatedProfile: Profile = try await networkService.fetchRequest(endpoint: .profileGetPut, method: .put, idNumber: id, encodableData: uploadedProfile)
+        return updatedProfile
+    }
+    
+    /// Fetch all users data
+    func fetchUsers() async throws -> [User] {
+        try await networkService.fetchRequest(endpoint: .usersGet, method: .get)
+    }
+    
+    /// Fetch user with id
+    func fetchUser(by id: String) async throws -> User {
+        try await networkService.fetchRequest(endpoint: .userIdGet, method: .get, idNumber: id)
+    }
+}
 
