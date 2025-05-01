@@ -280,14 +280,14 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
-		22BB22E12DB29C4C00D61BF5 /* Views */ = {
+		22BB22E12DB29C4C00D61BF5 /* View */ = {
 			isa = PBXGroup;
 			children = (
 				847CF2172DC6605B00CC7524 /* NFTDeleteModal.swift */,
 				847CF1932DC3F2AD00CC7524 /* NFTCellView.swift */,
 				22BB22ED2DB29EE300D61BF5 /* CartView.swift */,
 			);
-			path = Views;
+			path = View;
 			sourceTree = "<group>";
 		};
 		22BB22E22DB29C5800D61BF5 /* Views */ = {
