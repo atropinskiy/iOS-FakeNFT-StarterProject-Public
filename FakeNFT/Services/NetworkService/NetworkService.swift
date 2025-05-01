@@ -8,7 +8,7 @@
 import Foundation
 
 
-final class NetworkService: NetworkServiceProtocol, ObservableObject {
+final class NetworkService: NetworkServiceProtocol {
     private let apiHeaders: [String: String] = ["Accept": "application/json", "X-Practicum-Mobile-Token": "\(RequestConstants.token)"]
     
     // MARK: Decode body for x-www-form-urlencoded
@@ -21,20 +21,13 @@ final class NetworkService: NetworkServiceProtocol, ObservableObject {
     func fetchRequest<T: Decodable>(
         endpoint: Endpoint,
         method: HTTPMethod,
-        idNumber: String? = "",
-        currencyID: Int? = nil,
+        id: String? = "",
         encodableData: Encodable? = nil
     ) async throws -> T {
         
         let urlString: String
-        if let currencyID = currencyID {
-            urlString = "\(RequestConstants.baseURL)\(endpoint.rawValue)\(currencyID)"
-        } else if let idNumber = idNumber {
-            urlString = "\(RequestConstants.baseURL)\(endpoint.rawValue)\(idNumber)"
-        } else {
-            urlString = "\(RequestConstants.baseURL)\(endpoint.rawValue)"
-        }
-        
+        urlString = "\(RequestConstants.baseURL)\(endpoint.rawValue)\(String(describing: id))"
+    
         guard let url = URL(string: urlString) else {
             print("fetchRequest - Invalid URL")
             throw URLError(.badURL)
