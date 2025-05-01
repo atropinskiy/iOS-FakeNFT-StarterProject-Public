@@ -1,15 +1,67 @@
-//
-//  ProfileView.swift
-//  FakeNFT
-//
-//  Created by alex_tr on 18.04.2025.
-//
-
 import SwiftUI
 
 struct ProfileView: View {
+
+    @State private var showEditProfileView: Bool = false
+    
     var body: some View {
-        Text("Тут профиль")
+        
+        NavigationStack {
+            VStack(alignment: .leading) {
+                HStack {
+                    
+                    Spacer()
+                    
+                    Button {
+                        
+                        showEditProfileView = true
+                        
+                    } label: {
+                        Image(systemName: "square.and.pencil")
+                            .resizable()
+                            .foregroundStyle(.black)
+                            .frame(width: 26.34, height: 26.33)
+                    }
+                    .frame(width: 42, height: 42)
+                    .padding(.horizontal, 9)
+                }
+                
+                HStack() {
+                    Image(.joaquin)
+                        .frame(width: 70, height: 70)
+                        .clipShape(Circle())
+                    Text("Joaquin Pheonix")
+                        .font(.system(size: 22, weight: .bold))
+                    Spacer()
+                }
+                .padding(.top, 20)
+                
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("""
+                     Дизайнер из Казани, люблю цифровое искусство и бейглы. В моей коллекции есть уже 100+
+                     моделей из 100+ NFT, и еще больше на моем сайте. Открыт к коллаборациям.
+                    """)
+                    .font(.system(size: 13, weight: .light))
+                    .foregroundStyle(.secondary)
+                    .lineLimit(nil)
+                    
+                    Text("Joaquin@Pheonix.com")
+                        .font(.system(size: 15, weight: .light))
+                        .foregroundStyle(.secondary)
+                }
+                .padding(.top, 20)
+                
+                ContentView()
+                    .padding(.top, 40)
+                
+                Spacer()
+                
+            }
+            .padding(.horizontal, 16)
+            .sheet(isPresented: $showEditProfileView ) {
+                ProfileEditView()
+            }
+        }
     }
 }
 
