@@ -8,8 +8,28 @@
 import SwiftUI
 
 struct StatView: View {
+    @ObservedObject var viewModel = ProfileStatViewModel()
+
     var body: some View {
-        Text("Тут статистика")
+        List {
+            ForEach(0..<viewModel.profileStatViews.count) { value in
+//            ForEach(viewModel.profileStatViews, id: \.self) { value in
+                HStack {
+                    Text("\(value + 1)")
+//                    Spacer()
+                    StatCellView(profile: viewModel.profileStatViews[value])
+                }
+            }
+            .listRowBackground(Color.clear)
+            .listRowSeparator(.hidden)
+            .padding(.bottom, 8)
+            .listRowInsets(EdgeInsets())
+        }
+        .listStyle(.plain)
+        .ignoresSafeArea(edges: .bottom)
+        .padding(.horizontal, 16)
+        .padding(.top, 1)
+        .scrollIndicators(.never)
     }
 }
 
