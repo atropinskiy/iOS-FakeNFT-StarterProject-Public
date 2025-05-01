@@ -12,28 +12,41 @@ struct TabBarView: View {
         TabView {
             ProfileView()
                 .tabItem {
-                    Label("Профиль", systemImage: "person.crop.circle")
-                        .foregroundColor(.black)
+                    VStack {
+                        Image("ProfileTabBarImage")
+                            .renderingMode(.template)
+                        Text("Профиль")
+                    }
                 }
 
             CatalogView()
                 .tabItem {
-                    Label("Каталог", systemImage: "square.stack.fill")
-                        .foregroundColor(.black)
+                    VStack {
+                        Image("CatalogTabBarImage")
+                            .renderingMode(.template)
+                        Text("Каталог")
+                    }
                 }
 
             CartView()
                 .tabItem {
-                    Label("Корзина", systemImage: "3.circle")
-                        .foregroundColor(.black)
+                    VStack {
+                        Image("CartTabBarImage")
+                            .renderingMode(.template)
+                        Text("Корзина")
+                    }
                 }
 
             StatView()
                 .tabItem {
-                    Label("Статистика", systemImage: "flag.2.crossed.fill")
-                        .foregroundColor(.black)
+                    VStack {
+                        Image("StatTabBarImage")
+                            .renderingMode(.template)
+                        Text("Статистика")
+                    }
                 }
         }
+        .accentColor(Color(.tBlueUn))
     }
 }
 
