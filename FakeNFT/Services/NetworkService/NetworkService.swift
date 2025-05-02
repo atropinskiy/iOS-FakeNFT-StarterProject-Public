@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 final class NetworkService: NetworkServiceProtocol {
     private let apiHeaders: [String: String] = ["Accept": "application/json", "X-Practicum-Mobile-Token": "\(RequestConstants.token)"]
     
@@ -26,12 +25,17 @@ final class NetworkService: NetworkServiceProtocol {
     ) async throws -> T {
         
         let urlString: String
-        urlString = "\(RequestConstants.baseURL)\(endpoint.rawValue)\(String(describing: id))"
+        if let id = id, !id.isEmpty {
+            urlString = "\(RequestConstants.baseURL)\(endpoint.rawValue)/\(id)"
+        } else {
+            urlString = "\(RequestConstants.baseURL)\(endpoint.rawValue)"
+        }
     
         guard let url = URL(string: urlString) else {
             print("fetchRequest - Invalid URL")
             throw URLError(.badURL)
         }
+        print(url)
             
         var request = URLRequest(url: url)
         request.httpMethod = method.rawValue

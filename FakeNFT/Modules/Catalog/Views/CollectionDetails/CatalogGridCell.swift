@@ -11,6 +11,7 @@ import SwiftUI
 
 struct CatalogGridCell: View {
     @State var likeState: Bool = false
+    @State var inCart: Bool = true
     
     private let imgName: String
     init (imgName: String) {
@@ -46,19 +47,15 @@ struct CatalogGridCell: View {
                         .font(.system(size: 10, weight: .regular))
                         .padding(.top, 5)
                 }
-                CatalogTrash(inCart: true)
+                CatalogTrash(inCart: $inCart)
             }
-            
-            
-            
-            
         }
         .frame(maxWidth: 108)
     }
 }
 
 private struct CatalogStars: View {
-    @State private var stars: Int
+    private let stars: Int
     
     init (stars: Int) {
         self.stars = stars
@@ -77,11 +74,7 @@ private struct CatalogStars: View {
 }
 
 private struct CatalogTrash: View {
-    @State private var inCart: Bool
-    
-    init (inCart: Bool) {
-        self.inCart = inCart
-    }
+    @Binding var inCart: Bool
     
     var body: some View {
         HStack {
