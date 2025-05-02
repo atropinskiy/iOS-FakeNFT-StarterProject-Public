@@ -10,6 +10,7 @@ import SwiftUI
 struct StatView: View {
     @ObservedObject var viewModel = ProfileStatViewModel()
     @State private var showActionSheet = false
+    @State private var showErrorAlert = false
     @Environment(\.colorScheme) var colorScheme
 
     var body: some View {
@@ -53,6 +54,16 @@ struct StatView: View {
             .scrollIndicators(.never)
         }
         .padding(.horizontal, 16)
+        .alert("Ошибка", isPresented: $showErrorAlert) {
+            Button("Повторить", role: nil) {
+                viewModel.fetchData() // Повторная попытка при нажатии
+            }
+            Button("Отменить", role: .cancel) {
+                // Действие при отмене
+            }
+        } message: {
+            Text("Не удалось получить данные")
+        }
     }
 }
 

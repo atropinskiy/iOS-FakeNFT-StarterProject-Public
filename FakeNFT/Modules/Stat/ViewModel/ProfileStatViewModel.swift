@@ -22,4 +22,8 @@ final class ProfileStatViewModel: ObservableObject {
         return [profileView1, profileView2, profileView3, profileView4, profileView5, profileView6, profileView7, profileView8, profileView9]
     }
 
+    func fetchData() {
+        print("Скачиваю список профилей...")
+    }
+
 }
