@@ -12,71 +12,70 @@ struct CartView: View {
     
     var totalPrice: Double {
         Double(cartViewModel.nfts.reduce(0) { $0 + $1.price })
-       }
-
-       var body: some View {
-           VStack(spacing: 0) {
-               // Верхняя панель с фильтром
-               HStack {
-                   Spacer()
-                   Button {
-                       // действие фильтра
-                   } label: {
-                       Image("CartFilterImage")
-                           .padding(.trailing, 9)
-                   }
-               }
-
-               // Список NFT
-               ScrollView {
-                   VStack(spacing: 32) {
-                       ForEach(cartViewModel.nfts, id: \.id) { nft in
-                           CartViewCell(nft: nft) {
-                               withAnimation {
-                                   cartViewModel.nfts.removeAll { $0.id == nft.id }
-                               }
-                           }
-                       }
-                   }
-                   .padding(.bottom, 16)
-               }
-
-               // Нижняя панель оплаты
-               VStack {
-                   Divider()
-                   HStack {
-                       VStack(alignment: .leading) {
-                           Text("\(cartViewModel.nfts.count) NFT")
-                               .foregroundColor(.gray)
-                               .font(.subheadline)
-                           Text("\(totalPrice, specifier: "%.2f") ETH")
-                               .font(.title3)
-                               .bold()
-                               .foregroundColor(.blue)
-                       }
-
-                       Spacer()
-                       
-                       Button(action: {
-                           // действие оплаты
-                       }) {
-                           Text("К оплате")
-                               .foregroundColor(.white)
-                               .fontWeight(.semibold)
-                               .frame(maxWidth: .infinity)
-                               .frame(height: 44)
-                               .background(Color.black)
-                               .cornerRadius(16)
-                       }
-                       .padding(.trailing, 16)
-                   }
-                   .padding()
-               }
-               .background(Color(UIColor.systemGray6))
-           }
-           .background(Color.white)
-       }
-   }
+    }
+    
+    var body: some View {
+        VStack(spacing: 0) {
+            HStack {
+                Spacer()
+                Button {
+                    // TODO: Filter action, module 3
+                } label: {
+                    Image("CartFilterImage")
+                        .padding(.trailing, 9)
+                }
+                .padding(.bottom, 36)
+            }
+            
+            // Список NFT
+            ScrollView {
+                VStack(alignment: .leading, spacing: 32) {
+                    ForEach(cartViewModel.nfts) { nft in
+                        CartViewCell(nft: nft) {
+                            withAnimation {
+                                DispatchQueue.main.async {
+                                    cartViewModel.nfts.removeAll { $0.id == nft.id }
+                                }
+                            }
+                        }
+                    }
+                }
+                .padding(.horizontal, 16)
+            }
+            
+            HStack {
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("\(cartViewModel.nfts.count) NFT")
+                        .font(.system(size: 20, weight: .regular))
+                        .foregroundColor(.black)
+                    
+                    Text("\(totalPrice, specifier: "%.2f") ETH")
+                        .font(.system(size: 22, weight: .bold))
+                        .foregroundColor(.green)
+                }
+                .padding(.leading, 16)
+                
+                Spacer()
+                
+                Button(action: {
+                    // Действие при нажатии
+                }) {
+                    Text("К оплате")
+                        .font(.system(size: 22, weight: .bold))
+                        .foregroundColor(.white)
+                        .frame(maxWidth: .infinity, minHeight: 44)
+                }
+                .background(Color.black)
+                .cornerRadius(16)
+                .padding(.trailing, 16)
+            }
+            .padding(16)
+            .background(Color(UIColor.systemGray6))
+            .cornerRadius(16)
+        }
+        .background(Color.white)
+    }
+}
 
 #Preview {
     CartView()
