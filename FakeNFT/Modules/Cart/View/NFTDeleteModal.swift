@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct DeleteNFTModal: View {
+struct NFTDeleteModal: View {
     let nft: NFT
     let onDelete: () -> Void
     let onCancel: () -> Void
@@ -75,6 +75,6 @@ struct DeleteNFTModal: View {
 #Preview {
     let nft_1 = NFT(createdAt: "2023-04-20T02:22:27Z", name: "April", images: ["https://code.s3.yandex.net/Mobile/iOS/NFT/Beige/April/1.png"], rating: 1, description: "A 3D model of a mythical creature", price: 8.81, author: "Yoda", id: "1")
     
-    DeleteNFTModal(nft: nft_1, onDelete: {}, onCancel: {})
+    NFTDeleteModal(nft: nft_1, onDelete: {}, onCancel: {})
 }
 
