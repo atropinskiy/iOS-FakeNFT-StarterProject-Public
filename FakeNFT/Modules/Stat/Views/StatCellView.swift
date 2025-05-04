@@ -8,13 +8,12 @@
 import SwiftUI
 
 struct StatCellView: View {
-    let screenSize = UIScreen.main.bounds
+    private let screenSize = UIScreen.main.bounds
     var profile: ProfileModel
 
     var body: some View {
         let statCellCornerRadius: CGFloat = 12
         let statCellHeight: CGFloat = 80
-//        let image = profile.avatar
 
         ZStack {
             RoundedRectangle(cornerRadius: statCellCornerRadius)
@@ -36,14 +35,10 @@ struct StatCellView: View {
                 Spacer()
                 Text("\(profile.rating)")
                     .font(.system(size: 22, weight: .bold))
-                //                }
             }
             .padding(.horizontal, 16)
         }
-//        .padding(.horizontal, 10)
         .frame(height: statCellHeight)
-//        .frame(width: screenSize.size.width,
-//               height: statCellHeight)
     }
 
 }

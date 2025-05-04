@@ -18,7 +18,7 @@ final class ProfileStatViewModel: ObservableObject {
     let profileView8 = ProfileModel(id: UUID(), avatar: "", name: "Nick", rating: 9)
     let profileView9 = ProfileModel(id: UUID(), avatar: "", name: "Eva", rating: 7)
 
-    var profileStatViews: [ProfileModel] {
+    var profileStatArray: [ProfileModel] {
         return [profileView1, profileView2, profileView3, profileView4, profileView5, profileView6, profileView7, profileView8, profileView9]
     }
 

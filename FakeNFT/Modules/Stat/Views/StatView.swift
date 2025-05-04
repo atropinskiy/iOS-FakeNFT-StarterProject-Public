@@ -37,11 +37,11 @@ struct StatView: View {
             .padding(.top, 14.7)
             .padding(.bottom, 14.7)
             List {
-                ForEach(0..<viewModel.profileStatViews.count) { value in
+                ForEach(0..<viewModel.profileStatArray.count) { value in
                     //            ForEach(viewModel.profileStatViews, id: \.self) { value in
                     HStack {
                         Text("\(value + 1)")
-                        StatCellView(profile: viewModel.profileStatViews[value])
+                        StatCellView(profile: viewModel.profileStatArray[value])
                     }
                 }
                 .listRowBackground(Color.clear)
