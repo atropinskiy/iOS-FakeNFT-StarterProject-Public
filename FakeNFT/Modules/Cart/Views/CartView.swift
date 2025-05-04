@@ -31,16 +31,23 @@ struct CartView: View {
                         }
                         .padding(.bottom, 20)
                     }
-                    
-                    ScrollView {
-                        VStack(alignment: .leading, spacing: 32) {
-                            ForEach(cartViewModel.nfts) { nft in
-                                NFTCellView(nft: nft) {
-                                    selectedNFT = nft
+                    if cartViewModel.isLoading {
+                        Spacer()
+                        ProgressView("Загрузка...")
+                            .progressViewStyle(CircularProgressViewStyle(tint: Color("tBlack")))
+                            .padding(.top, 50)
+                        Spacer()
+                    } else {
+                        ScrollView {
+                            VStack(alignment: .leading, spacing: 32) {
+                                ForEach(cartViewModel.nfts) { nft in
+                                    NFTCellView(nft: nft) {
+                                        selectedNFT = nft
+                                    }
                                 }
                             }
+                            .padding(.horizontal, 16)
                         }
-                        .padding(.horizontal, 16)
                     }
                     
                     HStack {
@@ -58,7 +65,9 @@ struct CartView: View {
                         Spacer()
                         
                         Button(action: {
-                            isPaymentActive = true
+                            withAnimation {
+                                isPaymentActive = true
+                            }
                         }) {
                             Text("К оплате")
                                 .font(.system(size: 22, weight: .bold))
@@ -88,18 +97,16 @@ struct CartView: View {
                         withAnimation(.easeInOut(duration: 0.3)) {
                             selectedNFT = nil
                         }
-                    }
-                    )
-                    .transition(.move(edge: .bottom).combined(with: .opacity))
+                    })
+                    
                     .zIndex(1)
                 }
             }
-            .animation(.easeInOut(duration: 0.3), value: selectedNFT)
+            .transition(.move(edge: .bottom).combined(with: .opacity))
             .navigationDestination(isPresented: $isPaymentActive) {
                 PaymentMethodView()
             }
         }
-        
     }
 }
 

@@ -13,17 +13,6 @@ final class NetworkService: NetworkServiceProtocol {
         "X-Practicum-Mobile-Token": "\(RequestConstants.token)"
     ]
     
-    // MARK: Decode body for x-www-form-urlencoded
-    private func createFormURLEncodedBody(from data: [String], key: String) -> Data? {
-        let bodyString = data
-            .compactMap { item in
-                item.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
-            }
-            .map { "\(key)=\($0)" }
-            .joined(separator: "&")
-        return bodyString.data(using: .utf8)
-    }
-    
     /// This method is a template for queries that return data
     func fetchRequest<T: Decodable>(
         endpoint: Endpoint,
@@ -86,5 +75,16 @@ final class NetworkService: NetworkServiceProtocol {
             print("Raw response: \(String(data: data, encoding: .utf8) ?? "N/A")")
             throw error
         }
+    }
+    
+    // MARK: Decode body for x-www-form-urlencoded
+    private func createFormURLEncodedBody(from data: [String], key: String) -> Data? {
+        let bodyString = data
+            .compactMap { item in
+                item.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
+            }
+            .map { "\(key)=\($0)" }
+            .joined(separator: "&")
+        return bodyString.data(using: .utf8)
     }
 }
