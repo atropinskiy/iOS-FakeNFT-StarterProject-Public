@@ -13,57 +13,62 @@ struct NFTDeleteModal: View {
 
     var body: some View {
         ZStack {
-            Color.black.opacity(0.4)
-                .ignoresSafeArea()
+//            Color("tBlack").opacity(0.4)
+//                .ignoresSafeArea()
 
-            VStack(spacing: 16) {
-                AsyncImage(url: URL(string: nft.images.first ?? "")) { phase in
-                    switch phase {
-                    case .empty:
-                        ProgressView()
-                            .frame(width: 120, height: 120)
-                    case .success(let image):
-                        image
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 120, height: 120)
-                            .cornerRadius(16)
-                    case .failure:
-                        Color.gray
-                            .frame(width: 120, height: 120)
-                            .cornerRadius(16)
-                    @unknown default:
-                        EmptyView()
+            VStack(spacing: 20) {
+                VStack (spacing: 12) {
+                    AsyncImage(url: URL(string: nft.images.first ?? "")) { phase in
+                        switch phase {
+                        case .empty:
+                            ProgressView()
+                                .frame(width: 108, height: 108)
+                        case .success(let image):
+                            image
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 108, height: 108)
+                                .cornerRadius(12)
+                        case .failure:
+                            Color.gray
+                                .frame(width: 108, height: 108)
+                                .cornerRadius(12)
+                        @unknown default:
+                            EmptyView()
+                        }
                     }
+                    
+                    Text("Вы уверены, что хотите удалить объект из корзины ?")
+                        .font(.system(size: 13, weight: .regular))
+                        .foregroundColor(Color("tBlack"))
+                        .multilineTextAlignment(.center)
                 }
-                
-                Text("Вы уверены, что хотите удалить объект из корзины ?")
-                                    .multilineTextAlignment(.center)
 
-                HStack(spacing: 20) {
+                HStack(spacing: 8) {
                     Button("Удалить") {
                         onDelete()
                     }
-                    .foregroundColor(.red)
+                    .font(.system(size: 17, weight: .regular))
+                    .foregroundColor(Color("tRedUn"))
                     .padding()
+                    .frame(height: 44)
                     .frame(maxWidth: .infinity)
-                    .background(Color.black)
+                    .background(Color("tBlack"))
                     .cornerRadius(12)
                     
                     Button("Вернуться") {
                         onCancel()
                     }
-                    .foregroundColor(.white)
+                    .font(.system(size: 17, weight: .regular))
+                    .foregroundColor(Color("tWhite"))
                     .padding()
+                    .frame(height: 44)
                     .frame(maxWidth: .infinity)
-                    .background(Color.black)
+                    .background(Color("tBlack"))
                     .cornerRadius(12)
-
-                    
                 }
             }
             .padding()
-//            .background(Color.white)
             .cornerRadius(20)
             .shadow(radius: 20)
             .padding(40)

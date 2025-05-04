@@ -26,9 +26,10 @@ struct CartView: View {
                         // TODO: Filter action, module 3
                     } label: {
                         Image("CartFilterImage")
+                            .frame(width: 42, height: 42)
                             .padding(.trailing, 9)
                     }
-                    .padding(.bottom, 36)
+                    .padding(.bottom, 20)
                 }
                 
                 ScrollView {
@@ -45,14 +46,14 @@ struct CartView: View {
                 HStack {
                     VStack(alignment: .leading, spacing: 2) {
                         Text("\(cartViewModel.nfts.count) NFT")
-                            .font(.system(size: 20, weight: .regular))
-                            .foregroundColor(.black)
+                            .font(.system(size: 15, weight: .regular))
+                            .foregroundColor(Color("tBlack"))
                         
                         Text("\(totalPrice, specifier: "%.2f") ETH")
-                            .font(.system(size: 22, weight: .bold))
-                            .foregroundColor(.green)
+                            .font(.system(size: 17, weight: .bold))
+                            .foregroundColor(Color("tGreenUn"))
                     }
-                    .padding(.leading, 16)
+                    .padding(.leading, 2)
                     
                     Spacer()
                     
@@ -62,15 +63,16 @@ struct CartView: View {
                         Text("К оплате")
                             .font(.system(size: 22, weight: .bold))
                             .foregroundColor(.white)
-                            .frame(maxWidth: .infinity, minHeight: 44)
+                            .frame(maxWidth: 240, minHeight: 44)
                     }
-                    .background(Color.black)
+                    .background(Color("tBlack"))
                     .cornerRadius(16)
-                    .padding(.trailing, 16)
+                    .padding(.trailing, 2)
                 }
                 .padding(16)
-                .background(Color(UIColor.systemGray6))
+                .background(Color("tLightGray"))
                 .cornerRadius(16)
+                .frame(minHeight: 76)
             }
             .background(Color.white)
             .blur(radius: selectedNFT != nil ? 8 : 0)
