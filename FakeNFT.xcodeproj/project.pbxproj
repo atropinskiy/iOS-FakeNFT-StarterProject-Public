@@ -243,7 +243,7 @@
 			children = (
 				847CF18F2DC3E92D00CC7524 /* Model */,
 				847CF18B2DC3E4BA00CC7524 /* ViewModel */,
-				22BB22E12DB29C4C00D61BF5 /* View */,
+				22BB22E12DB29C4C00D61BF5 /* Views */,
 			);
 			path = Cart;
 			sourceTree = "<group>";
@@ -280,14 +280,14 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
-		22BB22E12DB29C4C00D61BF5 /* View */ = {
+		22BB22E12DB29C4C00D61BF5 /* Views */ = {
 			isa = PBXGroup;
 			children = (
 				847CF2172DC6605B00CC7524 /* NFTDeleteModal.swift */,
 				847CF1932DC3F2AD00CC7524 /* NFTCellView.swift */,
 				22BB22ED2DB29EE300D61BF5 /* CartView.swift */,
 			);
-			path = View;
+			path = Views;
 			sourceTree = "<group>";
 		};
 		22BB22E22DB29C5800D61BF5 /* Views */ = {
@@ -380,7 +380,6 @@
 		3F6806C629CBBC4E00B4F915 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				84A9C5BD2DC0128E00688791 /* NetworkService */,
 				3FC8C38F29D245250081F015 /* Requests */,
 				0C79EE6B2A76DE2E00EE90EA /* ServicesAssemly.swift */,
 				558E39E62C68CE0900FB86AC /* NftService.swift */,
