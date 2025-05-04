@@ -9,14 +9,41 @@ import Foundation
 
 @MainActor
 final class CartViewModel: ObservableObject {
-    static let shared = CartViewModel()
-    @Published var nfts: [NFT]
+    @Published var nfts: [NFT] = []
+    @Published var isLoading: Bool = false
+    @Published var errorMessage: String?
     
+    private let orderId: String = "1"
+    private let networkService = NetworkServiceFunction.shared
+
     init() {
-        let nft_1 = NFT(createdAt: "2023-04-20T02:22:27Z", name: "April", images: ["https://code.s3.yandex.net/Mobile/iOS/NFT/Beige/April/1.png"], rating: 1, description: "A 3D model of a mythical creature", price: 8.81, author: "Yoda", id: "1")
-        let nft_2 = NFT(createdAt: "2023-04-20T02:22:27Z", name: "Greena", images: ["https://code.s3.yandex.net/Mobile/iOS/NFT/Beige/April/2.png"], rating: 2, description: "A 3D model of a mythical creature", price: 7.81, author: "Yoda", id: "2")
-        let nft_3 = NFT(createdAt: "2023-04-20T02:22:27Z", name: "Greena", images: ["https://code.s3.yandex.net/Mobile/iOS/NFT/Beige/April/2.png"], rating: 1, description: "A 3D model of a mythical creature", price: 6.81, author: "Yoda", id: "3")
+        loadOrderNFTs()
+    }
     
-        self.nfts = [nft_1, nft_2, nft_3]
+    func loadOrderNFTs() {
+        Task {
+            await fetchNFTsFromOrder()
+        }
+    }
+    
+    private func fetchNFTsFromOrder() async {
+        isLoading = true
+        errorMessage = nil
+        
+        do {
+            let order = try await networkService.fetchOrder(by: orderId)
+            var loadedNFTs: [NFT] = []
+            
+            for nftId in order.nfts {
+                let nft = try await networkService.fetchNft(with: nftId)
+                loadedNFTs.append(nft)
+            }
+            
+            self.nfts = loadedNFTs
+        } catch {
+            self.errorMessage = "Не удалось загрузить NFT из заказа: \(error.localizedDescription)"
+        }
+        
+        isLoading = false
     }
 }
