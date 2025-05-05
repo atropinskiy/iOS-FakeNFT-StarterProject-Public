@@ -27,7 +27,7 @@ struct MenuRow<Destination: View>: View {
                     Text(title)
                         .fontWeight(.semibold)
                     Text("(\(count))")
-                        .foregroundColor(.black)
+                        .foregroundStyle(Color(.tBlack))
                         .fontWeight(.semibold)
                 } else {
                     Text(title)
@@ -37,7 +37,7 @@ struct MenuRow<Destination: View>: View {
                 Spacer()
                 
                 Image(systemName: "chevron.right")
-                    .foregroundColor(.black)
+                    .foregroundStyle(Color(.tWhite))
             }
             .frame(maxHeight: 54)
         }

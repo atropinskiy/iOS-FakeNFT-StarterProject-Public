@@ -19,7 +19,7 @@ struct ProfileView: View {
                 } label: {
                     Image(systemName: "square.and.pencil")
                         .resizable()
-                        .foregroundStyle(.black)
+                        .foregroundStyle(Color(.tBlack))
                         .frame(width: 26.34, height: 26.33)
                 }
                 .frame(width: 42, height: 42)
@@ -49,7 +49,7 @@ struct ProfileView: View {
                     
                     Text("Joaquin@Pheonix.com")
                         .font(.system(size: 15, weight: .light))
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(Color(.tBlueUn))
                 }
                 .padding(.top, 20)
                 

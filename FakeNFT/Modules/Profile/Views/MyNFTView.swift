@@ -24,7 +24,7 @@ struct MyNFTView: View {
                     dismiss()
                 } label: {
                     Image(systemName: "chevron.left")
-                        .foregroundStyle(.black)
+                        .foregroundStyle(Color(.tBlack))
                 }
             }
             ToolbarItem(placement: .navigationBarTrailing) {
@@ -32,6 +32,7 @@ struct MyNFTView: View {
                     showSortSheet = true
                 } label: {
                     Image(.vector)
+                        .foregroundStyle(Color(.tBlack))
                 }
             }
         }

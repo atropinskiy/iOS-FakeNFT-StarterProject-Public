@@ -15,7 +15,7 @@ struct DeveloperInfoView: View {
                     dismiss()
                 } label: {
                     Image(systemName: "chevron.left")
-                        .foregroundStyle(.black)
+                        .foregroundStyle(Color(.tBlack))
                 }
             }
         }

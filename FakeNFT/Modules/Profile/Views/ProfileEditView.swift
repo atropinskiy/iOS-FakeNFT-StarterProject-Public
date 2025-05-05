@@ -18,7 +18,7 @@ struct ProfileEditView: View {
                     dismiss()
                 }) {
                     Image(systemName: "xmark")
-                        .foregroundColor(.black)
+                        .foregroundStyle(Color(.tBlack))
                         .font(.system(size: 20, weight: .semibold))
                 }
                 .padding()
@@ -33,7 +33,7 @@ struct ProfileEditView: View {
                         Text("Сменить\nфото")
                             .font(.caption)
                             .multilineTextAlignment(.center)
-                            .foregroundColor(.white)
+                            .foregroundStyle(Color(.tWhite))
                             .padding(6),
                         alignment: .center
                     )
@@ -79,7 +79,7 @@ struct ProfileEditView: View {
             Rectangle()
                 .frame(width: 134, height: 5)
                 .cornerRadius(2.5)
-                .foregroundColor(.black.opacity(0.8))
+                .foregroundStyle(.black.opacity(0.8))
                 .padding(.bottom, 8)
         }
         .padding(.top)
