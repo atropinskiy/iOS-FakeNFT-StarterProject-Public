@@ -19,7 +19,7 @@ enum OrderType: Hashable {
 }
 
 @MainActor
-class CatalogViewModel: ObservableObject {
+final class CatalogViewModel: ObservableObject {
     @Published var path = NavigationPath()
     @Published var collectionsList: [Collection] = []
     @Published var isLoading: Bool = false
@@ -42,16 +42,12 @@ class CatalogViewModel: ObservableObject {
         Task {
             do {
                 let collections = try await networkService.fetchCollections()
-                DispatchQueue.main.async {
-                    self.collectionsList = collections
-                    self.sortCollections(&self.collectionsList)
-                    self.isLoading = false
-                }
+                self.collectionsList = collections
+                self.sortCollections(&self.collectionsList)
+                self.isLoading = false
             } catch {
                 print("Ошибка загрузки коллекций: \(error)")
-                DispatchQueue.main.async {
-                    self.isLoading = false
-                }
+                self.isLoading = false
             }
         }
     }

@@ -8,13 +8,13 @@
 import SwiftUI
 import Kingfisher
 
-struct KFImageView: View {
+struct KFImageView<Placeholder: View>: View {
     let urlString: String
-    var placeholder: AnyView = AnyView(ProgressView())
+    let placeholder: () -> Placeholder
     var fallbackImage: Image = Image(systemName: "photo")
     var contentMode: SwiftUI.ContentMode = .fill
-    var width: CGFloat? = nil
-    var height: CGFloat? = nil
+    var width: CGFloat?
+    var height: CGFloat?
     var cornerRadius: CGFloat = 0
 
     var body: some View {
@@ -22,7 +22,7 @@ struct KFImageView: View {
             KFImage(url)
                 .resizable()
                 .placeholder {
-                    placeholder
+                    placeholder()
                 }
                 .aspectRatio(contentMode: contentMode)
                 .frame(width: width, height: height)

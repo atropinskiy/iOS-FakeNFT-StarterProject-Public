@@ -14,6 +14,7 @@ struct CatalogCell: View {
         VStack(spacing: 0) {
             KFImageView(
                 urlString: collection.cover,
+                placeholder: { ProgressView() },
                 height: 140,
                 cornerRadius: 12
             )

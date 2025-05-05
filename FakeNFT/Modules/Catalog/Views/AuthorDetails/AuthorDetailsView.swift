@@ -39,7 +39,6 @@ struct WebView: UIViewRepresentable {
         }
 
         func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
-            // Скрыть индикатор в случае ошибки
             parent.isLoading = false
             parent.progressHud.dismiss()
         }
