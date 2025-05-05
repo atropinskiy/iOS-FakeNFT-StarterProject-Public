@@ -37,7 +37,7 @@ struct MenuRow<Destination: View>: View {
                 Spacer()
                 
                 Image(systemName: "chevron.right")
-                    .foregroundStyle(Color(.tWhite))
+                    .foregroundStyle(Color(.tBlack))
             }
             .frame(maxHeight: 54)
         }
