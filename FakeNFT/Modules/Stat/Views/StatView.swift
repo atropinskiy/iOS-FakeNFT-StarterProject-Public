@@ -26,16 +26,15 @@ struct StatView: View {
                     Button("По рейтингу") { print("Option 2 - Сортировка по рейтингу") }
                     Button("Закрыть", role: .cancel) {}
                 }
-                //                .actionSheet(isPresented: $showActionSheet) {
-                //                    ActionSheet(title: Text(""), message: Text("Сортировка"), buttons: [
-                //                        .default(Text("По имени")) { print("Option 1 - Сортировка по имени") },
-                //                        .default(Text("По рейтингу")) { print("Option 2 - Сортировка по рейтингу") },
-                //                        .cancel(Text("Закрыть"))
-                //                    ])
-                //                }
+//                                .actionSheet(isPresented: $showActionSheet) {
+//                                    ActionSheet(title: Text(""), message: Text("Сортировка"), buttons: [
+//                                        .default(Text("По имени")) { print("Option 1 - Сортировка по имени") },
+//                                        .default(Text("По рейтингу")) { print("Option 2 - Сортировка по рейтингу") },
+//                                        .cancel(Text("Закрыть"))
+//                                    ])
+//                                }
             }
-            .padding(.top, 14.7)
-            .padding(.bottom, 14.7)
+            .padding(.vertical, 14.7)
             List {
                 ForEach(0..<viewModel.profileStatArray.count) { value in
                     //            ForEach(viewModel.profileStatViews, id: \.self) { value in
