@@ -8,7 +8,7 @@
 import Foundation
 
 struct ProfileModel: Codable, Identifiable, Hashable {
-    var id: UUID
+    let id: UUID = UUID()
     let avatar: String
     let name: String
     let rating: Int

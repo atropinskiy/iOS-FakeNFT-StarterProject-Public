@@ -8,8 +8,7 @@
 import SwiftUI
 
 struct StatCellView: View {
-    private let screenSize = UIScreen.main.bounds
-    var profile: ProfileModel
+    let profile: ProfileModel
 
     var body: some View {
         let statCellCornerRadius: CGFloat = 12
@@ -17,19 +16,13 @@ struct StatCellView: View {
 
         ZStack {
             RoundedRectangle(cornerRadius: statCellCornerRadius)
-                .foregroundStyle(Color(.lightGray))
+                .foregroundStyle(Color(.tLightGray))
             HStack {
-                if profile.avatar == "" {
-                    Image(systemName: "person.circle.fill")
-                        .resizable()
-                        .frame(width: 28, height: 28)
-                        .clipShape(Circle())
-                } else {
-                    Image(profile.avatar)
-                        .resizable()
-                        .frame(width: 28, height: 28)
-                        .clipShape(Circle())
-                }
+                let cellImage = profile.avatar.isEmpty ? Image(systemName: "person.circle.fill") : Image(profile.avatar)
+                cellImage
+                    .resizable()
+                    .frame(width: 28, height: 28)
+                    .clipShape(Circle())
                 Text(profile.name)
                     .font(.system(size: 22, weight: .bold))
                 Spacer()
@@ -44,11 +37,11 @@ struct StatCellView: View {
 }
 
 #Preview {
-    let profileView1 = ProfileModel(id: UUID(), avatar: "alex", name: "Alex", rating: 112)
-    StatCellView(profile: profileView1)
+    let profileViewWithImage = ProfileModel(avatar: "alex", name: "Alex", rating: 112)
+    StatCellView(profile: profileViewWithImage)
 }
 
 #Preview {
-    let profileView1 = ProfileModel(id: UUID(), avatar: "", name: "Bill", rating: 98)
-    StatCellView(profile: profileView1)
+    let profileViewNoImage = ProfileModel(avatar: "", name: "Bill", rating: 98)
+    StatCellView(profile: profileViewNoImage)
 }

@@ -8,10 +8,10 @@
 import SwiftUI
 
 struct StatView: View {
-    @ObservedObject var viewModel = ProfileStatViewModel()
+    @StateObject private var viewModel = ProfileStatViewModel()
     @State private var showActionSheet = false
     @State private var showErrorAlert = false
-    @Environment(\.colorScheme) var colorScheme
+    @Environment(\.colorScheme) private var colorScheme
 
     var body: some View {
         VStack(alignment: .trailing) {
@@ -19,40 +19,35 @@ struct StatView: View {
                 Button(action: {
                     showActionSheet.toggle()
                 }) {
-                    Image(colorScheme == .dark ? "sortingButtonDark" : "sortingButtonLight") // Иконка меню
+                    Image(colorScheme == .dark ? .sortingButtonDark : .sortingButtonLight) // Иконка меню
                 }
                 .confirmationDialog("Сортировка", isPresented: $showActionSheet, titleVisibility: .visible) {
                     Button("По имени") { print("Option 1 - Сортировка по имени") }
                     Button("По рейтингу") { print("Option 2 - Сортировка по рейтингу") }
                     Button("Закрыть", role: .cancel) {}
                 }
-//                                .actionSheet(isPresented: $showActionSheet) {
-//                                    ActionSheet(title: Text(""), message: Text("Сортировка"), buttons: [
-//                                        .default(Text("По имени")) { print("Option 1 - Сортировка по имени") },
-//                                        .default(Text("По рейтингу")) { print("Option 2 - Сортировка по рейтингу") },
-//                                        .cancel(Text("Закрыть"))
-//                                    ])
-//                                }
             }
             .padding(.vertical, 14.7)
             List {
-                ForEach(0..<viewModel.profileStatArray.count) { value in
-                    //            ForEach(viewModel.profileStatViews, id: \.self) { value in
-                    HStack {
-                        Text("\(value + 1)")
-                        StatCellView(profile: viewModel.profileStatArray[value])
+                ForEach(0..<viewModel.profileStatArray.count, id: \.self) { index in
+                    HStack(spacing: 8) {
+                        Text("\(index + 1)")
+                            .font(.system(size: 15, weight: .regular))
+                            .frame(width: 27)
+                        StatCellView(profile: viewModel.profileStatArray[index])
                     }
                 }
+                .padding(.leading, 16)
+                .padding(.bottom, 8)
                 .listRowBackground(Color.clear)
                 .listRowSeparator(.hidden)
-                .padding(.bottom, 8)
                 .listRowInsets(EdgeInsets())
             }
             .listStyle(.plain)
             .ignoresSafeArea(edges: .bottom)
             .scrollIndicators(.never)
         }
-        .padding(.horizontal, 16)
+        .padding(.trailing, 16)
         .alert("Ошибка", isPresented: $showErrorAlert) {
             Button("Повторить", role: nil) {
                 viewModel.fetchData() // Повторная попытка при нажатии
