@@ -10,7 +10,6 @@ import SwiftUI
 struct CollectionDescriptionView: View {
     var collection: Collection
     var extractedName: String
-    
     var body: some View {
         VStack(spacing: 0) {
             Text(extractedName)
@@ -37,5 +36,3 @@ struct CollectionDescriptionView: View {
         .padding(.top, 16)
     }
 }
-
-

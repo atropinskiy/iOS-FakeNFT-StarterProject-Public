@@ -24,7 +24,6 @@ struct AuthorDetailsView: View {
 struct WebView: UIViewRepresentable {
     let url: URL
     let progressHud = ProgressHUDService.shared
-    
     @State private var isLoading = true
 
     final class Coordinator: NSObject, WKNavigationDelegate {

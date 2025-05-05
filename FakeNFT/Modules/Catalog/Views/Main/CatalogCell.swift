@@ -10,8 +10,6 @@ import SwiftUI
 struct CatalogCell: View {
     @ObservedObject var viewModel: CatalogViewModel
     let collection: Collection
-    
-    
     var body: some View {
         VStack(spacing: 0) {
             KFImageView(
@@ -27,6 +25,4 @@ struct CatalogCell: View {
         }
         .frame(maxWidth: .infinity, maxHeight: 179)
     }
-       
 }
-

@@ -13,7 +13,7 @@ enum AppScreen: Hashable {
     case nftCard
 }
 
-enum OrderType:  Hashable {
+enum OrderType: Hashable {
     case count
     case name
 }
@@ -29,17 +29,14 @@ class CatalogViewModel: ObservableObject {
         }
     }
     private let networkService = NetworkServiceFunction.shared
-    
     func goTo(_ screen: AppScreen) {
         path.append(screen)
     }
-    
     func goBack() {
         if !path.isEmpty {
             path.removeLast()
         }
     }
-    
     func fetchCollections() {
         isLoading = true
         Task {
@@ -58,8 +55,6 @@ class CatalogViewModel: ObservableObject {
             }
         }
     }
-    
-    
     private func sortCollections(_ collections: inout [Collection]) {
         switch orderType {
         case .count:
@@ -77,6 +72,4 @@ class CatalogViewModel: ObservableObject {
         guard let url = URL(string: urlString) else { return nil }
         return url.deletingPathExtension().lastPathComponent
     }
-    
-    
 }
