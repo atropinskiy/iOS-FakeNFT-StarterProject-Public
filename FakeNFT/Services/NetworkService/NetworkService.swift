@@ -26,7 +26,7 @@ final class NetworkService: NetworkServiceProtocol {
         
         let urlString: String
         if let id = id, !id.isEmpty {
-            urlString = "\(RequestConstants.baseURL)\(endpoint.rawValue)/\(id)"
+            urlString = "\(RequestConstants.baseURL)\(endpoint.rawValue)\(id)"
         } else {
             urlString = "\(RequestConstants.baseURL)\(endpoint.rawValue)"
         }

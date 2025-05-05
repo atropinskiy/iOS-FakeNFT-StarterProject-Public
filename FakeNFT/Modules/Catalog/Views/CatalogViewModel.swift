@@ -23,6 +23,8 @@ class CatalogViewModel: ObservableObject {
     @Published var path = NavigationPath()
     @Published var collectionsList: [Collection] = []
     @Published var isLoading: Bool = false
+    @Published var likedNFTs: [String] = []
+    @Published var cartNFTs: [String] = []
     @Published var orderType: OrderType = .count {
         didSet {
             sortCollections(&collectionsList)
@@ -55,6 +57,42 @@ class CatalogViewModel: ObservableObject {
                 DispatchQueue.main.async {
                     self.isLoading = false
                 }
+            }
+        }
+    }
+    
+    func fetchLikesAndCart() {
+        isLoading = true
+        Task {
+            do {
+                let profile = try await networkService.fetchProfile(id: 1)
+                DispatchQueue.main.async {
+                    self.likedNFTs = profile.likes
+                    self.cartNFTs = profile.nfts
+                    self.isLoading = false
+                    print(self.likedNFTs, self.cartNFTs)
+                }
+            } catch {
+                print("Ошибка загрузки коллекций: \(error)")
+                DispatchQueue.main.async {
+                    self.isLoading = false
+                }
+            }
+        }
+    }
+    
+    func addToCart(nft: String) {
+        isLoading = true
+        Task {
+            do {
+                var updatedNFTs = self.cartNFTs
+                updatedNFTs.append(nft)
+                print(updatedNFTs)
+                _ = try await networkService.uploadNFTSToCart(by: "1", nfts: updatedNFTs)
+                isLoading = false
+            } catch {
+                print("Ошибка добавления в корзину: \(error)")
+                isLoading = false
             }
         }
     }
