@@ -38,7 +38,7 @@ struct MyNFTView: View {
         .sheet(isPresented: $showSortSheet) {
             ZStack {
                 // Затемнение фона
-                Color.black.opacity(0.4)
+                Color.black.opacity(0.5)
                     .ignoresSafeArea()
                 
                 // Сам шит

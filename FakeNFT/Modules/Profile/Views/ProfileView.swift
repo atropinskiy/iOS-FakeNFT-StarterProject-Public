@@ -7,24 +7,26 @@ struct ProfileView: View {
     var body: some View {
         
         NavigationStack {
-            VStack(alignment: .leading) {
-                HStack {
+            
+            HStack {
+                
+                Spacer()
+                
+                Button {
                     
-                    Spacer()
+                    showEditProfileView = true
                     
-                    Button {
-                        
-                        showEditProfileView = true
-                        
-                    } label: {
-                        Image(systemName: "square.and.pencil")
-                            .resizable()
-                            .foregroundStyle(.black)
-                            .frame(width: 26.34, height: 26.33)
-                    }
-                    .frame(width: 42, height: 42)
-                    .padding(.horizontal, 9)
+                } label: {
+                    Image(systemName: "square.and.pencil")
+                        .resizable()
+                        .foregroundStyle(.black)
+                        .frame(width: 26.34, height: 26.33)
                 }
+                .frame(width: 42, height: 42)
+                .padding(.horizontal, 9)
+            }
+            
+            VStack(alignment: .leading) {
                 
                 HStack() {
                     Image(.joaquin)

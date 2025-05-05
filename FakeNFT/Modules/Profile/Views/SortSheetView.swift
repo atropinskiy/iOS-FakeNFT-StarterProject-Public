@@ -17,22 +17,23 @@ struct SortSheetView: View {
         
         VStack(spacing: 0) {
 
-            Text("Сортировка")
-                .font(.system(size: 13))
-                .foregroundColor(.gray)
-                .padding(.top, 12)
-                .padding(.bottom, 8)
-
-            Divider()
-
             VStack(spacing: 0) {
+                
+                Text("Сортировка")
+                    .font(.system(size: 13))
+                    .foregroundColor(.gray)
+                    .padding(.top, 12)
+                    .padding(.bottom, 8)
+                
+                Divider()
+                
                 sortButton("По цене", option: .price)
                 Divider()
                 sortButton("По рейтингу", option: .rating)
                 Divider()
                 sortButton("По названию", option: .name)
             }
-            .background(Color(UIColor.systemBackground))
+            .background(Color.white .opacity(0.3))
             .cornerRadius(16)
 
             Spacer().frame(height: 12)
@@ -44,13 +45,11 @@ struct SortSheetView: View {
                     .font(.system(size: 17, weight: .semibold))
                     .foregroundColor(.blue)
                     .frame(maxWidth: .infinity, minHeight: 50)
-                    .background(Color(UIColor.systemGray6))
+                    .background(Color(.tWhite))
                     .cornerRadius(16)
             }
-
         }
-        .padding(.horizontal, 16)
-        .padding(.bottom, 24)
+        .padding(.horizontal, 8)
         .background(Color(.clear))
     }
 
@@ -61,11 +60,13 @@ struct SortSheetView: View {
         }) {
             Text(title)
                 .font(.system(size: 17))
-                .foregroundColor(.blue)
+                .foregroundStyle(Color(.tBlueUn))
                 .frame(maxWidth: .infinity, minHeight: 50)
-                .background(Color.white)
         }
-        .background(Color(UIColor.systemGray6))
     }
+}
+
+#Preview {
+    SortSheetView(onSelect: { _ in })
 }
 
