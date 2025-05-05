@@ -57,9 +57,9 @@ final class CatalogViewModel: ObservableObject {
             collections.sort { $0.nfts.count > $1.nfts.count }
         case .name:
             collections.sort {
-                let name1 = extractFileName(from: $0.cover) ?? ""
-                let name2 = extractFileName(from: $1.cover) ?? ""
-                return name1.lowercased() < name2.lowercased()
+                let nameFirst = extractFileName(from: $0.cover) ?? ""
+                let nameSecond = extractFileName(from: $1.cover) ?? ""
+                return nameFirst.lowercased() < nameSecond.lowercased()
             }
         }
     }
