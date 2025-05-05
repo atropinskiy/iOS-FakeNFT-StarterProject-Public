@@ -46,7 +46,7 @@ struct ProfileEditView: View {
                         .font(.system(size: 18, weight: .bold))
                     TextField("", text: $name)
                         .padding()
-                        .background(Color(.systemGray6))
+                        .background(Color(.tLightGray))
                         .cornerRadius(12)
                 }
 
@@ -57,7 +57,7 @@ struct ProfileEditView: View {
                     TextField("", text: $description, axis: .vertical)
                         .lineLimit(5, reservesSpace: true)
                         .padding()
-                        .background(Color(.systemGray6))
+                        .background(Color(.tLightGray))
                         .cornerRadius(12)
                 }
 
@@ -67,7 +67,7 @@ struct ProfileEditView: View {
                         .font(.system(size: 18, weight: .bold))
                     TextField("", text: $website)
                         .padding()
-                        .background(Color(.systemGray6))
+                        .background(Color(.tLightGray))
                         .cornerRadius(12)
                 }
             }

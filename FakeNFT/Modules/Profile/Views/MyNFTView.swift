@@ -35,42 +35,29 @@ struct MyNFTView: View {
                 }
             }
         }
-        .sheet(isPresented: $showSortSheet) {
-            ZStack {
-                // Затемнение фона
-                Color.black.opacity(0.5)
-                    .ignoresSafeArea()
-                
-                // Сам шит
-                VStack {
-                    Spacer()
-                    SortSheetView { option in
-                        // Обработка выбора
-                        print("Выбрана сортировка: \(option)")
-                    }
-                }
+        .confirmationDialog("Сортировка", isPresented: $showSortSheet, titleVisibility: .visible) {
+            Button {
+                print("Option 1 - Сортировка по имени")
+            } label: {
+                Text("По имени")
+                    .foregroundStyle(Color(.tBlueUn))
             }
-            .background(ClearBackgroundView()) // Убирает белый фон sheet
-            .presentationDetents([.height(320)]) // или .fraction(0.35) — регулируй по вкусу
-            .presentationDragIndicator(.visible)
+            Button {
+                print("Option 2 - Сортировка по рейтингу")
+            } label: {
+                Text("По рейтингу")
+                    .foregroundStyle(Color(.tBlueUn))
+            }
+            Button {
+                print("Option 2 - Сортировка по названию")
+            } label: {
+                Text("По названию")
+                    .foregroundStyle(Color(.tBlueUn))
+            }
+            Button("Закрыть", role: .cancel) {}
         }
     }
 }
-
-struct ClearBackgroundView: UIViewRepresentable {
-    func makeUIView(context: Context) -> UIView {
-        let view = UIView()
-        DispatchQueue.main.async {
-            view.superview?.superview?.backgroundColor = .clear
-        }
-        return view
-    }
-    
-    func updateUIView(_ uiView: UIView, context: Context) {}
-}
-
-
-
 
 #Preview {
     MyNFTView()
