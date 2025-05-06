@@ -9,10 +9,11 @@ struct FavoriteNFTView: View {
     var body: some View {
         
         NavigationView {
-            
             Text("У вас еще нет избранных NFT")
-            
+                .font(.system(size: 17, weight: .bold))
         }
+        .navigationBarBackButtonHidden(true)
+        .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
                 Button {
@@ -22,9 +23,11 @@ struct FavoriteNFTView: View {
                         .foregroundStyle(Color(.tBlack))
                 }
             }
+            ToolbarItem(placement: .principal) {
+                Text("Избранные NFT")
+                    .font(.system(size: 17, weight: .bold))
+            }
         }
-        .navigationBarBackButtonHidden(true)
-        .navigationTitle("Избранные NFT")
     }
 }
 

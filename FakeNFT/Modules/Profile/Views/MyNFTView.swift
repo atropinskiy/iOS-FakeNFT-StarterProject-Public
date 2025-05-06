@@ -10,14 +10,13 @@ struct MyNFTView: View {
     var body: some View {
         
         NavigationView {
-            
             Text("У вас еще нет NFT")
-            
+                .font(.system(size: 17, weight: .bold))
         }
         .navigationBarBackButtonHidden(true)
         .listStyle(PlainListStyle())
         .buttonStyle(PlainButtonStyle())
-        .navigationTitle("Мои NFT")
+        .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
                 Button {
@@ -26,6 +25,10 @@ struct MyNFTView: View {
                     Image(systemName: "chevron.left")
                         .foregroundStyle(Color(.tBlack))
                 }
+            }
+            ToolbarItem(placement: .principal) {
+                Text("Мои NFT")
+                    .font(.system(size: 17, weight: .bold))
             }
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button {

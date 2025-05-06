@@ -40,11 +40,11 @@ struct ProfileView: View {
                 
                 VStack(alignment: .leading, spacing: 8) {
                     Text("""
-                     Дизайнер из Казани, люблю цифровое искусство и бейглы. В моей коллекции есть уже 100+
-                     моделей из 100+ NFT, и еще больше на моем сайте. Открыт к коллаборациям.
+                    Дизайнер из Казани, люблю цифровое искусство и бейглы. В моей коллекции есть уже 100+
+                    моделей из 100+ NFT, и еще больше на моем сайте. Открыт к коллаборациям.
                     """)
                     .font(.system(size: 13, weight: .light))
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(Color(.tBlack))
                     .lineLimit(nil)
                     
                     Text("Joaquin@Pheonix.com")

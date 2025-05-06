@@ -8,7 +8,10 @@ struct DeveloperInfoView: View {
         
         NavigationView {
             Text("О разработчике")
+                .font(.system(size: 17, weight: .bold))
         }
+        .navigationBarBackButtonHidden(true)
+        .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
                 Button {
@@ -18,9 +21,11 @@ struct DeveloperInfoView: View {
                         .foregroundStyle(Color(.tBlack))
                 }
             }
+            ToolbarItem(placement: .principal) {
+                Text("О разработчике")
+                    .font(.system(size: 17, weight: .bold))
+            }
         }
-        .navigationBarBackButtonHidden(true)
-        .navigationTitle("О разработчике")
     }
 }
 
