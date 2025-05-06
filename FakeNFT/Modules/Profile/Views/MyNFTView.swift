@@ -4,7 +4,7 @@ struct MyNFTView: View {
     
     @Environment(\.dismiss) private var dismiss
     
-    @State var nfts: [Nft] = []
+    @State private var nfts: [Nft] = []
     @State private var showSortSheet: Bool = false
     
     var body: some View {
