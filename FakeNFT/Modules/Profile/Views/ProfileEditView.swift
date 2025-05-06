@@ -1,12 +1,8 @@
 import SwiftUI
 
 struct ProfileEditView: View {
-    @State private var name: String = "Joaquin Phoenix"
-    @State private var description: String = """
-    Дизайнер из Казани, люблю цифровое искусство и бейглы. В моей коллекции уже 100+ NFT, \
-    и еще больше — на моём сайте. Открыт к коллаборациям.
-    """
-    @State private var website: String = "Joaquin Phoenix.com"
+
+    @EnvironmentObject var viewModel: ProfileEditViewModel
     @Environment(\.dismiss) private var dismiss
 
     var body: some View {
@@ -44,7 +40,7 @@ struct ProfileEditView: View {
                     // Имя
                     Text("Имя")
                         .font(.system(size: 18, weight: .bold))
-                    TextField("", text: $name)
+                    TextField("", text: $viewModel.nameProfile)
                         .padding()
                         .background(Color(.tLightGray))
                         .cornerRadius(12)
@@ -54,7 +50,7 @@ struct ProfileEditView: View {
                     // Описание
                     Text("Описание")
                         .font(.system(size: 18, weight: .bold))
-                    TextField("", text: $description, axis: .vertical)
+                    TextField("", text: $viewModel.descriptionProfile, axis: .vertical)
                         .lineLimit(5, reservesSpace: true)
                         .padding()
                         .background(Color(.tLightGray))
@@ -65,7 +61,7 @@ struct ProfileEditView: View {
                     // Сайт
                     Text("Сайт")
                         .font(.system(size: 18, weight: .bold))
-                    TextField("", text: $website)
+                    TextField("", text: $viewModel.websiteProfile)
                         .padding()
                         .background(Color(.tLightGray))
                         .cornerRadius(12)
@@ -88,5 +84,6 @@ struct ProfileEditView: View {
 
 #Preview {
     ProfileEditView()
+        .environmentObject(ProfileEditViewModel())
 }
 

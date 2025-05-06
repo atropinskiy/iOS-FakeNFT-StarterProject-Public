@@ -1,7 +1,8 @@
 import SwiftUI
 
 struct ProfileView: View {
-
+    
+    @EnvironmentObject var viewModel: ProfileEditViewModel
     @State private var showEditProfileView: Bool = false
     
     var body: some View {
@@ -32,22 +33,19 @@ struct ProfileView: View {
                     Image(.joaquin)
                         .frame(width: 70, height: 70)
                         .clipShape(Circle())
-                    Text("Joaquin Pheonix")
+                    Text(viewModel.nameProfile)
                         .font(.system(size: 22, weight: .bold))
                     Spacer()
                 }
                 .padding(.top, 20)
                 
                 VStack(alignment: .leading, spacing: 8) {
-                    Text("""
-                    Дизайнер из Казани, люблю цифровое искусство и бейглы. В моей коллекции есть уже 100+
-                    моделей из 100+ NFT, и еще больше на моем сайте. Открыт к коллаборациям.
-                    """)
+                    Text(viewModel.descriptionProfile)
                     .font(.system(size: 13, weight: .light))
                     .foregroundStyle(Color(.tBlack))
                     .lineLimit(nil)
                     
-                    Text("Joaquin@Pheonix.com")
+                    Text(viewModel.websiteProfile)
                         .font(.system(size: 15, weight: .light))
                         .foregroundStyle(Color(.tBlueUn))
                 }
@@ -69,4 +67,4 @@ struct ProfileView: View {
 
 #Preview {
     ProfileView()
-}
+    .environmentObject(ProfileEditViewModel())}

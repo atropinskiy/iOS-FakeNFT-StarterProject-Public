@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct TabBarView: View {
+    
+    @StateObject var viewModel = ProfileEditViewModel()
+    
     var body: some View {
         TabView {
             ProfileView()
@@ -47,6 +50,7 @@ struct TabBarView: View {
                 }
         }
         .accentColor(Color(.tBlueUn))
+        .environmentObject(viewModel)
     }
 }
 
