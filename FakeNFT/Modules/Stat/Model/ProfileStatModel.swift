@@ -24,3 +24,11 @@ struct ProfileDetailedModel: Codable, Hashable {
     let website: String
     let nfts: [String]
 }
+
+struct NFTElementModel: Codable, Hashable {
+    let name: String
+    let image: String
+    let rating: Int
+    let price: Float
+    let isLiked: Bool
+}
