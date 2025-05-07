@@ -4,7 +4,7 @@ struct FavoriteNFTView: View {
     
     @Environment(\.dismiss) private var dismiss
     
-    @State var favoriteNsts: [Nft] = []
+    @State var favoriteNfts: [Nft] = []
     
     var body: some View {
         

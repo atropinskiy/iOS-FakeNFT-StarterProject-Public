@@ -4,7 +4,7 @@ struct MyNFTView: View {
     
     @Environment(\.dismiss) private var dismiss
     
-    @State private var nfts: [Nft] = []
+    @State private var MyNfts: [Nft] = []
     @State private var showSortSheet: Bool = false
     
     var body: some View {
@@ -40,6 +40,14 @@ struct MyNFTView: View {
             }
         }
         .confirmationDialog("Сортировка", isPresented: $showSortSheet, titleVisibility: .visible) {
+            ButtonStack()
+        }
+    }
+}
+
+private struct ButtonStack: View {
+    var body: some View {
+        VStack {
             Button {
                 print("Option 1 - Сортировка по имени")
             } label: {

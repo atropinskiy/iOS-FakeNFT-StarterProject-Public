@@ -214,6 +214,20 @@
 			path = MemoryStorage;
 			sourceTree = "<group>";
 		};
+		1261D3482DCB610B00F5B252 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		1261D3492DCB611400F5B252 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
 		126AD3F42DC9DBC4008615DD /* viewModel */ = {
 			isa = PBXGroup;
 			children = (
@@ -268,6 +282,8 @@
 		22BB22DE2DB29C0700D61BF5 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
+				1261D3492DCB611400F5B252 /* Cell */,
+				1261D3482DCB610B00F5B252 /* Models */,
 				126AD3F42DC9DBC4008615DD /* viewModel */,
 				22BB22DF2DB29C2E00D61BF5 /* Views */,
 			);

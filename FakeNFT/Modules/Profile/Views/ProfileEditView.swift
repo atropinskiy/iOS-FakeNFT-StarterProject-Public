@@ -71,12 +71,6 @@ struct ProfileEditView: View {
 
             Spacer()
 
-            // Навигационная полоса
-            Rectangle()
-                .frame(width: 134, height: 5)
-                .cornerRadius(2.5)
-                .foregroundStyle(.black.opacity(0.8))
-                .padding(.bottom, 8)
         }
         .padding(.top)
     }
