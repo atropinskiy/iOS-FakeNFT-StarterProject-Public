@@ -37,11 +37,11 @@ struct StatCellView: View {
 }
 
 #Preview {
-    let profileViewWithImage = ProfileModel(avatar: "alex", name: "Alex", rating: 112)
+    let profileViewWithImage = ProfileModel(avatar: "alex", name: "Alex", rating: 112, description: "", nfts: [], website: "")
     StatCellView(profile: profileViewWithImage)
 }
 
 #Preview {
-    let profileViewNoImage = ProfileModel(avatar: "", name: "Bill", rating: 98)
+    let profileViewNoImage = ProfileModel(avatar: "", name: "Bill", rating: 98, description: "", nfts: [], website: "")
     StatCellView(profile: profileViewNoImage)
 }
