@@ -8,14 +8,14 @@
 import SwiftUI
 
 struct PaymentMethodView: View {
-    @Environment(\.dismiss) var dismiss
+    @Environment(\.dismiss) private var dismiss
     
     var body: some View {
         VStack {
             Text("Здесь будет реализован выбор валюты в модуле 2")
                 .padding(.horizontal)
                 .font(.body)
-                .foregroundColor(.gray)
+                .foregroundColor(Color(.gray))
         }
         .navigationBarTitleDisplayMode(.inline)
         .navigationBarBackButtonHidden(true)
@@ -23,7 +23,7 @@ struct PaymentMethodView: View {
             ToolbarItem(placement: .principal) {
                 Text("Выберите способ оплаты")
                     .font(.system(size: 17, weight: .bold))
-                    .foregroundColor(Color("tBlack"))
+                    .foregroundColor(Color(.tBlack))
             }
         }
         .toolbar {
@@ -35,7 +35,7 @@ struct PaymentMethodView: View {
                         .resizable()
                         .scaledToFit()
                         .frame(width: 24, height: 24)
-                        .foregroundColor(Color("tBlack"))
+                        .foregroundColor(Color(.tBlack))
                 }
             }
         }

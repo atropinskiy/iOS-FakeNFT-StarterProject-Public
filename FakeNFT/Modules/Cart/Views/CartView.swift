@@ -2,17 +2,17 @@
 //  CartView.swift
 //  FakeNFT
 //
-//  Created by alex_tr on 18.04.2025.
+//  Created by Oleg Kozyrev
 //
 
 import SwiftUI
 
 struct CartView: View {
     @StateObject private var cartViewModel = CartViewModel()
-    @State private var selectedNFT: NFT? = nil
+    @State private var selectedNFT: NFT?
     @State private var isPaymentActive = false
     
-    var totalPrice: Double {
+    private var totalPrice: Double {
         Double(cartViewModel.nfts.reduce(0) { $0 + $1.price })
     }
     
@@ -25,7 +25,7 @@ struct CartView: View {
                         Button {
                             // TODO: Filter action, module 3
                         } label: {
-                            Image("CartFilterImage")
+                            Image(.cartFilter)
                                 .frame(width: 42, height: 42)
                                 .padding(.trailing, 9)
                         }
@@ -34,7 +34,7 @@ struct CartView: View {
                     if cartViewModel.isLoading {
                         Spacer()
                         ProgressView("Загрузка...")
-                            .progressViewStyle(CircularProgressViewStyle(tint: Color("tBlack")))
+                            .progressViewStyle(CircularProgressViewStyle(tint: Color(.tBlack)))
                             .padding(.top, 50)
                         Spacer()
                     } else {
@@ -48,17 +48,20 @@ struct CartView: View {
                             }
                             .padding(.horizontal, 16)
                         }
+                        .refreshable {
+                            await cartViewModel.refresh()
+                        }
                     }
                     
                     HStack {
                         VStack(alignment: .leading, spacing: 2) {
                             Text("\(cartViewModel.nfts.count) NFT")
                                 .font(.system(size: 15, weight: .regular))
-                                .foregroundColor(Color("tBlack"))
+                                .foregroundColor(Color(.tBlack))
                             
                             Text("\(totalPrice, specifier: "%.2f") ETH")
                                 .font(.system(size: 17, weight: .bold))
-                                .foregroundColor(Color("tGreenUn"))
+                                .foregroundColor(Color(.tGreenUn))
                         }
                         .padding(.leading, 2)
                         
@@ -70,20 +73,20 @@ struct CartView: View {
                             }
                         }) {
                             Text("К оплате")
-                                .font(.system(size: 22, weight: .bold))
-                                .foregroundColor(.white)
+                                .font(.system(size: 17, weight: .bold))
+                                .foregroundColor(Color(.tWhite))
                                 .frame(maxWidth: 240, minHeight: 44)
                         }
-                        .background(Color("tBlack"))
+                        .background(Color(.tBlack))
                         .cornerRadius(16)
                         .padding(.trailing, 2)
                     }
                     .padding(16)
-                    .background(Color("tLightGray"))
+                    .background(Color(.tLightGray))
                     .cornerRadius(16)
                     .frame(minHeight: 76)
                 }
-                .background(Color.white)
+                .background(Color(.tWhite))
                 .blur(radius: selectedNFT != nil ? 8 : 0)
                 
                 if let nft = selectedNFT {

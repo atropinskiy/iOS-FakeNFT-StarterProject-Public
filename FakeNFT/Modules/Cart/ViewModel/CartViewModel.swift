@@ -26,6 +26,10 @@ final class CartViewModel: ObservableObject {
         }
     }
     
+    func refresh() async {
+        await fetchNFTsFromOrder()
+    }
+    
     private func fetchNFTsFromOrder() async {
         isLoading = true
         errorMessage = nil

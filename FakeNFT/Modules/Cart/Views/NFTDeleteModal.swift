@@ -13,9 +13,6 @@ struct NFTDeleteModal: View {
 
     var body: some View {
         ZStack {
-//            Color("tBlack").opacity(0.4)
-//                .ignoresSafeArea()
-
             VStack(spacing: 20) {
                 VStack (spacing: 12) {
                     AsyncImage(url: URL(string: nft.images.first ?? "")) { phase in
@@ -40,7 +37,7 @@ struct NFTDeleteModal: View {
                     
                     Text("Вы уверены, что хотите удалить объект из корзины ?")
                         .font(.system(size: 13, weight: .regular))
-                        .foregroundColor(Color("tBlack"))
+                        .foregroundColor(Color(.tBlack))
                         .multilineTextAlignment(.center)
                 }
 
@@ -49,22 +46,22 @@ struct NFTDeleteModal: View {
                         onDelete()
                     }
                     .font(.system(size: 17, weight: .regular))
-                    .foregroundColor(Color("tRedUn"))
+                    .foregroundColor(Color(.tRedUn))
                     .padding()
                     .frame(height: 44)
                     .frame(maxWidth: .infinity)
-                    .background(Color("tBlack"))
+                    .background(Color(.tBlack))
                     .cornerRadius(12)
                     
                     Button("Вернуться") {
                         onCancel()
                     }
                     .font(.system(size: 17, weight: .regular))
-                    .foregroundColor(Color("tWhite"))
+                    .foregroundColor(Color(.tWhite))
                     .padding()
                     .frame(height: 44)
                     .frame(maxWidth: .infinity)
-                    .background(Color("tBlack"))
+                    .background(Color(.tBlack))
                     .cornerRadius(12)
                 }
             }

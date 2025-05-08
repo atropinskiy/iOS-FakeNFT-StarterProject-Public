@@ -36,7 +36,7 @@ struct NFTCellView: View {
                 VStack(alignment: .leading, spacing: 4) {
                     Text(nft.name)
                         .font(.system(size: 17, weight: .bold))
-                        .foregroundColor(Color("tBlack"))
+                        .foregroundColor(Color(.tBlack))
                     
                     HStack(spacing: 2) {
                         ForEach(0..<5) { i in
@@ -44,7 +44,7 @@ struct NFTCellView: View {
                                 .resizable()
                                 .scaledToFit()
                                 .frame(width: 12, height: 12)
-                                .foregroundColor(i < nft.rating ? .yellow : .gray)
+                                .foregroundColor(i < nft.rating ? Color(.tYellowUn) : .gray)
                         }
                     }
                 }
@@ -52,11 +52,11 @@ struct NFTCellView: View {
                 VStack(alignment: .leading, spacing: 2) {
                     Text("Цена")
                         .font(.system(size: 13, weight: .regular))
-                        .foregroundColor(Color("tBlack"))
+                        .foregroundColor(Color(.tBlack))
                     
                     Text("\(nft.price, specifier: "%.2f") ETH")
                         .font(.system(size: 17, weight: .bold))
-                        .foregroundColor(Color("tBlack"))
+                        .foregroundColor(Color(.tBlack))
                 }
             }
             
@@ -65,8 +65,8 @@ struct NFTCellView: View {
             Button(action: {
                 onDeleteTaped()
             }) {
-                Image("DeleteNFTFromOrder")
-                    .foregroundColor(Color("tBlack"))
+                Image(.deleteNFTFromOrder)
+                    .foregroundColor(Color(.tBlack))
                     .frame(width: 40, height: 40)
             }
         }
