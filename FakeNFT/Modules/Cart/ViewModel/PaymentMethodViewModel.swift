@@ -30,6 +30,10 @@ final class PaymentMethodViewModel: ObservableObject {
         }
     }
     
+    func refresh() async {
+        await fetchAllCurrencies()
+    }
+    
     private func fetchAllCurrencies() async {
         isLoading = true
         errorMessage = nil

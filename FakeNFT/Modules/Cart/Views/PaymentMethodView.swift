@@ -56,13 +56,16 @@ struct PaymentMethodView: View {
                             .padding(.horizontal, 16)
                             .padding(.top, 20)
                         }
+                        .refreshable {
+                            await paymentMethodViewModel.refresh()
+                        }
                     }
                     
                     VStack(alignment: .leading, spacing: 16) {
                         VStack(alignment: .leading, spacing: 0 ) {
-                            Text("Совершая покупку, вы соглашаетесь с условиями ")
-                                .font(.system(size: 13))
-                                .foregroundColor(Color("tBlack"))
+                            Text("Совершая покупку, вы соглашаетесь с условиями")
+                                .font(.system(size: 13,  weight: .regular))
+                                .foregroundColor(Color(.tBlack))
                             Text("Пользовательского соглашения")
                                 .font(.system(size: 13, weight: .regular))
                                 .foregroundColor(Color(.tBlueUn))
@@ -80,15 +83,16 @@ struct PaymentMethodView: View {
                                 .frame(maxWidth: .infinity, minHeight: 60)
                             
                         }
-                        .padding(.horizontal, 20)
-                        .background(Color("tBlack"))
+                        .padding(.leading, 20)
+                        .padding(.trailing, 12)
+                        .background(Color(.tBlack))
                         .cornerRadius(16)
                         .disabled(paymentMethodViewModel.selectedCurrencyId == nil || paymentMethodViewModel.isPaymentLoading)
                     }
                     .padding(.horizontal)
                     .padding(.top, 16)
                     .padding(.bottom, 16)
-                    .background(Color("tLightGray"))
+                    .background(Color(.tLightGray))
                     .cornerRadius(16)
                     .frame(minHeight: 186)
                 }
@@ -98,7 +102,7 @@ struct PaymentMethodView: View {
                     ToolbarItem(placement: .principal) {
                         Text("Выберите способ оплаты")
                             .font(.system(size: 17, weight: .bold))
-                            .foregroundColor(Color("tBlack"))
+                            .foregroundColor(Color(.tBlack))
                     }
                     ToolbarItem(placement: .navigationBarLeading) {
                         Button(action: {
@@ -108,7 +112,7 @@ struct PaymentMethodView: View {
                                 .resizable()
                                 .scaledToFit()
                                 .frame(width: 24, height: 24)
-                                .foregroundColor(Color("tBlack"))
+                                .foregroundColor(Color(.tBlack))
                         }
                     }
                 }

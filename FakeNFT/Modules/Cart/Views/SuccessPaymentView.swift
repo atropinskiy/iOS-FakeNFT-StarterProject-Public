@@ -11,6 +11,7 @@ struct SuccessPaymentView: View {
     
     var body: some View {
         VStack(spacing: 24) {
+            // TODO: Make payment success view in module 3
             Image(systemName: "checkmark.seal.fill")
                 .resizable()
                 .frame(width: 80, height: 80)

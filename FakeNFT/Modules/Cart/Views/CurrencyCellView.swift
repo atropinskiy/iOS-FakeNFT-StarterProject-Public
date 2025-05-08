@@ -27,7 +27,7 @@ struct CurrencyCellView: View {
                         .clipShape(RoundedRectangle(cornerRadius: 6))
                         .clipped()
                 case .failure:
-                    Color(.tLightGray)
+                    Color(.gray)
                         .frame(width: imageSize, height: imageSize)
                         .clipShape(RoundedRectangle(cornerRadius: 6))
                 @unknown default:
@@ -49,9 +49,9 @@ struct CurrencyCellView: View {
         .padding(.leading, 12)
         .frame(height: 46)
         .background(Color(.tLightGray))
-        .cornerRadius(8)
+        .cornerRadius(12)
         .overlay(
-            RoundedRectangle(cornerRadius: 8)
+            RoundedRectangle(cornerRadius: 12)
                 .stroke(isSelected ? Color(.tBlack) : Color.clear, lineWidth: 1)
         )
     }
