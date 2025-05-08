@@ -11,72 +11,73 @@ struct StatDetailedView: View {
     let viewModel: ProfileStatDetailViewModel
 
     var body: some View {
-        VStack(alignment: .leading) {
-            HStack {
-                Image(viewModel.profileDetails.avatar)
-                    .frame(width: 70, height: 70)
-                    .clipShape(Circle())
-                    .padding(.trailing, 16)
-//                Spacer(minLength: 16)
-                Text(viewModel.profileDetails.name)
-                    .font(.system(size: 22, weight: .bold))
-            }
-            .padding(.top, 20)
-
-            VStack(alignment: .leading, spacing: 8) {
-                Text(viewModel.profileDetails.description)
-                    .font(.system(size: 13, weight: .regular))
-                    .lineSpacing(18 - UIFont.systemFont(ofSize: 13, weight: .regular).lineHeight)
-                    .tracking(-0.08)
-                    .foregroundStyle(Color(.tBlack))
-                    .padding(.trailing, 2)
-                    .lineLimit(nil)
-
-                Button("Перейти на сайт пользователя") {
-                    print("Переход на сайт пользователя")
+        NavigationStack {
+            VStack(alignment: .leading) {
+                HStack {
+                    Image(viewModel.profileDetails.avatar)
+                        .frame(width: 70, height: 70)
+                        .clipShape(Circle())
+                        .padding(.trailing, 16)
+                    Text(viewModel.profileDetails.name)
+                        .font(.system(size: 22, weight: .bold))
                 }
-                .font(.system(size: 17, weight: .regular))
-                .foregroundColor(Color("tBlack"))
-                .frame(height: 44)
-                .frame(maxWidth: .infinity)
-                .background(Color("tWhite"))
-                .overlay(
-                    RoundedRectangle(cornerRadius: 16)
-                        .strokeBorder(Color(.tBlack), lineWidth: 1)
-                )
-                .cornerRadius(16)
+                .padding(.top, 20)
+
+                VStack(alignment: .leading, spacing: 8) {
+                    Text(viewModel.profileDetails.description)
+                        .font(.system(size: 13, weight: .regular))
+                        .lineSpacing(18 - UIFont.systemFont(ofSize: 13, weight: .regular).lineHeight)
+                        .tracking(-0.08)
+                        .foregroundStyle(Color(.tBlack))
+                        .padding(.trailing, 2)
+                        .lineLimit(nil)
+
+                    Button("Перейти на сайт пользователя") {
+                        print("Переход на сайт пользователя")
+                    }
+                    .font(.system(size: 17, weight: .regular))
+                    .foregroundColor(Color("tBlack"))
+                    .frame(height: 44)
+                    .frame(maxWidth: .infinity)
+                    .background(Color("tWhite"))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 16)
+                            .strokeBorder(Color(.tBlack), lineWidth: 1)
+                    )
+                    .cornerRadius(16)
+                    .padding(.top, 28)
+
+                    VStack(spacing: 0) {
+                        MenuRow(title: "Коллекция NFT", count: 112, destination: NFTCollectionView())
+                    }
+                    .padding(.top, 40)
+
+                }
                 .padding(.top, 28)
-
-                VStack(spacing: 0) {
-                    MenuRow(title: "Коллекция NFT", count: 112, destination: NFTCollectionView())
+            }
+            .padding(.horizontal, 16)
+            .navigationBarBackButtonHidden(false)
+            .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    BackButtonView()
                 }
-                .padding(.top, 40)
-
             }
-            .padding(.top, 28)
-
-            //            ContentView()
-            //                .padding(.top, 40)
-            //
-            //            Spacer()
-
+            Text("")
+                .toolbar(.hidden, for: .tabBar)
+            Spacer()
         }
-        .padding(.horizontal, 16)
-        .navigationBarBackButtonHidden(false)
-        .toolbar {
-            ToolbarItem(placement: .topBarLeading) {
-                BackButtonView()
-            }
-        }
-        Text("")
-            .toolbar(.hidden, for: .tabBar)
-        Spacer()
     }
 }
 
-#Preview {
+#Preview("Light mode") {
     let viewModel = ProfileStatDetailViewModel()
     StatDetailedView(viewModel: viewModel)
+}
+
+#Preview("Dark mode") {
+    let viewModel = ProfileStatDetailViewModel()
+    StatDetailedView(viewModel: viewModel)
+        .preferredColorScheme(.dark)
 }
 
 struct BackButtonView: View {

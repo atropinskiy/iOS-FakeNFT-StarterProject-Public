@@ -30,5 +30,5 @@ struct NFTElementModel: Codable, Hashable {
     let image: String
     let rating: Int
     let price: Float
-    let isLiked: Bool
+    let isFavorite: Bool
 }

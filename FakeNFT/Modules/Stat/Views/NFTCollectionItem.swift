@@ -10,14 +10,11 @@ import SwiftUI
 struct NFTCollectionItem: View {
     @State var inFavorites: Bool = false
     @State var inCart: Bool = true
-    private let imgName: String
-    init (imgName: String) {
-        self.imgName = imgName
-    }
+    let nftItem: NFTElementModel
     var body: some View {
-        VStack {
+        VStack(spacing: 0) {
             ZStack(alignment: .topTrailing) {
-                Image(imgName)
+                Image(nftItem.image)
                     .resizable()
                     .frame(width: 108, height: 108)
                     .cornerRadius(12)
@@ -25,26 +22,27 @@ struct NFTCollectionItem: View {
                     inFavorites.toggle()
                 }, label: {
                     Image(systemName: "heart.fill")
-                        .foregroundColor(inFavorites ? Color(.tRedUn) : Color(.tWhite))
+                        .foregroundColor(inFavorites ? Color(.tRedUn) : Color(.white))
                         .font(.system(size: 20))
                 })
                 .padding(10)
             }
-            .padding(.bottom, 3)
-            ZStack {
+            .padding(.bottom, 8)
+            CatalogStars(stars: nftItem.rating)
+                .padding(.bottom, 4)
+            HStack {
                 VStack(spacing: 0) {
-                    CatalogStars(stars: 3)
-                    Text("Archie")
+                    Text(nftItem.name)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .font(.system(size: 17, weight: .bold))
-                        .padding(.top, 5)
-                    Text("1 ETH")
+                    Text("\(nftItem.price)" + " " + "ETH")
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .font(.system(size: 10, weight: .regular))
-                        .padding(.top, 5)
+                        .padding(.top, 4)
                 }
                 StatisticsCart(inCart: $inCart)
             }
+            .padding(.bottom, 20)
         }
         .frame(maxWidth: 108)
     }
@@ -69,20 +67,39 @@ private struct CatalogStars: View {
 
 private struct StatisticsCart: View {
     @Binding var inCart: Bool
+    @Environment(\.colorScheme) private var colorScheme
+
     var body: some View {
         HStack {
             Spacer()
             Button(action: {
                 inCart.toggle()
             }, label: {
-                Image(systemName: "cart.fill")
-                Image(inCart ? .cartEmpty : .cartCross)
-                    .padding([.top, .trailing], 12)
+                Image(getCartImagerResource(inCart: inCart))
+                    .frame(width: 40, height: 40)
             })
         }
     }
+
+    private func getCartImagerResource(inCart: Bool) -> ImageResource {
+        if inCart {
+            colorScheme == .dark ? .cartDark : .cartLight
+        } else {
+            colorScheme == .dark ? .cartCrossDark : .cartCrossLight}
+    }
 }
 
-#Preview {
-    NFTCollectionItem()
+#Preview("Light mode") {
+    let nftItem = NFTCollectionViewModel()
+    var inFavorites: Bool = false
+    var inCart: Bool = true
+    NFTCollectionItem(nftItem: nftItem.nft1)
+}
+
+#Preview("Dark mode") {
+    let nftItem = NFTCollectionViewModel()
+    var inFavorites: Bool = false
+    var inCart: Bool = true
+    NFTCollectionItem(nftItem: nftItem.nft2)
+        .preferredColorScheme(.dark)
 }

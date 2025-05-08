@@ -33,7 +33,6 @@ struct StatCellView: View {
         }
         .frame(height: statCellHeight)
     }
-
 }
 
 #Preview {
