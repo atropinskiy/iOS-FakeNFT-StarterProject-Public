@@ -9,6 +9,7 @@ import SwiftUI
 
 struct StatDetailedView: View {
     let viewModel: ProfileStatDetailViewModel
+    @State private var showUserSite: Bool = false
 
     var body: some View {
         NavigationStack {
@@ -34,12 +35,13 @@ struct StatDetailedView: View {
 
                     Button("Перейти на сайт пользователя") {
                         print("Переход на сайт пользователя")
+                        showUserSite = true
                     }
                     .font(.system(size: 17, weight: .regular))
-                    .foregroundColor(Color("tBlack"))
+                    .foregroundColor(Color(.tBlack))
                     .frame(height: 44)
                     .frame(maxWidth: .infinity)
-                    .background(Color("tWhite"))
+                    .background(Color(.tWhite))
                     .overlay(
                         RoundedRectangle(cornerRadius: 16)
                             .strokeBorder(Color(.tBlack), lineWidth: 1)
@@ -56,14 +58,16 @@ struct StatDetailedView: View {
                 .padding(.top, 28)
             }
             .padding(.horizontal, 16)
-            .navigationBarBackButtonHidden(false)
+            .navigationDestination(isPresented: $showUserSite) {
+                UserSiteView()
+            }
+            .navigationBarBackButtonHidden(true)
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     BackButtonView()
                 }
             }
-            Text("")
-                .toolbar(.hidden, for: .tabBar)
+            .toolbar(.hidden, for: .tabBar)
             Spacer()
         }
     }

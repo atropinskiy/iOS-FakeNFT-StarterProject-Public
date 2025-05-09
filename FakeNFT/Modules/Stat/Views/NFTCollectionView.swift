@@ -16,33 +16,44 @@ struct NFTCollectionView: View {
         GridItem(.flexible(), spacing: 8),
         GridItem(.flexible(), spacing: 8)
     ]
+
     var body: some View {
-        ScrollView {
-            LazyVGrid(
-                columns: columns,
-                alignment: .center,
-                spacing: 8
-            ) {
-                ForEach(viewModel.nfts, id: \.self) { nft in
-                    NFTCollectionItem(nftItem: nft)
+        Group {
+            if viewModel.isLoading {
+                VStack {
+                    ProgressView()
+                        .scaleEffect(2)
+                    Text("Подгружаем NFT...")
                 }
-            }
-            .padding(.top, 20)
-                    .navigationTitle("Коллекция NFT")
-                    .navigationBarBackButtonHidden(true)
-                    .toolbar {
-                        ToolbarItem(placement: .topBarLeading) {
-                            BackButtonView()
+            } else {
+                ScrollView {
+                    LazyVGrid(
+                        columns: columns,
+                        alignment: .center,
+                        spacing: 8
+                    ) {
+                        ForEach(viewModel.nfts, id: \.self) { nft in
+                            NFTCollectionItem(nftItem: nft)
                         }
                     }
-                    Text("")
-                        .toolbar(.hidden, for: .tabBar)
-                    Spacer()
-//            .border(.green)
+                    .padding(.top, 20)
+                }
+                .padding(.horizontal, 16)
+                .edgesIgnoringSafeArea(.horizontal)
+                .scrollContentBackground(.hidden)
+            }
         }
-        .padding(.horizontal, 16)
-        .edgesIgnoringSafeArea(.horizontal)
-        .scrollContentBackground(.hidden)
+        .navigationTitle("Коллекция NFT")
+        .navigationBarBackButtonHidden(true)
+        .toolbar {
+            ToolbarItem(placement: .topBarLeading) {
+                BackButtonView()
+            }
+        }
+        .toolbar(.hidden, for: .tabBar)
+        .onAppear {
+            viewModel.fetch()
+        }
     }
 }
 
