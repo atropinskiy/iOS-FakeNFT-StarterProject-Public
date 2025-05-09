@@ -8,9 +8,24 @@ final class ProfileEditViewModel: ObservableObject {
     и еще больше — на моём сайте. Открыт к коллаборациям.
     """
     @Published var websiteProfile: String = "Joaquin Phoenix.com"
+    @Published var avatarData: Data? = nil
     
+    private let avatarKey: String = "profile_avatar"
+    
+    init() {
+        loadAvatar()
+    }
+    
+    func saveAvatar(data: Data) {
+        avatarData = data
+        UserDefaults.standard.set(data, forKey: avatarKey)
+    }
+    
+    func loadAvatar() {
+        avatarData = UserDefaults.standard.data(forKey: avatarKey)
+    }
     
     func saveProfile() {
-//        TODO: Логика сохранения данных профиля
+        //        TODO: Логика сохранения данных профиля
     }
 }
