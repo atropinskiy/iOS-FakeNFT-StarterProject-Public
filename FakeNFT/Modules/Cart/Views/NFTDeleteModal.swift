@@ -27,7 +27,7 @@ struct NFTDeleteModal: View {
                                 .frame(width: 108, height: 108)
                                 .cornerRadius(12)
                         case .failure:
-                            Color.gray
+                            Color(.tGrayUn)
                                 .frame(width: 108, height: 108)
                                 .cornerRadius(12)
                         @unknown default:

@@ -24,7 +24,7 @@ struct NFTCellView: View {
                         .frame(width: 108, height: 108)
                         .clipShape(RoundedRectangle(cornerRadius: 12))
                 case .failure:
-                    Color.gray
+                    Color(.tGrayUn)
                         .frame(width: 108, height: 108)
                         .clipShape(RoundedRectangle(cornerRadius: 12))
                 @unknown default:
@@ -44,7 +44,7 @@ struct NFTCellView: View {
                                 .resizable()
                                 .scaledToFit()
                                 .frame(width: 12, height: 12)
-                                .foregroundColor(i < nft.rating ? Color(.tYellowUn) : .gray)
+                                .foregroundColor(i < nft.rating ? Color(.tYellowUn) : Color(.tGrayUn))
                         }
                     }
                 }

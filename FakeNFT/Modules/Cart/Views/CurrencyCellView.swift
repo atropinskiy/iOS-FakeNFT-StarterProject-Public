@@ -27,7 +27,7 @@ struct CurrencyCellView: View {
                         .clipShape(RoundedRectangle(cornerRadius: 6))
                         .clipped()
                 case .failure:
-                    Color(.gray)
+                    Color(.tGrayUn)
                         .frame(width: imageSize, height: imageSize)
                         .clipShape(RoundedRectangle(cornerRadius: 6))
                 @unknown default:
@@ -57,8 +57,14 @@ struct CurrencyCellView: View {
     }
 }
 
-#Preview {
+#Preview("With Frame") {
     let currency_1: Currency = .init(title: "Shiba_Inu", name: "SHIB", image: "https://code.s3.yandex.net/Mobile/iOS/Currencies/Shiba_Inu_(SHIB).png", id: "0")
     
     CurrencyCellView(currency: currency_1, isSelected: true)
+}
+
+#Preview("Without Frame") {
+    let currency_1: Currency = .init(title: "Shiba_Inu_2", name: "SHIB_2", image: "https://code.s3.yandex.net/Mobile/iOS/Currencies/Shiba_Inu_(SHIB).png", id: "1")
+    
+    CurrencyCellView(currency: currency_1, isSelected: false)
 }

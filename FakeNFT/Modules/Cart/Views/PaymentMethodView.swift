@@ -12,6 +12,7 @@ struct PaymentMethodView: View {
     @StateObject private var paymentMethodViewModel = PaymentMethodViewModel()
     @State private var showUserAgreement: Bool = false
     @State private var navigationToSuccess = false
+    @State private var showPaymentErrorAlert = false
     
     private let columns = [
         GridItem(.flexible()),
@@ -30,10 +31,10 @@ struct PaymentMethodView: View {
                         VStack(spacing: 12) {
                             Text("Ошибка")
                                 .font(.headline)
-                                .foregroundColor(.red)
+                                .foregroundColor(Color(.tRedUn))
                             Text(error)
                                 .font(.subheadline)
-                                .foregroundColor(.gray)
+                                .foregroundColor(Color(.tGrayUn))
                             Button("Повторить") {
                                 paymentMethodViewModel.loadCurrency()
                             }
@@ -75,11 +76,11 @@ struct PaymentMethodView: View {
                         }
                         
                         Button(action: {
-                            paymentMethodViewModel.makePayment(currencyID: paymentMethodViewModel.selectedCurrencyId)
+                                paymentMethodViewModel.makePayment(currencyID: paymentMethodViewModel.selectedCurrencyId)
                         }) {
                             Text("Оплатить")
                                 .font(.system(size: 17, weight: .bold))
-                                .foregroundColor(.white)
+                                .foregroundColor(Color(.tWhite))
                                 .frame(maxWidth: .infinity, minHeight: 60)
                             
                         }
@@ -127,15 +128,18 @@ struct PaymentMethodView: View {
                         .cornerRadius(8)
                 }
             }
-            
             .navigationDestination(isPresented: $navigationToSuccess) {
                 if let payment = paymentMethodViewModel.paymentResult {
                     SuccessPaymentView(payment: payment)
                 }
             }
             .onChange(of: paymentMethodViewModel.paymentResult) { result in
-                if result != nil {
-                    navigationToSuccess = true
+                if let result = result, result.success {
+                    withAnimation {
+                        navigationToSuccess = true
+                    }
+                } else {
+                    showPaymentErrorAlert = true
                 }
             }
             .sheet(isPresented: $showUserAgreement) {

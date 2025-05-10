@@ -101,7 +101,6 @@ struct CartView: View {
                             selectedNFT = nil
                         }
                     })
-                    
                     .zIndex(1)
                 }
             }

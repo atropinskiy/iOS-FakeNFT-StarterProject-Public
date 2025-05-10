@@ -11,11 +11,11 @@ struct SuccessPaymentView: View {
     
     var body: some View {
         VStack(spacing: 24) {
-            // TODO: Make payment success view in module 3
+            // TODO: Это окно-заглушка для реализации открытия окна по нажатию на кнопку оплатить. Само окно будет реализовано в модуле 3
             Image(systemName: "checkmark.seal.fill")
                 .resizable()
                 .frame(width: 80, height: 80)
-                .foregroundColor(.green)
+                .foregroundColor(Color(.tGreenUn))
             
             Text("Оплата прошла успешно!")
                 .font(.title2)
@@ -23,7 +23,7 @@ struct SuccessPaymentView: View {
             
             Text("ID платежа: \(payment.id)")
                 .font(.subheadline)
-                .foregroundColor(.gray)
+                .foregroundColor(Color(.tGrayUn))
             
             Spacer()
         }
