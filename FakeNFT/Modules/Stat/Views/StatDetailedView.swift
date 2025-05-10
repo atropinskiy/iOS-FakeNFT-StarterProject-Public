@@ -12,7 +12,6 @@ struct StatDetailedView: View {
     @State private var showUserSite: Bool = false
 
     var body: some View {
-        NavigationStack {
             VStack(alignment: .leading) {
                 HStack {
                     Image(viewModel.profileDetails.avatar)
@@ -23,7 +22,6 @@ struct StatDetailedView: View {
                         .font(.system(size: 22, weight: .bold))
                 }
                 .padding(.top, 20)
-
                 VStack(alignment: .leading, spacing: 8) {
                     Text(viewModel.profileDetails.description)
                         .font(.system(size: 13, weight: .regular))
@@ -32,9 +30,7 @@ struct StatDetailedView: View {
                         .foregroundStyle(Color(.tBlack))
                         .padding(.trailing, 2)
                         .lineLimit(nil)
-
                     Button("Перейти на сайт пользователя") {
-                        print("Переход на сайт пользователя")
                         showUserSite = true
                     }
                     .font(.system(size: 17, weight: .regular))
@@ -69,7 +65,6 @@ struct StatDetailedView: View {
             }
             .toolbar(.hidden, for: .tabBar)
             Spacer()
-        }
     }
 }
 

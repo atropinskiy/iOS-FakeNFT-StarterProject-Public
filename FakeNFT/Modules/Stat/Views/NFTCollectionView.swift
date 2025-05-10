@@ -22,7 +22,7 @@ struct NFTCollectionView: View {
             if viewModel.isLoading {
                 VStack {
                     ProgressView()
-                        .scaleEffect(2)
+                        .scaleEffect(1.5)
                     Text("Подгружаем NFT...")
                 }
             } else {
@@ -45,6 +45,7 @@ struct NFTCollectionView: View {
         }
         .navigationTitle("Коллекция NFT")
         .navigationBarBackButtonHidden(true)
+        .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
                 BackButtonView()
