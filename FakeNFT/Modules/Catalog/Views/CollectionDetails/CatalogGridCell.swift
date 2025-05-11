@@ -8,24 +8,26 @@
 import SwiftUI
 
 struct CatalogGridCell: View {
-    @State var likeState: Bool = false
-    @State var inCart: Bool = true
-    private let nft: String
-    init (nft: String) {
+    @ObservedObject var viewModel: CatalogViewModel
+    private let nft: NFT
+    init(viewModel: CatalogViewModel, nft: NFT) {
         self.nft = nft
+        self.viewModel = viewModel
     }
     var body: some View {
+        let isLiked = viewModel.profile?.likes.contains(nft.id) ?? false
+        let isInCart = viewModel.cartNFTs.contains(nft.id)
+
         VStack {
             ZStack(alignment: .topTrailing) {
-                Image("123")
-                    .resizable()
-                    .frame(width: 108, height: 108)
-                    .cornerRadius(12)
+                KFImageView(
+                    urlString: nft.images[0], placeholder: {ProgressView()}, cornerRadius: 12
+                )
                 Button(action: {
-                    likeState.toggle()
+                    viewModel.toggleLike(for: nft.id)
                 }, label: {
                     Image(systemName: "heart.fill")
-                        .foregroundColor(likeState ? Color(hex: "#F56B6C") : Color.white)
+                        .foregroundColor(isLiked ? Color(hex: "#F56B6C") : Color.white)
                         .font(.system(size: 20))
                 })
                 .padding(10)
@@ -33,17 +35,22 @@ struct CatalogGridCell: View {
             .padding(.bottom, 3)
             ZStack {
                 VStack(spacing: 0) {
-                    CatalogStars(stars: 3)
-                    Text("Archie")
+                    CatalogStars(stars: nft.rating)
+                    Text("\(nft.name.components(separatedBy: " ").first ?? "")")
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .font(.system(size: 17, weight: .bold))
                         .padding(.top, 5)
-                    Text("1 ETH")
+                    Text("\(Int(ceil(nft.price))) ETH")
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .font(.system(size: 10, weight: .regular))
                         .padding(.top, 5)
                 }
-                CatalogCartIconView(inCart: $inCart)
+                CatalogCartIconView(
+                    inCart: isInCart,
+                    toggleAction: {
+                        viewModel.toggleCart(for: nft.id)
+                    }
+                )
             }
         }
         .frame(maxWidth: 108)
@@ -68,16 +75,16 @@ private struct CatalogStars: View {
 }
 
 private struct CatalogCartIconView: View {
-    @Binding var inCart: Bool
+    let inCart: Bool
+    let toggleAction: () -> Void
+
     var body: some View {
         HStack {
             Spacer()
-            Button(action: {
-                inCart.toggle()
-            }, label: {
+            Button(action: toggleAction) {
                 Image(inCart ? .catalogTrash : .catalogTrashCross)
                     .padding([.top, .trailing], 12)
-            })
+            }
         }
     }
 }

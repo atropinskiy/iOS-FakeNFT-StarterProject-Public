@@ -25,14 +25,20 @@ struct CollectionDetailsView: View {
                         collection: collection,
                         extractedName: viewModel.extractFileName(from: collection.cover) ?? "No title"
                     )
-                    CatalogCollectionGridView(nfts: collection.nfts)
+                    CatalogCollectionGridView(viewModel: viewModel)
                 }
                 .frame(minHeight: 0, maxHeight: .infinity)
             }
         }
         .ignoresSafeArea(edges: .top)
-        .navigationBarTitleDisplayMode(.inline)  // Заголовок будет фиксирован
+        .navigationBarTitleDisplayMode(.inline)
         .navigationBarColor(UIColor.clear)
         .withCustomBackButton()
+        .onAppear {
+            viewModel.fetchAllNFTs(ids: collection.nfts)
+        }
+        .onDisappear {
+            viewModel.currentCollectionNfts = []
+        }
     }
 }

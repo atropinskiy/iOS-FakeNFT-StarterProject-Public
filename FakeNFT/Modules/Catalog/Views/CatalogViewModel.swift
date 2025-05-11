@@ -25,20 +25,15 @@ final class CatalogViewModel: ObservableObject {
     @Published var isLoading: Bool = false
     @Published var likedNFTs: [String] = []
     @Published var cartNFTs: [String] = []
+    @Published var currentCollectionNfts: [NFT] = []
+    @Published var profile: Profile?
     @Published var orderType: OrderType = .count {
         didSet {
             sortCollections(&collectionsList)
         }
     }
     private let networkService = NetworkServiceFunction.shared
-    func goTo(_ screen: AppScreen) {
-        path.append(screen)
-    }
-    func goBack() {
-        if !path.isEmpty {
-            path.removeLast()
-        }
-    }
+
     func fetchCollections() {
         isLoading = true
         Task {
@@ -53,27 +48,22 @@ final class CatalogViewModel: ObservableObject {
             }
         }
     }
-
     func fetchLikesAndCart() {
         isLoading = true
         Task {
             do {
                 let profile = try await networkService.fetchProfile(id: 1)
-                DispatchQueue.main.async {
-                    self.likedNFTs = profile.likes
-                    self.cartNFTs = profile.nfts
-                    self.isLoading = false
-                    print(self.likedNFTs, self.cartNFTs)
-                }
+                self.profile = profile
+                self.likedNFTs = profile.likes
+                self.cartNFTs = profile.nfts
+                self.isLoading = false
+                print(self.likedNFTs, self.cartNFTs)
             } catch {
-                print("Ошибка загрузки коллекций: \(error)")
-                DispatchQueue.main.async {
-                    self.isLoading = false
-                }
+                print("Ошибка загрузки профиля: \(error)")
+                self.isLoading = false
             }
         }
     }
-    
     func addToCart(nft: String) {
         isLoading = true
         Task {
@@ -84,22 +74,77 @@ final class CatalogViewModel: ObservableObject {
                 _ = try await networkService.uploadNFTSToCart(by: "1", nfts: updatedNFTs)
                 isLoading = false
             } catch {
-                print("Ошибка добавления в корзину: \(error)")
+                print("Ошибка добавления в корзину NFT: \(error)")
                 isLoading = false
             }
         }
     }
-    
-//    func fetchNFT(nft: String) -> NFT {
-//        Task {
-//            do {
-//                networkService.fetchNft(with: nft)
-//            } catch {
-//                
-//            }
-//        }
-//
-//    }
+    func fetchAllNFTs(ids: [String]) {
+        isLoading = true
+        Task {
+            var fetchedNFTs: [NFT] = []
+
+            await withTaskGroup(of: NFT?.self) { group in
+                for id in ids {
+                    group.addTask {
+                        do {
+                            return try await self.networkService.fetchNft(with: id)
+                        } catch {
+                            print("Ошибка загрузки NFT с id \(id): \(error)")
+                            return nil
+                        }
+                    }
+                }
+
+                for await nft in group {
+                    if let nft = nft {
+                        fetchedNFTs.append(nft)
+                    }
+                }
+            }
+            print("Загруженные NFT: \(fetchedNFTs)")
+            self.currentCollectionNfts = fetchedNFTs
+            isLoading = false
+        }
+    }
+    func toggleLike(for id: String) {
+        if profile?.likes.contains(id) == true {
+            profile?.likes.removeAll { $0 == id }
+        } else {
+            profile?.likes.append(id)
+        }
+
+        Task {
+            guard let profile = self.profile else {
+                print("Ошибка: профиль не найден")
+                return
+            }
+
+            do {
+                let success = try await networkService.putLike(profile: profile)
+                print("Результат: \(success)")
+            } catch {
+                print("Ошибка: \(error)")
+            }
+        }
+    }
+
+    func toggleCart(for id: String) {
+        if cartNFTs.contains(id) {
+            cartNFTs.removeAll { $0 == id }
+        } else {
+            cartNFTs.append(id)
+        }
+        Task {
+            do {
+                print(cartNFTs)
+                let success = try await networkService.uploadNFTSToCart(by: "1", nfts: cartNFTs)
+                print("Результат: \(success)")
+            } catch {
+                print("Ошибка: \(error)")
+            }
+        }
+    }
     private func sortCollections(_ collections: inout [Collection]) {
         switch orderType {
         case .count:
