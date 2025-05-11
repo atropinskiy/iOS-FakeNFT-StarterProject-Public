@@ -8,23 +8,25 @@
 import SwiftUI
 
 struct CollectionDescriptionView: View {
+    let collection: Collection
+    let extractedName: String
     var body: some View {
         VStack(spacing: 0) {
-            Text("Peach")
+            Text(extractedName)
                 .font(.system(size: 22, weight: .bold))
                 .frame(maxWidth: .infinity, alignment: .leading)
 
             HStack {
                 Text("Автор коллекции:")
                 NavigationLink(destination: AuthorDetailsView().withCustomBackButton()) {
-                    Text("John Doe")
+                    Text(collection.author)
                         .foregroundColor(.blue)
                 }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.top, 16)
 
-            Text("Персиковый — как облака над закатным солнцем в океане. В этой коллекции совмещены трогательная нежность и живая игривость сказочных зефирных зверей.")
+            Text(collection.description)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.top, 8)
                 .lineLimit(nil) // Убираем ограничение на количество строк
@@ -34,5 +36,3 @@ struct CollectionDescriptionView: View {
         .padding(.top, 16)
     }
 }
-
-

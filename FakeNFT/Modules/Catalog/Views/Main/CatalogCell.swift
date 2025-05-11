@@ -8,16 +8,17 @@
 import SwiftUI
 
 struct CatalogCell: View {
+    @ObservedObject var viewModel: CatalogViewModel
+    let collection: Collection
     var body: some View {
         VStack(spacing: 0) {
-            Image("MockCollectionImg")
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-                .frame(maxWidth: .infinity) // Задаем максимальную ширину
-                .frame(height: 140) // Задаем фиксированную высоту
-                .cornerRadius(12)
-                .clipped()
-            Text("Коллекция 1")
+            KFImageView(
+                urlString: collection.cover,
+                placeholder: { ProgressView() },
+                height: 140,
+                cornerRadius: 12
+            )
+            Text("\(viewModel.extractFileName(from: collection.cover) ?? "Без имени") (\(collection.nfts.count))")
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .font(.system(size: 17, weight: .bold))
                 .foregroundColor(.black)
@@ -25,8 +26,4 @@ struct CatalogCell: View {
         }
         .frame(maxWidth: .infinity, maxHeight: 179)
     }
-}
-
-#Preview {
-    CatalogCell()
 }
