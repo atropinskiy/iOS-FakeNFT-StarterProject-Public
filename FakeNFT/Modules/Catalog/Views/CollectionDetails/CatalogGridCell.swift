@@ -10,14 +10,14 @@ import SwiftUI
 struct CatalogGridCell: View {
     @State var likeState: Bool = false
     @State var inCart: Bool = true
-    private let imgName: String
-    init (imgName: String) {
-        self.imgName = imgName
+    private let nft: String
+    init (nft: String) {
+        self.nft = nft
     }
     var body: some View {
         VStack {
             ZStack(alignment: .topTrailing) {
-                Image(imgName)
+                Image("123")
                     .resizable()
                     .frame(width: 108, height: 108)
                     .cornerRadius(12)
@@ -43,7 +43,7 @@ struct CatalogGridCell: View {
                         .font(.system(size: 10, weight: .regular))
                         .padding(.top, 5)
                 }
-                CatalogTrash(inCart: $inCart)
+                CatalogCartIconView(inCart: $inCart)
             }
         }
         .frame(maxWidth: 108)
@@ -67,7 +67,7 @@ private struct CatalogStars: View {
     }
 }
 
-private struct CatalogTrash: View {
+private struct CatalogCartIconView: View {
     @Binding var inCart: Bool
     var body: some View {
         HStack {
@@ -80,8 +80,4 @@ private struct CatalogTrash: View {
             })
         }
     }
-}
-
-#Preview {
-    CatalogGridCell(imgName: "MockNFTImg")
 }

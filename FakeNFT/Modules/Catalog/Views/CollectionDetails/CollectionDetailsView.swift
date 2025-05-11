@@ -25,7 +25,7 @@ struct CollectionDetailsView: View {
                         collection: collection,
                         extractedName: viewModel.extractFileName(from: collection.cover) ?? "No title"
                     )
-                    CatalogCollectionGridView()
+                    CatalogCollectionGridView(nfts: collection.nfts)
                 }
                 .frame(minHeight: 0, maxHeight: .infinity)
             }

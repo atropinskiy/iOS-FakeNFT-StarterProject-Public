@@ -53,7 +53,8 @@ final class CatalogViewModel: ObservableObject {
             }
         }
     }
-
+<<<<<<< HEAD
+    
     func fetchLikesAndCart() {
         isLoading = true
         Task {
@@ -90,16 +91,9 @@ final class CatalogViewModel: ObservableObject {
         }
     }
     
-//    func fetchNFT(nft: String) -> NFT {
-//        Task {
-//            do {
-//                networkService.fetchNft(with: nft)
-//            } catch {
-//                
-//            }
-//        }
-//
-//    }
+    
+=======
+>>>>>>> 6d5003e50b0c6d65e3b90838e9f52c670fe3c135
     private func sortCollections(_ collections: inout [Collection]) {
         switch orderType {
         case .count:

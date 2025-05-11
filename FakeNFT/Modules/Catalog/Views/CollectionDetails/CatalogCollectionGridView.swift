@@ -8,6 +8,11 @@
 import SwiftUI
 
 struct CatalogCollectionGridView: View {
+    private let nfts: [String]
+    init (nfts: [String]) {
+        self.nfts = nfts
+        print(nfts)
+    }
     let images = [
         "MockNFTImg", "MockNFTImg", "MockNFTImg",
         "MockNFTImg", "MockNFTImg", "MockNFTImg",
@@ -20,8 +25,8 @@ struct CatalogCollectionGridView: View {
     ]
     var body: some View {
         LazyVGrid(columns: columns, spacing: 20) {
-            ForEach(Array(images.enumerated()), id: \.offset) { _, image in
-                CatalogGridCell(imgName: image)
+            ForEach(nfts, id: \.self) { nft in
+                CatalogGridCell(nft: nft)
             }
         }
         .padding()
