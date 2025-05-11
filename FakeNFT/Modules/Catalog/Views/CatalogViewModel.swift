@@ -65,21 +65,6 @@ final class CatalogViewModel: ObservableObject {
             }
         }
     }
-    func addToCart(nft: String) {
-        isLoading = true
-        Task {
-            do {
-                var updatedNFTs = self.cartNFTs
-                updatedNFTs.append(nft)
-                print(updatedNFTs)
-                _ = try await networkService.uploadNFTSToCart(by: "1", nfts: updatedNFTs)
-                isLoading = false
-            } catch {
-                print("Ошибка добавления в корзину NFT: \(error)")
-                isLoading = false
-            }
-        }
-    }
     func fetchAllNFTs(ids: [String]) {
         isLoading = true
         Task {
@@ -138,7 +123,6 @@ final class CatalogViewModel: ObservableObject {
         }
         Task {
             do {
-                print(cartNFTs)
                 let success = try await networkService.uploadNFTSToCart(by: "1", nfts: cartNFTs)
                 print("Результат: \(success)")
             } catch {
