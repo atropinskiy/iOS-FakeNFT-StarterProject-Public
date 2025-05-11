@@ -53,9 +53,10 @@ final class CatalogViewModel: ObservableObject {
         Task {
             do {
                 let profile = try await networkService.fetchProfile(id: 1)
+                let order = try await networkService.fetchOrder(by: "1")
                 self.profile = profile
                 self.likedNFTs = profile.likes
-                self.cartNFTs = profile.nfts
+                self.cartNFTs = order.nfts
                 self.isLoading = false
                 print(self.likedNFTs, self.cartNFTs)
             } catch {

@@ -15,18 +15,28 @@ struct CatalogCollectionGridView: View {
         GridItem(.flexible())
     ]
     var body: some View {
-        LazyVGrid(columns: columns, spacing: 20) {
-            // Убираем дубликаты по id и сортируем по имени
-            let uniqueNFTs = Array(Set(viewModel.currentCollectionNfts.map { $0.id }).compactMap { id in
-                viewModel.currentCollectionNfts.first { $0.id == id }
-            })
-            // Сортируем по имени NFT
-            let sortedNFTs = uniqueNFTs.sorted { $0.name < $1.name }
-
-            ForEach(sortedNFTs, id: \.id) { nft in
-                CatalogGridCell(viewModel: viewModel, nft: nft)
+        if viewModel.isLoading {
+            VStack {
+                Spacer()
+                ProgressView("Загрузка...")
+                    .progressViewStyle(CircularProgressViewStyle())
+                    .padding()
+                Spacer()
             }
+        } else {
+            LazyVGrid(columns: columns, spacing: 20) {
+                // Убираем дубликаты по id и сортируем по имени
+                let uniqueNFTs = Array(Set(viewModel.currentCollectionNfts.map { $0.id }).compactMap { id in
+                    viewModel.currentCollectionNfts.first { $0.id == id }
+                })
+                let sortedNFTs = uniqueNFTs.sorted { $0.name < $1.name }
+
+                ForEach(sortedNFTs, id: \.id) { nft in
+                    CatalogGridCell(viewModel: viewModel, nft: nft)
+                }
+            }
+            .padding()
         }
-        .padding()
     }
+
 }

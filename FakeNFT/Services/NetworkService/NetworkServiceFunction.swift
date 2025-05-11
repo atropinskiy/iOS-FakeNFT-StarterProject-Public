@@ -108,7 +108,8 @@ final class NetworkServiceFunction {
     }
     
     func putLike(profile: Profile) async throws -> Profile {
-        try await networkService.fetchRequest(endpoint: .profileGetPut, method: .put, encodableData: profile.likes)
+        let body = LikesUpdate(likes: profile.likes)
+        return try await networkService.fetchRequest(endpoint: .profileGetPut, method: .put, id: "1", encodableData: body)
     }
 }
 

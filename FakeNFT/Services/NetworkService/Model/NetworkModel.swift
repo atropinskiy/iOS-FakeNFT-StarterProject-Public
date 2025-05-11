@@ -74,3 +74,7 @@ struct UploadProfile: Encodable {
     let website: String
     let likes: [String]
 }
+
+struct LikesUpdate: Encodable {
+    let likes: [String]
+}

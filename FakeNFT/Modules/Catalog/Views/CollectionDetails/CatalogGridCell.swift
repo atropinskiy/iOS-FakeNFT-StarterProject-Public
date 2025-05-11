@@ -82,7 +82,7 @@ private struct CatalogCartIconView: View {
         HStack {
             Spacer()
             Button(action: toggleAction) {
-                Image(inCart ? .catalogTrash : .catalogTrashCross)
+                Image(inCart ? .catalogTrashCross : .catalogTrash)
                     .padding([.top, .trailing], 12)
             }
         }
