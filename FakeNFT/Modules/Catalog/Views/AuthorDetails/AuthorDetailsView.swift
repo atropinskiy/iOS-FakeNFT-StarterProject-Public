@@ -24,7 +24,6 @@ struct AuthorDetailsView: View {
 struct WebView: UIViewRepresentable {
     let url: URL
     let progressHud = ProgressHUDService.shared
-    
     @State private var isLoading = true
 
     final class Coordinator: NSObject, WKNavigationDelegate {
@@ -40,7 +39,6 @@ struct WebView: UIViewRepresentable {
         }
 
         func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
-            // Скрыть индикатор в случае ошибки
             parent.isLoading = false
             parent.progressHud.dismiss()
         }

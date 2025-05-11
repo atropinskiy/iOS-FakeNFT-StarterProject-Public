@@ -10,18 +10,16 @@ import SwiftUI
 struct CatalogView: View {
     @ObservedObject var viewModel = CatalogViewModel()
     @State private var showActionSheet = false
-    
     var body: some View {
-        
         NavigationStack(path: $viewModel.path) {
             VStack(spacing: 0) {
                 HStack {
                     Spacer()
                     Button(action: {
                         showActionSheet.toggle()
-                    }) {
+                    }, label: {
                         Image("CatalogMenuBtn") // Иконка меню
-                    }
+                    })
                     .actionSheet(isPresented: $showActionSheet) {
                         ActionSheet(title: Text(""), message: Text("Сортировка"), buttons: [
                             .default(Text("По названию")) {
@@ -34,7 +32,6 @@ struct CatalogView: View {
                         ])
                     }
                 }
-                
                 if viewModel.isLoading {
                     Spacer()
                     ProgressView()
@@ -45,7 +42,8 @@ struct CatalogView: View {
                     ScrollView {
                         LazyVStack(spacing: 12) {
                             ForEach(viewModel.collectionsList, id: \.id) { collection in
-                                NavigationLink(destination: CollectionDetailsView(viewModel: viewModel, collection: collection)) {
+                                NavigationLink(
+                                    destination: CollectionDetailsView(viewModel: viewModel, collection: collection)) {
                                     CatalogCell(viewModel: viewModel, collection: collection)
                                 }
                             }

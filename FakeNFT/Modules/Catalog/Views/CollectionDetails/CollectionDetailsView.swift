@@ -14,7 +14,8 @@ struct CollectionDetailsView: View {
         ScrollView {
             VStack(spacing: 0) {
                 KFImageView(
-                    urlString: collection.cover
+                    urlString: collection.cover,
+                    placeholder: {ProgressView()}
                 )
                 .mask(RoundedRectangle(cornerRadius: 12, style: .continuous)
                         .padding(.top, 0))

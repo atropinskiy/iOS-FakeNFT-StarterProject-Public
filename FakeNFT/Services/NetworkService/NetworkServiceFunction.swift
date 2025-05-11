@@ -54,9 +54,9 @@ final class NetworkServiceFunction {
     
     /// Fetch currency by id number
     func fetchCurrency(by id: Int) async throws -> Currency {
-        let curencyID: String = String(id)
+        let currencyID: String = String(id)
         
-        let selectedCurrency: Currency = try await networkService.fetchRequest(endpoint: .currencyIdGet, method: .get, id: curencyID)
+        let selectedCurrency: Currency = try await networkService.fetchRequest(endpoint: .currencyIdGet, method: .get, id: currencyID)
         return selectedCurrency
     }
     
