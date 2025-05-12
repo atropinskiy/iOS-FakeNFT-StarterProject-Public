@@ -19,6 +19,10 @@ struct PaymentMethodView: View {
         GridItem(.flexible())
     ]
     
+    private var isReadyToPay: Bool {
+        paymentMethodViewModel.selectedCurrencyId == nil || paymentMethodViewModel.isPaymentLoading
+    }
+    
     var body: some View {
         NavigationStack {
             ZStack {
@@ -31,10 +35,10 @@ struct PaymentMethodView: View {
                         VStack(spacing: 12) {
                             Text("Ошибка")
                                 .font(.headline)
-                                .foregroundColor(Color(.tRedUn))
+                                .foregroundStyle(Color(.tRedUn))
                             Text(error)
                                 .font(.subheadline)
-                                .foregroundColor(Color(.tGrayUn))
+                                .foregroundStyle(Color(.tGrayUn))
                             Button("Повторить") {
                                 paymentMethodViewModel.loadCurrency()
                             }
@@ -43,22 +47,32 @@ struct PaymentMethodView: View {
                         .padding()
                     } else {
                         ScrollView {
-                            LazyVGrid(columns: columns,alignment: .center ,spacing: 7) {
+                            LazyVGrid(columns: columns ,spacing: 7) {
                                 ForEach(paymentMethodViewModel.currencies) { currency in
                                     CurrencyCellView(
                                         currency: currency,
                                         isSelected: paymentMethodViewModel.selectedCurrencyId == currency.id)
                                     .onTapGesture {
-                                        paymentMethodViewModel.selectCurrency(with: currency.id)
+                                        withAnimation {
+                                            paymentMethodViewModel.selectCurrency(with: currency.id)
+                                        }
                                     }
                                     .frame(width: (UIScreen.main.bounds.width - 16 * 2 - 7) / 2)
+                                    .transition(.opacity.combined(with: .scale))
                                 }
                             }
                             .padding(.horizontal, 16)
                             .padding(.top, 20)
                         }
                         .refreshable {
+                            let start = Date()
+                            try? await Task.sleep(nanoseconds: 700_000_000)
                             await paymentMethodViewModel.refresh()
+                            
+                            let elapsed = Date().timeIntervalSince(start)
+                            if elapsed < 0.7 {
+                                try? await Task.sleep(nanoseconds: UInt64((0.7 - elapsed) * 1_000_000_000))
+                            }
                         }
                     }
                     
@@ -66,35 +80,34 @@ struct PaymentMethodView: View {
                         VStack(alignment: .leading, spacing: 0 ) {
                             Text("Совершая покупку, вы соглашаетесь с условиями")
                                 .font(.system(size: 13,  weight: .regular))
-                                .foregroundColor(Color(.tBlack))
+                                .foregroundStyle(Color(.tBlack))
                             Text("Пользовательского соглашения")
                                 .font(.system(size: 13, weight: .regular))
-                                .foregroundColor(Color(.tBlueUn))
+                                .foregroundStyle(Color(.tBlueUn))
                                 .onTapGesture {
                                     showUserAgreement = true
                                 }
                         }
                         
                         Button(action: {
-                                paymentMethodViewModel.makePayment(currencyID: paymentMethodViewModel.selectedCurrencyId)
+                            paymentMethodViewModel.makePayment(currencyID: paymentMethodViewModel.selectedCurrencyId)
                         }) {
                             Text("Оплатить")
                                 .font(.system(size: 17, weight: .bold))
-                                .foregroundColor(Color(.tWhite))
+                                .foregroundStyle(Color(.tWhite))
                                 .frame(maxWidth: .infinity, minHeight: 60)
                             
                         }
                         .padding(.leading, 20)
                         .padding(.trailing, 12)
-                        .background(Color(.tBlack))
-                        .cornerRadius(16)
-                        .disabled(paymentMethodViewModel.selectedCurrencyId == nil || paymentMethodViewModel.isPaymentLoading)
+                        .background(Color(isReadyToPay ? .tBackgroundUn : .tBlack))
+                        .clipShape(RoundedRectangle(cornerRadius: 16))
+                        .disabled(isReadyToPay)
                     }
                     .padding(.horizontal)
-                    .padding(.top, 16)
-                    .padding(.bottom, 16)
+                    .padding(.vertical, 16)
                     .background(Color(.tLightGray))
-                    .cornerRadius(16)
+                    .clipShape(RoundedRectangle(cornerRadius: 16))
                     .frame(minHeight: 186)
                 }
                 .navigationBarTitleDisplayMode(.inline)
@@ -103,7 +116,7 @@ struct PaymentMethodView: View {
                     ToolbarItem(placement: .principal) {
                         Text("Выберите способ оплаты")
                             .font(.system(size: 17, weight: .bold))
-                            .foregroundColor(Color(.tBlack))
+                            .foregroundStyle(Color(.tBlack))
                     }
                     ToolbarItem(placement: .navigationBarLeading) {
                         Button(action: {
@@ -113,19 +126,22 @@ struct PaymentMethodView: View {
                                 .resizable()
                                 .scaledToFit()
                                 .frame(width: 24, height: 24)
-                                .foregroundColor(Color(.tBlack))
+                                .foregroundStyle(Color(.tBlack))
                         }
                     }
                 }
                 
                 if paymentMethodViewModel.isPaymentLoading {
                     Color.black.opacity(0.3)
-                        .edgesIgnoringSafeArea(.all)
+                        .ignoresSafeArea()
                     
                     ProgressView()
                         .frame(width: 81, height: 82)
-                        .background(Color.white)
-                        .cornerRadius(8)
+                        .clipShape(RoundedRectangle(cornerRadius: 8))
+                        .background(
+                            RoundedRectangle(cornerRadius: 8)
+                                .fill(Color.white)
+                        )
                 }
             }
             .navigationDestination(isPresented: $navigationToSuccess) {
@@ -143,7 +159,11 @@ struct PaymentMethodView: View {
                 }
             }
             .sheet(isPresented: $showUserAgreement) {
-                CartWebView(url: URL(string: "https://yandex.ru/legal/practicum_offer/")!)
+                if let url = URL(string: "https://yandex.ru/legal/practicum_offer/") {
+                    CartWebView(url: url)
+                } else {
+                    Text("Ошибка загрузки ссылки")
+                }
             }
         }
     }

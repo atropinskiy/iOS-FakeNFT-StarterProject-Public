@@ -49,7 +49,14 @@ struct CartView: View {
                             .padding(.horizontal, 16)
                         }
                         .refreshable {
+                            let start = Date()
+                            try? await Task.sleep(nanoseconds: 700_000_000)
                             await cartViewModel.refresh()
+                            
+                            let elapsed = Date().timeIntervalSince(start)
+                            if elapsed < 0.7 {
+                                try? await Task.sleep(nanoseconds: UInt64((0.7 - elapsed) * 1_000_000_000))
+                            }
                         }
                     }
                     
@@ -57,11 +64,13 @@ struct CartView: View {
                         VStack(alignment: .leading, spacing: 2) {
                             Text("\(cartViewModel.nfts.count) NFT")
                                 .font(.system(size: 15, weight: .regular))
-                                .foregroundColor(Color(.tBlack))
+                                .foregroundStyle(Color(.tBlack))
+                                .accessibilityIdentifier("nftCountText")
                             
                             Text("\(totalPrice, specifier: "%.2f") ETH")
                                 .font(.system(size: 17, weight: .bold))
-                                .foregroundColor(Color(.tGreenUn))
+                                .foregroundStyle(Color(.tGreenUn))
+                                .accessibilityIdentifier("totalPriceText")
                         }
                         .padding(.leading, 2)
                         
@@ -74,16 +83,17 @@ struct CartView: View {
                         }) {
                             Text("К оплате")
                                 .font(.system(size: 17, weight: .bold))
-                                .foregroundColor(Color(.tWhite))
+                                .foregroundStyle(Color(.tWhite))
                                 .frame(maxWidth: 240, minHeight: 44)
+                                .accessibilityIdentifier("payButton")
                         }
                         .background(Color(.tBlack))
-                        .cornerRadius(16)
+                        .clipShape(RoundedRectangle(cornerRadius: 16))
                         .padding(.trailing, 2)
                     }
                     .padding(16)
                     .background(Color(.tLightGray))
-                    .cornerRadius(16)
+                    .clipShape(RoundedRectangle(cornerRadius: 16))
                     .frame(minHeight: 76)
                 }
                 .background(Color(.tWhite))

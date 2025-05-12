@@ -15,7 +15,7 @@ struct SuccessPaymentView: View {
             Image(systemName: "checkmark.seal.fill")
                 .resizable()
                 .frame(width: 80, height: 80)
-                .foregroundColor(Color(.tGreenUn))
+                .foregroundStyle(Color(.tGreenUn))
             
             Text("Оплата прошла успешно!")
                 .font(.title2)
@@ -23,7 +23,7 @@ struct SuccessPaymentView: View {
             
             Text("ID платежа: \(payment.id)")
                 .font(.subheadline)
-                .foregroundColor(Color(.tGrayUn))
+                .foregroundStyle(Color(.tGrayUn))
             
             Spacer()
         }

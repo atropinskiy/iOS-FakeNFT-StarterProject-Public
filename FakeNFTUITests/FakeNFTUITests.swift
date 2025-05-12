@@ -1,10 +1,10 @@
 import XCTest
 
 final class FakeNFTUITests: XCTestCase {
-    func testExample() throws {
+    func cartNFTUITest() throws {
         let app = XCUIApplication()
         app.launch()
-
-        // TODO: - Не забудьте написать UI-тесты
+        
+        app.tabBars.buttons["Корзина"].tap()
     }
 }

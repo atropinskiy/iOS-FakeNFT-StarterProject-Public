@@ -38,18 +38,18 @@ struct CurrencyCellView: View {
             VStack(alignment: .leading) {
                 Text("\(currency.title)")
                     .font(.system(size: 13, weight: .regular))
-                    .foregroundColor(Color(.tBlack))
+                    .foregroundStyle(Color(.tBlack))
                 
                 Text("\(currency.name)")
                     .font(.system(size: 13, weight: .regular))
-                    .foregroundColor(Color(.tGreenUn))
+                    .foregroundStyle(Color(.tGreenUn))
             }
             Spacer()
         }
         .padding(.leading, 12)
         .frame(height: 46)
         .background(Color(.tLightGray))
-        .cornerRadius(12)
+        .clipShape(RoundedRectangle(cornerRadius: 12))
         .overlay(
             RoundedRectangle(cornerRadius: 12)
                 .stroke(isSelected ? Color(.tBlack) : Color.clear, lineWidth: 1)
