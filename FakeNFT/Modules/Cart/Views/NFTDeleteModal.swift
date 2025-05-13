@@ -10,7 +10,7 @@ struct NFTDeleteModal: View {
     let nft: NFT
     let onDelete: () -> Void
     let onCancel: () -> Void
-
+    
     var body: some View {
         ZStack {
             VStack(spacing: 20) {
@@ -25,11 +25,11 @@ struct NFTDeleteModal: View {
                                 .resizable()
                                 .scaledToFit()
                                 .frame(width: 108, height: 108)
-                                .cornerRadius(12)
+                                .clipShape(RoundedRectangle(cornerRadius: 12))
                         case .failure:
-                            Color.gray
+                            Color(.tGrayUn)
                                 .frame(width: 108, height: 108)
-                                .cornerRadius(12)
+                                .clipShape(RoundedRectangle(cornerRadius: 12))
                         @unknown default:
                             EmptyView()
                         }
@@ -37,36 +37,38 @@ struct NFTDeleteModal: View {
                     
                     Text("Вы уверены, что хотите удалить объект из корзины ?")
                         .font(.system(size: 13, weight: .regular))
-                        .foregroundColor(Color(.tBlack))
+                        .foregroundStyle(Color(.tBlack))
                         .multilineTextAlignment(.center)
                 }
-
+                
                 HStack(spacing: 8) {
                     Button("Удалить") {
                         onDelete()
                     }
                     .font(.system(size: 17, weight: .regular))
-                    .foregroundColor(Color(.tRedUn))
+                    .foregroundStyle(Color(.tRedUn))
                     .padding()
                     .frame(height: 44)
                     .frame(maxWidth: .infinity)
                     .background(Color(.tBlack))
-                    .cornerRadius(12)
+                    .clipShape(RoundedRectangle(cornerRadius: 12))
+                    .accessibilityIdentifier("deleteButton")
                     
                     Button("Вернуться") {
                         onCancel()
                     }
                     .font(.system(size: 17, weight: .regular))
-                    .foregroundColor(Color(.tWhite))
+                    .foregroundStyle(Color(.tWhite))
                     .padding()
                     .frame(height: 44)
                     .frame(maxWidth: .infinity)
                     .background(Color(.tBlack))
-                    .cornerRadius(12)
+                    .clipShape(RoundedRectangle(cornerRadius: 12))
+                    .accessibilityIdentifier("cancelButton")
                 }
             }
             .padding()
-            .cornerRadius(20)
+            .clipShape(RoundedRectangle(cornerRadius: 20))
             .shadow(radius: 20)
             .padding(40)
         }

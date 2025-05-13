@@ -51,6 +51,9 @@
 		8485DFCD2DC7A9F1007843A1 /* NFTCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8485DFCC2DC7A9E5007843A1 /* NFTCellView.swift */; };
 		8485DFCF2DC7AA31007843A1 /* NFTDeleteModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8485DFCE2DC7AA2A007843A1 /* NFTDeleteModal.swift */; };
 		8485DFF02DC7C156007843A1 /* PaymentMethodView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8485DFEF2DC7C151007843A1 /* PaymentMethodView.swift */; };
+		8485E0632DCD20BE007843A1 /* CurrencyCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8485E0622DCD20B8007843A1 /* CurrencyCellView.swift */; };
+		8485E0682DCD2401007843A1 /* SuccessPaymentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8485E0672DCD23FE007843A1 /* SuccessPaymentView.swift */; };
+		8485E06A2DCD2431007843A1 /* CartWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8485E0692DCD242F007843A1 /* CartWebView.swift */; };
 		E19CD5AB2A98B56600CA39A5 /* NftImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E19CD5AA2A98B56600CA39A5 /* NftImageCollectionViewCell.swift */; };
 		E1A1B9DA2AA01CE400C3AFBC /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1A1B9D92AA01CE400C3AFBC /* TabBarController.swift */; };
 		E1CD40DC2A96BECC00BE7FE8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = E1CD40DB2A96BECC00BE7FE8 /* Localizable.strings */; };
@@ -120,6 +123,9 @@
 		8485DFCC2DC7A9E5007843A1 /* NFTCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NFTCellView.swift; sourceTree = "<group>"; };
 		8485DFCE2DC7AA2A007843A1 /* NFTDeleteModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NFTDeleteModal.swift; sourceTree = "<group>"; };
 		8485DFEF2DC7C151007843A1 /* PaymentMethodView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentMethodView.swift; sourceTree = "<group>"; };
+		8485E0622DCD20B8007843A1 /* CurrencyCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyCellView.swift; sourceTree = "<group>"; };
+		8485E0672DCD23FE007843A1 /* SuccessPaymentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuccessPaymentView.swift; sourceTree = "<group>"; };
+		8485E0692DCD242F007843A1 /* CartWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartWebView.swift; sourceTree = "<group>"; };
 		E19CD5AA2A98B56600CA39A5 /* NftImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NftImageCollectionViewCell.swift; sourceTree = "<group>"; };
 		E1A1B9D92AA01CE400C3AFBC /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		E1CD40D82A96BE7D00BE7FE8 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Main.strings; sourceTree = "<group>"; };
@@ -286,6 +292,9 @@
 		22BB22E12DB29C4C00D61BF5 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				8485E0692DCD242F007843A1 /* CartWebView.swift */,
+				8485E0672DCD23FE007843A1 /* SuccessPaymentView.swift */,
+				8485E0622DCD20B8007843A1 /* CurrencyCellView.swift */,
 				8485DFEF2DC7C151007843A1 /* PaymentMethodView.swift */,
 				8485DFCE2DC7AA2A007843A1 /* NFTDeleteModal.swift */,
 				8485DFCC2DC7A9E5007843A1 /* NFTCellView.swift */,
@@ -645,6 +654,7 @@
 				22BB22EC2DB29ED500D61BF5 /* StatView.swift in Sources */,
 				3FC8C39329D246BA0081F015 /* DateFormatters+Presets.swift in Sources */,
 				0CFCB7422A78013E0009A829 /* Nft.swift in Sources */,
+				8485E0632DCD20BE007843A1 /* CurrencyCellView.swift in Sources */,
 				8485DFCD2DC7A9F1007843A1 /* NFTCellView.swift in Sources */,
 				0CF2C2DD2A783CE600FDC837 /* ErrorView.swift in Sources */,
 				8485DFCF2DC7AA31007843A1 /* NFTDeleteModal.swift in Sources */,
@@ -656,6 +666,7 @@
 				3F6806D529CBBEC700B4F915 /* NetworkTask.swift in Sources */,
 				0CF2C2DB2A783C1B00FDC837 /* LoadingView.swift in Sources */,
 				22BB22EE2DB29EE300D61BF5 /* CartView.swift in Sources */,
+				8485E06A2DCD2431007843A1 /* CartWebView.swift in Sources */,
 				558E39E72C68CE0A00FB86AC /* NftService.swift in Sources */,
 				3F68069729CBBAF100B4F915 /* AppDelegate.swift in Sources */,
 				3F68069929CBBAF100B4F915 /* SceneDelegate.swift in Sources */,
@@ -666,6 +677,7 @@
 				0CFCB7462A78064B0009A829 /* NftDetailCellModel.swift in Sources */,
 				0CFCB74B2A780EA80009A829 /* UIView+Constraints.swift in Sources */,
 				3F6806D729CBC50A00B4F915 /* CellsReusingUtils.swift in Sources */,
+				8485E0682DCD2401007843A1 /* SuccessPaymentView.swift in Sources */,
 				0C79EE612A76DCD600EE90EA /* NftByIdRequest.swift in Sources */,
 				E19CD5AB2A98B56600CA39A5 /* NftImageCollectionViewCell.swift in Sources */,
 				0CF2C2E12A784C7000FDC837 /* LinePageControl.swift in Sources */,
@@ -913,7 +925,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.practicum.FakeNFTTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -932,7 +944,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.practicum.FakeNFTTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
