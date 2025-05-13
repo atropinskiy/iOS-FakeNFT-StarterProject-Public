@@ -9,14 +9,23 @@ import SwiftUI
 import WebKit
 
 struct UserSiteView: View {
-    let url = URL(string: "https://practicum.yandex.ru")!
-    //    let url = URL(string: "https://www.apple.com")!
+    let url: URL
     @State private var isLoading = true
     @State private var showError = false
+
+    init() {
+        guard let url = URL(string: "https://practicum.yandex.ru")
+        else {
+            fatalError("Invalid URL")
+        }
+        self.url = url
+
+    }
+
     var body: some View {
         ZStack {
             UserWebView(url: url, isLoading: $isLoading, showError: $showError)
-                .edgesIgnoringSafeArea(.bottom)
+                .ignoresSafeArea(.all, edges: .bottom)
             if isLoading {
                 VStack {
                     ProgressView()
@@ -115,24 +124,31 @@ struct UserWebView: UIViewRepresentable {
         }
 
         func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
-            print("1) didStartProvisionalNavigation")
-            Task { @MainActor in
-                parent.isLoading = true
-                parent.showError = false
-                pendingNavigation.insert(navigation)
+            Task { @MainActor [weak self, weak navigation] in
+                guard let self else {
+                    print("Coordinator was deallocated")
+                    return
+                }
+                self.parent.isLoading = true
+                self.parent.showError = false
+                guard let navigation else {
+                    print("Navigation object is nil")
+                    return
+                }
+                self.pendingNavigation.insert(navigation)
             }
         }
 
-        func webView(_ webView: WKWebView, didCommit navigation: WKNavigation!) {
-            print("2) Loading network content...")
-        }
+//        func webView(_ webView: WKWebView, didCommit navigation: WKNavigation!) {
+//            print("2) Loading network content...")
+//        }
 
         func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-            print("3) didFinish")
-            Task { @MainActor in
-                if pendingNavigation.contains(navigation) {
-                    parent.isLoading = false
-                    pendingNavigation.remove(navigation)
+            Task { @MainActor [weak self] in
+                guard let self else { return }
+                if let navigation, self.pendingNavigation.contains(navigation) {
+                    self.parent.isLoading = false
+                    self.pendingNavigation.remove(navigation)
                 }
             }
         }
@@ -147,12 +163,12 @@ struct UserWebView: UIViewRepresentable {
 
 
         func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: any Error) {
-            print("5) didFail")
-            Task { @MainActor in
-                if pendingNavigation.contains(navigation) {
-                    parent.isLoading = false
-                    parent.showError = true
-                    pendingNavigation.remove(navigation)
+            Task { @MainActor [weak self] in
+                guard let self else { return }
+                if let navigation, self.pendingNavigation.contains(navigation) {
+                    self.parent.isLoading = false
+                    self.parent.showError = true
+                    self.pendingNavigation.remove(navigation)
                 }
                 // Игнорируем ошибку -999 (отмененные запросы)
                 if (error as NSError).code != NSURLErrorCancelled {
@@ -162,12 +178,12 @@ struct UserWebView: UIViewRepresentable {
         }
 
         func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: any Error) {
-            print("4) didFailProvisionalNavigation")
-            Task { @MainActor in
-                if pendingNavigation.contains(navigation) {
-                    parent.isLoading = false
-                    parent.showError = true
-                    pendingNavigation.remove(navigation)
+            Task { @MainActor [weak self] in
+                guard let self else { return }
+                if let navigation, self.pendingNavigation.contains(navigation) {
+                    self.parent.isLoading = false
+                    self.parent.showError = true
+                    self.pendingNavigation.remove(navigation)
                 }
                 // Игнорируем ошибку -999
                 if (error as NSError).code != NSURLErrorCancelled {

@@ -39,7 +39,7 @@ struct NFTCollectionView: View {
                     .padding(.top, 20)
                 }
                 .padding(.horizontal, 16)
-                .edgesIgnoringSafeArea(.horizontal)
+                .ignoresSafeArea(.all, edges: .horizontal)
                 .scrollContentBackground(.hidden)
             }
         }
