@@ -15,7 +15,6 @@ struct StatView: View {
     @Environment(\.colorScheme) private var colorScheme
 
     var body: some View {
-//        NavigationStack(path: $viewModel.path) {
         NavigationStack {
             VStack(alignment: .trailing) {
                 HStack {

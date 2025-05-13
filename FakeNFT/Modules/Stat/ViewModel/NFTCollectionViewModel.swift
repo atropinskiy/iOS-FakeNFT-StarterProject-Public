@@ -27,7 +27,6 @@ final class NFTCollectionViewModel: ObservableObject {
 
     func fetch() {
         isLoading = true
-//        print("in fetch")
         Just(nfts)
             .delay(for: 2, scheduler: RunLoop.main)
             .sink { [weak self] nfts in
