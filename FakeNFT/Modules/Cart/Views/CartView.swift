@@ -7,13 +7,35 @@
 
 import SwiftUI
 
+enum SortType {
+    case none
+    case price
+    case rating
+    case name
+}
+
 struct CartView: View {
     @StateObject private var cartViewModel = CartViewModel()
     @State private var selectedNFT: NFT?
     @State private var isPaymentActive = false
+    @State private var showSortOptions = false
+    @State private var sortType: SortType = .none
     
     private var totalPrice: Double {
         Double(cartViewModel.nfts.reduce(0) { $0 + $1.price })
+    }
+    
+    private var sortedNFTs: [NFT] {
+        switch sortType {
+        case .name:
+            return cartViewModel.nfts.sorted { $0.name.localizedCompare($1.name) == .orderedAscending }
+        case .price:
+            return cartViewModel.nfts.sorted { $0.price < $1.price }
+        case .rating:
+            return cartViewModel.nfts.sorted { $0.rating > $1.rating }
+        case .none:
+            return cartViewModel.nfts
+        }
     }
     
     var body: some View {
@@ -23,13 +45,18 @@ struct CartView: View {
                     HStack {
                         Spacer()
                         Button {
-                            // TODO: Filter action, module 3
+                            showSortOptions = true
                         } label: {
                             Image(.cartFilter)
                                 .frame(width: 42, height: 42)
                                 .padding(.trailing, 9)
                         }
                         .padding(.bottom, 20)
+                        .confirmationDialog("Сортировка", isPresented: $showSortOptions, titleVisibility: .visible) {
+                            Button("По цене") { sortType = .price }
+                            Button("По рейтингу") { sortType = .rating }
+                            Button("По названию") { sortType = .name }
+                        }
                     }
                     if cartViewModel.isLoading {
                         Spacer()
@@ -40,7 +67,7 @@ struct CartView: View {
                     } else {
                         ScrollView {
                             VStack(alignment: .leading, spacing: 32) {
-                                ForEach(cartViewModel.nfts) { nft in
+                                ForEach(sortedNFTs) { nft in
                                     NFTCellView(nft: nft) {
                                         selectedNFT = nft
                                     }
