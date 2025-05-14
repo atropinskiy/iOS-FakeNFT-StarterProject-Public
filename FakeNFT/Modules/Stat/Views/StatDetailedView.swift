@@ -34,7 +34,7 @@ struct StatDetailedView: View {
                         showUserSite = true
                     }
                     .font(.system(size: 17, weight: .regular))
-                    .foregroundColor(Color(.tBlack))
+                    .foregroundStyle(Color(.tBlack))
                     .frame(height: 44)
                     .frame(maxWidth: .infinity)
                     .background(Color(.tWhite))
@@ -42,7 +42,7 @@ struct StatDetailedView: View {
                         RoundedRectangle(cornerRadius: 16)
                             .strokeBorder(Color(.tBlack), lineWidth: 1)
                     )
-                    .cornerRadius(16)
+                    .clipShape(RoundedRectangle(cornerRadius: 16))
                     .padding(.top, 28)
 
                     VStack(spacing: 0) {
@@ -88,7 +88,7 @@ struct BackButtonView: View {
         })
         {
             Image(systemName: "chevron.left")
-                .foregroundColor(Color(.tBlack))
+                .foregroundStyle(Color(.tBlack))
         }
     }
 }
@@ -115,6 +115,5 @@ struct MenuRow<Destination: View>: View {
             }
             .frame(maxHeight: 54)
         }
-//        .buttonStyle(PlainButtonStyle()) // убирает эффект затемнения
     }
 }

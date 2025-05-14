@@ -17,18 +17,18 @@ struct NFTCollectionItem: View {
                 Image(nftItem.image)
                     .resizable()
                     .frame(width: 108, height: 108)
-                    .cornerRadius(12)
+                    .clipShape(RoundedRectangle(cornerRadius: 12))
                 Button(action: {
                     inFavorites.toggle()
                 }, label: {
                     Image(systemName: "heart.fill")
-                        .foregroundColor(inFavorites ? Color(.tRedUn) : Color(.white))
+                        .foregroundStyle(inFavorites ? Color(.tRedUn) : Color(.white))
                         .font(.system(size: 20))
                 })
                 .padding(10)
             }
             .padding(.bottom, 8)
-            CatalogStars(stars: nftItem.rating)
+            StatisticsStars(stars: nftItem.rating)
                 .padding(.bottom, 4)
             HStack {
                 VStack(spacing: 0) {
@@ -48,7 +48,7 @@ struct NFTCollectionItem: View {
     }
 }
 
-private struct CatalogStars: View {
+private struct StatisticsStars: View {
     private let stars: Int
     init (stars: Int) {
         self.stars = stars
@@ -57,7 +57,7 @@ private struct CatalogStars: View {
         HStack(spacing: 2) {
             ForEach(0..<5) { index in
                 Image(systemName: "star.fill")
-                    .foregroundColor(index < self.stars ? Color(.tYellowUn) : Color(.tLightGray))
+                    .foregroundStyle(index < self.stars ? Color(.tYellowUn) : Color(.tLightGray))
                     .font(.system(size: 12))
             }
         }

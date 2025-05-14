@@ -9,47 +9,16 @@ import SwiftUI
 import WebKit
 
 struct UserSiteView: View {
-    let url: URL
-    @State private var isLoading = true
-    @State private var showError = false
-
-    init() {
-        guard let url = URL(string: "https://practicum.yandex.ru")
-        else {
-            fatalError("Invalid URL")
-        }
-        self.url = url
-
-    }
+    let urlString = "https://practicum.yandex.ru"
+    @Environment(\.dismiss) private var dismiss
 
     var body: some View {
         ZStack {
-            UserWebView(url: url, isLoading: $isLoading, showError: $showError)
-                .ignoresSafeArea(.all, edges: .bottom)
-            if isLoading {
-                VStack {
-                    ProgressView()
-                        .scaleEffect(1.5)
-                    Text("Загрузка...")
-                }
-            }
-            if showError {
-                VStack {
-                    Text("Ошибка загрузки")
-                        .foregroundColor(.red)
-                    Text("Проверьте подключение к интернету и попробуйте позже.")
-                    Button("Повторить загрузку") {
-                        Task {
-                            showError = false
-                            isLoading = true
-                        }
-                    }
-                    .buttonStyle(.borderedProminent)
-                }
-                .padding()
-                .background(Color(.tWhite))
-                .cornerRadius(12)
-                .shadow(radius: 5)
+            if let url = URL(string: urlString), isValidURL(url) {
+                UserWebView(url: url)
+                    .ignoresSafeArea(.all, edges: .bottom)
+            } else {
+                errorWebView
             }
         }
         .navigationTitle("Яндекс Практикум")
@@ -62,6 +31,26 @@ struct UserSiteView: View {
         }
         .toolbar(.hidden, for: .tabBar)
     }
+
+    private func isValidURL(_ url: URL) -> Bool {
+        url.absoluteString.contains("yandex.ru")
+    }
+
+    private var errorWebView: some View {
+        VStack {
+            Text("Ошибка загрузки")
+                .foregroundStyle(Color(.tRedUn))
+            Text("Проверьте подключение к интернету и попробуйте позже.")
+            Button("Назад") {
+                dismiss()
+            }
+            .buttonStyle(.borderedProminent)
+        }
+        .padding()
+        .background(Color(.tWhite))
+        .clipShape(RoundedRectangle(cornerRadius: 12))
+        .shadow(radius: 5)
+    }
 }
 
 #Preview {
@@ -70,8 +59,8 @@ struct UserSiteView: View {
 
 struct UserWebView: UIViewRepresentable {
     let url: URL
-    @Binding var isLoading: Bool
-    @Binding var showError: Bool
+    let progressHUD = ProgressHUDService.shared
+    @State var isLoading: Bool = true
 
     func makeUIView(context: Context) -> WKWebView {
 
@@ -82,13 +71,6 @@ struct UserWebView: UIViewRepresentable {
         preferences.allowsContentJavaScript = true
         preferences.preferredContentMode = .mobile
         config.defaultWebpagePreferences = preferences
-        config.websiteDataStore = .default()
-        config.preferences.javaScriptCanOpenWindowsAutomatically = true
-        config.preferences.isFraudulentWebsiteWarningEnabled = true
-        config.suppressesIncrementalRendering = false
-        config.allowsInlineMediaPlayback = true
-        config.allowsPictureInPictureMediaPlayback = false
-        config.mediaTypesRequiringUserActionForPlayback = []
 
         // Настройки страницы
         let webView = WKWebView(frame: .zero, configuration: config)
@@ -96,10 +78,6 @@ struct UserWebView: UIViewRepresentable {
         webView.uiDelegate = context.coordinator
         webView.allowsBackForwardNavigationGestures = true
         webView.allowsLinkPreview = true
-        webView.evaluateJavaScript("document.body.style.pointerEvents = 'auto';") { _, _ in }
-
-        // Добавляем user agent для мобильных устройств
-        webView.customUserAgent = "Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.0 Mobile/15E148 Safari/604.1"
         return webView
     }
 
@@ -117,79 +95,24 @@ struct UserWebView: UIViewRepresentable {
 
     class Coordinator: NSObject, WKNavigationDelegate, WKUIDelegate {
         var parent: UserWebView
-        private var pendingNavigation = Set<WKNavigation>()
 
         init(parent: UserWebView) {
             self.parent = parent
         }
 
         func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
-            Task { @MainActor [weak self, weak navigation] in
-                guard let self else {
-                    print("Coordinator was deallocated")
-                    return
-                }
-                self.parent.isLoading = true
-                self.parent.showError = false
-                guard let navigation else {
-                    print("Navigation object is nil")
-                    return
-                }
-                self.pendingNavigation.insert(navigation)
-            }
+            parent.isLoading = true
+            parent.progressHUD.show(message: "Загрузка...")
         }
-
-//        func webView(_ webView: WKWebView, didCommit navigation: WKNavigation!) {
-//            print("2) Loading network content...")
-//        }
 
         func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-            Task { @MainActor [weak self] in
-                guard let self else { return }
-                if let navigation, self.pendingNavigation.contains(navigation) {
-                    self.parent.isLoading = false
-                    self.pendingNavigation.remove(navigation)
-                }
-            }
+            parent.isLoading = false
+            parent.progressHUD.dismiss()
         }
-
-        func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction) async -> WKNavigationActionPolicy {
-            return .allow
-        }
-
-        func webView(_ webView: WKWebView, decidePolicyFor navigationResponse: WKNavigationResponse) async -> WKNavigationResponsePolicy {
-            return .allow
-        }
-
 
         func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: any Error) {
-            Task { @MainActor [weak self] in
-                guard let self else { return }
-                if let navigation, self.pendingNavigation.contains(navigation) {
-                    self.parent.isLoading = false
-                    self.parent.showError = true
-                    self.pendingNavigation.remove(navigation)
-                }
-                // Игнорируем ошибку -999 (отмененные запросы)
-                if (error as NSError).code != NSURLErrorCancelled {
-                    print("Ошибка навигации: \(error.localizedDescription)")
-                }
-            }
-        }
-
-        func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: any Error) {
-            Task { @MainActor [weak self] in
-                guard let self else { return }
-                if let navigation, self.pendingNavigation.contains(navigation) {
-                    self.parent.isLoading = false
-                    self.parent.showError = true
-                    self.pendingNavigation.remove(navigation)
-                }
-                // Игнорируем ошибку -999
-                if (error as NSError).code != NSURLErrorCancelled {
-                    print("Ошибка навигации: \(error.localizedDescription)")
-                }
-            }
+            parent.isLoading = false
+            parent.progressHUD.dismiss()
         }
 
         // MARK: WkUIDelegate
