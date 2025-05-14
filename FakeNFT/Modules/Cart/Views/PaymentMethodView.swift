@@ -163,7 +163,7 @@ struct PaymentMethodView: View {
                     Text("Ошибка загрузки ссылки")
                 }
             }
-            .alert("Ошибка оплаты", isPresented: $showPaymentErrorAlert) {
+            .alert("Не удалось произвести оплату", isPresented: $showPaymentErrorAlert) {
                 Button("Отмена", role: .cancel) { }
                 Button("Повторить") {
                     if let selectedID = paymentMethodViewModel.selectedCurrencyId {
