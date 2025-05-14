@@ -145,9 +145,7 @@ struct PaymentMethodView: View {
                 }
             }
             .navigationDestination(isPresented: $navigationToSuccess) {
-                if let payment = paymentMethodViewModel.paymentResult {
-                    SuccessPaymentView(payment: payment)
-                }
+                    SuccessPaymentView()
             }
             .onChange(of: paymentMethodViewModel.paymentResult) { result in
                 if let result = result, result.success {
@@ -165,6 +163,16 @@ struct PaymentMethodView: View {
                     Text("Ошибка загрузки ссылки")
                 }
             }
+            .alert("Ошибка оплаты", isPresented: $showPaymentErrorAlert) {
+                Button("Отмена", role: .cancel) { }
+                Button("Повторить") {
+                    if let selectedID = paymentMethodViewModel.selectedCurrencyId {
+                        paymentMethodViewModel.makePayment(currencyID: selectedID)
+                    }
+                }
+            } message: {
+                Text("Произошла ошибка при оплате. Попробуйте ещё раз.")
+            }
         }
     }
 }
@@ -172,3 +180,13 @@ struct PaymentMethodView: View {
 #Preview {
     PaymentMethodView()
 }
+
+//#Preview("Unsuccesful payment Alert") {
+//    struct PaymentMock: View {
+//        @Binding var showPaymentErrorAlert: Bool
+//        
+//        var body: some View {
+//            PaymentMethodView(showPaymentErrorAlert: $showPaymentErrorAlert)
+//        }
+//    }
+//}

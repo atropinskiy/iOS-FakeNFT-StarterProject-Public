@@ -7,32 +7,43 @@
 import SwiftUI
 
 struct SuccessPaymentView: View {
-    let payment: Payment
+    @Environment(\.dismiss) private var dismiss
     
     var body: some View {
-        VStack(spacing: 24) {
-            // TODO: Это окно-заглушка для реализации открытия окна по нажатию на кнопку оплатить. Само окно будет реализовано в модуле 3
-            Image(systemName: "checkmark.seal.fill")
-                .resizable()
-                .frame(width: 80, height: 80)
-                .foregroundStyle(Color(.tGreenUn))
-            
-            Text("Оплата прошла успешно!")
-                .font(.title2)
-                .bold()
-            
-            Text("ID платежа: \(payment.id)")
-                .font(.subheadline)
-                .foregroundStyle(Color(.tGrayUn))
+        VStack {
+            Spacer()
+            VStack(alignment: .center, spacing: 20) {
+                Image(.successPayment)
+                    .resizable()
+                    .frame(width: 278, height: 278)
+                
+                Text("Успех! Оплата прошла, поздравляем с покупкой!")
+                    .font(.system(size: 22, weight: .bold))
+                    .foregroundStyle(Color(.tBlack))
+                    .multilineTextAlignment(.center)
+            }
+            .padding()
             
             Spacer()
+            
+            Button(action: {
+                dismiss()
+            }) {
+                Text("Вернуться в каталог")
+                    .font(.system(size: 17, weight: .bold))
+                    .foregroundStyle(Color(.tWhite))
+            }
+            .frame(maxWidth: .infinity, minHeight: 60)
+            .background(Color(.tBlack))
+            .clipShape(RoundedRectangle(cornerRadius: 16))
         }
-        .padding()
-        .navigationTitle("Успешно")
+        .padding(.horizontal, 16)
+        .padding(.bottom, 16)
+        .navigationBarHidden(true)
     }
 }
 
 #Preview {
-    SuccessPaymentView(payment: .init(success: true, orderId: "1", id: "0"))
+    SuccessPaymentView()
 }
 
