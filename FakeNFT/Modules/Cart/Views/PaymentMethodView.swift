@@ -90,6 +90,7 @@ struct PaymentMethodView: View {
                         }
                         
                         Button(action: {
+//                            showPaymentErrorAlert = true // Для тестирования алерта
                             paymentMethodViewModel.makePayment(currencyID: paymentMethodViewModel.selectedCurrencyId)
                         }) {
                             Text("Оплатить")
@@ -170,8 +171,6 @@ struct PaymentMethodView: View {
                         paymentMethodViewModel.makePayment(currencyID: selectedID)
                     }
                 }
-            } message: {
-                Text("Произошла ошибка при оплате. Попробуйте ещё раз.")
             }
         }
     }
@@ -181,12 +180,3 @@ struct PaymentMethodView: View {
     PaymentMethodView()
 }
 
-//#Preview("Unsuccesful payment Alert") {
-//    struct PaymentMock: View {
-//        @Binding var showPaymentErrorAlert: Bool
-//        
-//        var body: some View {
-//            PaymentMethodView(showPaymentErrorAlert: $showPaymentErrorAlert)
-//        }
-//    }
-//}

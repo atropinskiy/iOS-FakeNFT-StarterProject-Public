@@ -18,6 +18,8 @@ final class PaymentMethodViewModel: ObservableObject {
     @Published var isPaymentLoading = false
     @Published var paymentError: String?
     
+    @Published var cartEditionError: String?
+    
     private let networkService = NetworkServiceFunction.shared
 
     init() {
@@ -64,6 +66,12 @@ final class PaymentMethodViewModel: ObservableObject {
         }
     }
     
+    func getEmptyCart() {
+        Task {
+            await emptyCart()
+        }
+    }
+    
     private func performPayment(with id: Int) async {
         isPaymentLoading = true
         paymentError = nil
@@ -74,6 +82,16 @@ final class PaymentMethodViewModel: ObservableObject {
             self.paymentError = "Ошибка оплаты: \(error.localizedDescription)"
         }
         isPaymentLoading = false
+    }
+    
+    private func emptyCart() async {
+        let orderId = "1"
+        let emptyNFTSArray: [String] = []
+        do {
+            let order = try await networkService.uploadNFTSToCart(by: orderId, nfts: emptyNFTSArray)
+        } catch {
+            self.cartEditionError = "Error emptying cart: \(error.localizedDescription)"
+        }
     }
 }
 
