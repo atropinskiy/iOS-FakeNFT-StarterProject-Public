@@ -9,7 +9,7 @@ protocol NetworkServiceProtocol {
     func fetchRequest<T: Decodable>(
         endpoint: Endpoint,
         method: HTTPMethod,
-        id:String?,
+        id: String?,
         encodableData: Encodable?
     ) async throws -> T
 }

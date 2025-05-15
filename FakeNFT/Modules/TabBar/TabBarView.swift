@@ -51,6 +51,7 @@ struct TabBarView: View {
         .accentColor(Color(.tBlueUn))
         .onAppear {
             catalogViewModel.fetchCollections()
+            catalogViewModel.fetchLikesAndCart()
         }
     }
     

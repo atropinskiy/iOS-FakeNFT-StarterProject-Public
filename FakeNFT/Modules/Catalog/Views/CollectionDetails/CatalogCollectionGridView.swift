@@ -8,22 +8,35 @@
 import SwiftUI
 
 struct CatalogCollectionGridView: View {
-    let images = [
-        "MockNFTImg", "MockNFTImg", "MockNFTImg",
-        "MockNFTImg", "MockNFTImg", "MockNFTImg",
-        "MockNFTImg", "MockNFTImg", "MockNFTImg",
-        "MockNFTImg"]
+    @ObservedObject var viewModel: CatalogViewModel
     let columns = [
         GridItem(.flexible()),
         GridItem(.flexible()),
         GridItem(.flexible())
     ]
     var body: some View {
-        LazyVGrid(columns: columns, spacing: 20) {
-            ForEach(Array(images.enumerated()), id: \.offset) { _, image in
-                CatalogGridCell(imgName: image)
+        if viewModel.isLoading {
+            VStack {
+                Spacer()
+                ProgressView("Загрузка...")
+                    .progressViewStyle(CircularProgressViewStyle())
+                    .padding()
+                Spacer()
             }
+        } else {
+            LazyVGrid(columns: columns, spacing: 20) {
+                // Убираем дубликаты по id и сортируем по имени
+                let uniqueNFTs = Array(Set(viewModel.currentCollectionNfts.map { $0.id }).compactMap { id in
+                    viewModel.currentCollectionNfts.first { $0.id == id }
+                })
+                let sortedNFTs = uniqueNFTs.sorted { $0.name < $1.name }
+
+                ForEach(sortedNFTs, id: \.id) { nft in
+                    CatalogGridCell(viewModel: viewModel, nft: nft)
+                }
+            }
+            .padding()
         }
-        .padding()
     }
+
 }
