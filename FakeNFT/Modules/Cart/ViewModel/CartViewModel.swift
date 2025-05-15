@@ -34,9 +34,11 @@ final class CartViewModel: ObservableObject {
     }
     
     func deleteNFTFromCart(id: String) async {
-        nfts.removeAll { $0.id == id }
-        let updatedNFTS = nfts.map { $0.id }
-        await editCart(newNFTSArray: updatedNFTS)
+        let updatedNFTs = nfts.filter { $0.id != id }
+        let updatedNFTIDs = updatedNFTs.map { $0.id }
+        
+        await editCart(newNFTSArray: updatedNFTIDs)
+        self.nfts = updatedNFTs
     }
     
     private func fetchNFTsFromOrder() async {
