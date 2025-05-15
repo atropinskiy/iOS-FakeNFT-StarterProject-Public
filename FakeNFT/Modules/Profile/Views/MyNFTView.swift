@@ -10,8 +10,13 @@ struct MyNFTView: View {
     var body: some View {
         
         NavigationView {
+            
+            
+            
+            
             Text("У вас еще нет NFT")
                 .font(.system(size: 17, weight: .bold))
+            
         }
         .navigationBarBackButtonHidden(true)
         .listStyle(PlainListStyle())

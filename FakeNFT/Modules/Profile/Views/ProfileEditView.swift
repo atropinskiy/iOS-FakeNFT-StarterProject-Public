@@ -17,6 +17,7 @@ struct ProfileEditView: View {
             HStack {
                 Spacer()
                 Button(action: {
+                    viewModel.saveProfile()
                     dismiss()
                 }) {
                     Image(systemName: "xmark")
@@ -28,20 +29,9 @@ struct ProfileEditView: View {
             
             // Аватарка
             ZStack {
-                if let data = viewModel.avatarData,
-                   let image = UIImage(data: data) {
-                    Image(uiImage: image)
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: 70, height: 70)
-                        .clipShape(Circle())
-                    
-                } else {
-                    Image(.joaquin) // замените на своё изображение
-                        .frame(width: 70, height: 70)
-                        .clipShape(Circle())
-                }
-                
+                Image(.joaquin)
+                    .frame(width: 70, height: 70)
+                    .clipShape(Circle())
                 Button {
                     isShowingPhotoOptions = true
                 } label: {
@@ -71,7 +61,6 @@ struct ProfileEditView: View {
                         DispatchQueue.main.async {
                             isShowingImagePicker = true
                         }
-                        
                     }
                     Button("Отмена", role: .cancel) {}
                 }
@@ -82,7 +71,7 @@ struct ProfileEditView: View {
                     // Имя
                     Text("Имя")
                         .font(.system(size: 18, weight: .bold))
-                    TextField("", text: $viewModel.nameProfile)
+                    TextField("", text: $viewModel.editingNameProfile)
                         .padding()
                         .background(Color(.tLightGray))
                         .cornerRadius(12)
@@ -92,7 +81,7 @@ struct ProfileEditView: View {
                     // Описание
                     Text("Описание")
                         .font(.system(size: 18, weight: .bold))
-                    TextField("", text: $viewModel.descriptionProfile, axis: .vertical)
+                    TextField("", text: $viewModel.editingDescriptionProfile, axis: .vertical)
                         .lineLimit(5, reservesSpace: true)
                         .padding()
                         .background(Color(.tLightGray))
@@ -103,7 +92,7 @@ struct ProfileEditView: View {
                     // Сайт
                     Text("Сайт")
                         .font(.system(size: 18, weight: .bold))
-                    TextField("", text: $viewModel.websiteProfile)
+                    TextField("", text: $viewModel.editingWebsiteProfile)
                         .padding()
                         .background(Color(.tLightGray))
                         .cornerRadius(12)
@@ -118,11 +107,8 @@ struct ProfileEditView: View {
         .sheet(isPresented: $isShowingImagePicker) {
             ImagePicker(sourceType: imagePickerSource, selectedImage: $selectedImage)
         }
-        .onChange(of: selectedImage) { newImage in
-            if let image = newImage,
-               let data = image.jpegData(compressionQuality: 0.8) {
-                viewModel.saveAvatar(data: data)
-            }
+        .onAppear {
+            viewModel.loadProfile()
         }
     }
 }
