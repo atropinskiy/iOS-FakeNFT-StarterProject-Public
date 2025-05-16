@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct NFTCollectionItem: View {
-    @State var inFavorites: Bool = false
-    @State var inCart: Bool = true
+    @State private var inFavorites: Bool = false
+    @State private var inCart: Bool = true
     let nftItem: NFTElementModel
     var body: some View {
         VStack(spacing: 0) {
@@ -82,10 +82,9 @@ private struct StatisticsCart: View {
     }
 
     private func getCartImagerResource(inCart: Bool) -> ImageResource {
-        if inCart {
-            colorScheme == .dark ? .cartDark : .cartLight
-        } else {
-            colorScheme == .dark ? .cartCrossDark : .cartCrossLight}
+        colorScheme == .dark
+        ? (inCart ? .cartDark : .cartCrossDark)
+        : (inCart ? .cartLight : .cartCrossLight)
     }
 }
 

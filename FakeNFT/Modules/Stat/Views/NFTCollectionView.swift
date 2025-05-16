@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct NFTCollectionView: View {
-    @StateObject var viewModel = NFTCollectionViewModel()
+    @StateObject private var viewModel = NFTCollectionViewModel()
     @Environment(\.colorScheme) private var colorScheme
 
     let columns = [
@@ -29,7 +29,6 @@ struct NFTCollectionView: View {
                 ScrollView {
                     LazyVGrid(
                         columns: columns,
-                        alignment: .center,
                         spacing: 8
                     ) {
                         ForEach(viewModel.nfts, id: \.self) { nft in
@@ -39,7 +38,7 @@ struct NFTCollectionView: View {
                     .padding(.top, 20)
                 }
                 .padding(.horizontal, 16)
-                .ignoresSafeArea(.all, edges: .horizontal)
+                .ignoresSafeArea(edges: .horizontal)
                 .scrollContentBackground(.hidden)
             }
         }
