@@ -14,7 +14,8 @@ struct StatDetailedView: View {
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
-                Image(viewModel.profileDetails.avatar)
+//                Image(viewModel.profileDetails.avatar)
+                Image("alex")
                     .frame(width: 70, height: 70)
                     .clipShape(Circle())
                     .padding(.trailing, 16)

@@ -90,15 +90,15 @@ private struct StatisticsCart: View {
 
 #Preview("Light mode") {
     let nftItem = NFTCollectionViewModel()
-    var inFavorites: Bool = false
-    var inCart: Bool = true
+//    var inFavorites: Bool = false
+//    var inCart: Bool = true
     NFTCollectionItem(nftItem: nftItem.nft1)
 }
 
 #Preview("Dark mode") {
     let nftItem = NFTCollectionViewModel()
-    var inFavorites: Bool = false
-    var inCart: Bool = true
+//    var inFavorites: Bool = false
+//    var inCart: Bool = true
     NFTCollectionItem(nftItem: nftItem.nft2)
         .preferredColorScheme(.dark)
 }

@@ -12,6 +12,7 @@ final class NFTCollectionViewModel: ObservableObject {
 //    @Published var nfts: [NFT] = []
     @Published var nfts: [NFTElementModel] = []
     @Published var isLoading: Bool = false
+
     private var cancellableSet: Set<AnyCancellable> = []
 
 //    let nft1 = NFT(createdAt: "", name: "Archie", images: ["archie"], rating: 2, description: "", price: 1.78, author: "", id: "")
@@ -23,12 +24,22 @@ final class NFTCollectionViewModel: ObservableObject {
 
     init() {
         self.nfts = [nft1, nft2, nft3, nft4, nft5]
+//        $orderByName
+//            .map { [weak self] _ in
+//                guard let self else { return [] }
+//                return self.nfts.sorted { $0.name < $1.name}
+//            }
+//            .sink { [weak self] nfts in
+//                self?.nfts = nfts
+//            }
+//            .store(in: &cancellableSet)
     }
 
     func fetch() {
         isLoading = true
         Just(nfts)
             .delay(for: 2, scheduler: RunLoop.main)
+            .map { $0 }
             .sink { [weak self] nfts in
                 self?.nfts = nfts
                 self?.isLoading = false

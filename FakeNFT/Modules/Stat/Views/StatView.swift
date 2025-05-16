@@ -24,19 +24,28 @@ struct StatView: View {
                         Image(colorScheme == .dark ? .sortingButtonDark : .sortingButtonLight) // Иконка меню
                     }
                     .confirmationDialog("Сортировка", isPresented: $showActionSheet, titleVisibility: .visible) {
-                        Button("По имени") { print("Option 1 - Сортировка по имени") }
-                        Button("По рейтингу") { print("Option 2 - Сортировка по рейтингу") }
+                        Button("По имени") {
+                            print("Option 1 - Сортировка по имени")
+                            viewModel.sortOrder = .name
+                        }
+                        Button("По рейтингу") {
+                            print("Option 2 - Сортировка по рейтингу")
+                            viewModel.sortOrder = .rating 
+                        }
                         Button("Закрыть", role: .cancel) {}
                     }
                 }
                 .padding(.vertical, 14.7)
                 List {
-                    ForEach(0..<viewModel.profileStatArray.count, id: \.self) { index in
+//                    ForEach(0..<viewModel.profileArray.count, id: \.self) { index in
+                    ForEach(0..<viewModel.allUsersList.count, id: \.self) { index in
                         HStack(spacing: 8) {
                             Text("\(index + 1)")
                                 .font(.system(size: 15, weight: .regular))
                                 .frame(width: 27)
-                            StatCellView(profile: viewModel.profileStatArray[index])
+                            Text(viewModel.allUsersList[index].name)
+//                            StatCellView(profile: viewModel.profileArray[index])
+//                            StatCellView(profile: viewModel.allUsersList[index])
                         }
                         .background(
                             NavigationLink(
@@ -66,6 +75,9 @@ struct StatView: View {
                 Text("Не удалось получить данные")
             }
             Spacer()
+        }
+        .onAppear(){
+            viewModel.fetchData()
         }
     }
 }
