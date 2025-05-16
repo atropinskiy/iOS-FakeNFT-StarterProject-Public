@@ -33,16 +33,16 @@ struct StatView: View {
                 List {
                     ForEach(0..<viewModel.profileStatArray.count, id: \.self) { index in
                         HStack(spacing: 8) {
-                                Text("\(index + 1)")
-                                    .font(.system(size: 15, weight: .regular))
-                                    .frame(width: 27)
-                                StatCellView(profile: viewModel.profileStatArray[index])
+                            Text("\(index + 1)")
+                                .font(.system(size: 15, weight: .regular))
+                                .frame(width: 27)
+                            StatCellView(profile: viewModel.profileStatArray[index])
                         }
                         .background(
                             NavigationLink(
                                 "",
                                 destination: StatDetailedView(viewModel: detailedViewModel))
-                            )
+                        )
                     }
                     .padding(.leading, 16)
                     .padding(.bottom, 8)
@@ -65,6 +65,7 @@ struct StatView: View {
             } message: {
                 Text("Не удалось получить данные")
             }
+            Spacer()
         }
     }
 }

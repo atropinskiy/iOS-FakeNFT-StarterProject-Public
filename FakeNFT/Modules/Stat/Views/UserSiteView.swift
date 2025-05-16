@@ -60,7 +60,7 @@ struct UserSiteView: View {
 struct UserWebView: UIViewRepresentable {
     let url: URL
     let progressHUD = ProgressHUDService.shared
-    @State var isLoading: Bool = true
+    @State private var isLoading: Bool = true
 
     func makeUIView(context: Context) -> WKWebView {
 
@@ -93,7 +93,7 @@ struct UserWebView: UIViewRepresentable {
         Coordinator(parent: self)
     }
 
-    class Coordinator: NSObject, WKNavigationDelegate, WKUIDelegate {
+    final class Coordinator: NSObject, WKNavigationDelegate, WKUIDelegate {
         var parent: UserWebView
 
         init(parent: UserWebView) {

@@ -9,11 +9,10 @@ import SwiftUI
 
 struct StatCellView: View {
     let profile: ProfileModel
+    private let statCellCornerRadius: CGFloat = 12
+    private let statCellHeight: CGFloat = 80
 
     var body: some View {
-        let statCellCornerRadius: CGFloat = 12
-        let statCellHeight: CGFloat = 80
-
         ZStack {
             RoundedRectangle(cornerRadius: statCellCornerRadius)
                 .foregroundStyle(Color(.tLightGray))
