@@ -20,6 +20,7 @@ final class PaymentMethodViewModel: ObservableObject {
     
     @Published var cartEditionError: String?
     
+    private let orderId: String = "1"
     private let networkService = NetworkServiceFunction.shared
 
     init() {
@@ -36,6 +37,28 @@ final class PaymentMethodViewModel: ObservableObject {
         await fetchAllCurrencies()
     }
     
+    func getEmptyCart() {
+        Task {
+            await emptyCart()
+        }
+    }
+    
+    /// Select currency for payment
+    func selectCurrency(with id: String) {
+        selectedCurrencyId = id
+    }
+    
+    func makePayment(currencyID: String?) async {
+        guard let selectedIdStr = currencyID,
+              let selectedId = Int(selectedIdStr) else {
+            paymentError = "Некорректный ID валюты"
+            return
+        }
+        
+        await performPayment(with: selectedId)
+    }
+    
+    /// Fetch all available currency
     private func fetchAllCurrencies() async {
         isLoading = true
         errorMessage = nil
@@ -50,45 +73,27 @@ final class PaymentMethodViewModel: ObservableObject {
         isLoading = false
     }
     
-    func selectCurrency(with id: String) {
-        selectedCurrencyId = id
-    }
-    
-    func makePayment(currencyID: String?) {
-        guard let selectedIdStr = currencyID,
-              let selectedId = Int(selectedIdStr) else {
-            paymentError = "Некорректный ID валюты"
-            return
-        }
-        
-        Task {
-            await performPayment(with: selectedId)
-        }
-    }
-    
-    func getEmptyCart() {
-        Task {
-            await emptyCart()
-        }
-    }
-    
+    /// Creates a payment request
     private func performPayment(with id: Int) async {
         isPaymentLoading = true
         paymentError = nil
         do {
-            let payment = try await NetworkServiceFunction.shared.fetchPayment(by: id)
+            let payment = try await networkService.fetchPayment(by: id)
             self.paymentResult = payment
+            
+            if payment.success {
+                await emptyCart()
+            }
         } catch {
             self.paymentError = "Ошибка оплаты: \(error.localizedDescription)"
         }
         isPaymentLoading = false
     }
     
+    /// Clear cart after success payment
     private func emptyCart() async {
-        let orderId = "1"
-        let emptyNFTSArray: [String] = []
         do {
-            let order = try await networkService.uploadNFTSToCart(by: orderId, nfts: emptyNFTSArray)
+            try await networkService.uploadNFTSToCart(by: orderId, nfts: [])
         } catch {
             self.cartEditionError = "Error emptying cart: \(error.localizedDescription)"
         }

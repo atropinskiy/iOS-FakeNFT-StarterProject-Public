@@ -8,10 +8,12 @@ import SwiftUI
 
 struct SuccessPaymentView: View {
     @Environment(\.dismiss) private var dismiss
+    var cartViewModel: CartViewModel
     
     var body: some View {
         VStack {
             Spacer()
+            
             VStack(alignment: .center, spacing: 20) {
                 Image(.successPayment)
                     .resizable()
@@ -27,6 +29,7 @@ struct SuccessPaymentView: View {
             Spacer()
             
             Button(action: {
+                cartViewModel.loadOrderNFTs()
                 dismiss()
             }) {
                 Text("Вернуться в каталог")
@@ -44,6 +47,6 @@ struct SuccessPaymentView: View {
 }
 
 #Preview {
-    SuccessPaymentView()
+    SuccessPaymentView(cartViewModel: CartViewModel())
 }
 

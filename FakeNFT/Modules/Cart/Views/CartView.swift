@@ -62,6 +62,7 @@ struct CartView: View {
                                 Button("По рейтингу") { sortType = .rating }
                                 Button("По названию") { sortType = .name }
                             }
+                            .accessibilityIdentifier("cartFilter")
                         }
                         if cartViewModel.isLoading {
                             Spacer()
@@ -152,7 +153,7 @@ struct CartView: View {
             }
             .transition(.move(edge: .bottom).combined(with: .opacity))
             .navigationDestination(isPresented: $isPaymentActive) {
-                PaymentMethodView()
+                PaymentMethodView(cartViewModel: cartViewModel)
             }
         }
     }

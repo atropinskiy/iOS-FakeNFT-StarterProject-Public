@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct PaymentMethodView: View {
+    var cartViewModel: CartViewModel
     @Environment(\.dismiss) private var dismiss
     @StateObject private var paymentMethodViewModel = PaymentMethodViewModel()
     @State private var showUserAgreement: Bool = false
@@ -91,7 +92,9 @@ struct PaymentMethodView: View {
                         
                         Button(action: {
 //                            showPaymentErrorAlert = true // Для тестирования алерта
-                            paymentMethodViewModel.makePayment(currencyID: paymentMethodViewModel.selectedCurrencyId)
+                            Task {
+                                await paymentMethodViewModel.makePayment(currencyID: paymentMethodViewModel.selectedCurrencyId)
+                            }
                         }) {
                             Text("Оплатить")
                                 .font(.system(size: 17, weight: .bold))
@@ -146,7 +149,7 @@ struct PaymentMethodView: View {
                 }
             }
             .navigationDestination(isPresented: $navigationToSuccess) {
-                    SuccessPaymentView()
+                SuccessPaymentView(cartViewModel: cartViewModel)
             }
             .onChange(of: paymentMethodViewModel.paymentResult) { result in
                 if let result = result, result.success {
@@ -168,7 +171,9 @@ struct PaymentMethodView: View {
                 Button("Отмена", role: .cancel) { }
                 Button("Повторить") {
                     if let selectedID = paymentMethodViewModel.selectedCurrencyId {
-                        paymentMethodViewModel.makePayment(currencyID: selectedID)
+                        Task {
+                            await paymentMethodViewModel.makePayment(currencyID: selectedID)
+                        }
                     }
                 }
             }
@@ -177,6 +182,6 @@ struct PaymentMethodView: View {
 }
 
 #Preview {
-    PaymentMethodView()
+    PaymentMethodView(cartViewModel: CartViewModel())
 }
 
