@@ -8,23 +8,50 @@
 import SwiftUI
 
 struct StatDetailedView: View {
-    let viewModel: ProfileStatDetailViewModel
+//    let viewModel: ProfileStatDetailViewModel
+    let viewModel: User
     @State private var showUserSite: Bool = false
 
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
 //                Image(viewModel.profileDetails.avatar)
-                Image("alex")
-                    .frame(width: 70, height: 70)
-                    .clipShape(Circle())
-                    .padding(.trailing, 16)
-                Text(viewModel.profileDetails.name)
+//                Image("alex")
+//                    .resizable()
+//                    .aspectRatio(contentMode: .fill)
+//                    .frame(width: 70, height: 70)
+//                    .clipShape(Circle())
+//                    .padding(.trailing, 16)
+//                Text(viewModel.profileDetails.name)
+                AsyncImage(url: URL(string: viewModel.avatar)) { phase in
+                    switch phase {
+                        case .empty:
+                            ProgressView()
+                                .frame(width: 70, height: 70)
+                        case .success(let image):
+                            image
+                                .resizable()
+                                .frame(width: 70, height: 70)
+                                .clipShape(Circle())
+                        case .failure:
+                            Image(systemName: "person.circle.fill")
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                                .frame(width: 70, height: 70)
+                        @unknown default:
+                            Image(systemName: "person.circle.fill")
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                                .frame(width: 70, height: 70)
+                    }
+                }
+                Text(viewModel.name)
                     .font(.system(size: 22, weight: .bold))
             }
             .padding(.top, 20)
             VStack(alignment: .leading, spacing: 8) {
-                Text(viewModel.profileDetails.description)
+//                Text(viewModel.profileDetails.description)
+                Text(viewModel.description)
                     .font(.system(size: 13, weight: .regular))
                     .lineSpacing(18 - UIFont.systemFont(ofSize: 13, weight: .regular).lineHeight)
                     .tracking(-0.08)
@@ -47,7 +74,8 @@ struct StatDetailedView: View {
                 .padding(.top, 28)
 
                 VStack(spacing: 0) {
-                    MenuRow(title: "Коллекция NFT", count: 112, destination: NFTCollectionView())
+                    MenuRow(title: "Коллекция NFT", count: viewModel.nfts.count, destination: NFTCollectionView())
+//                    MenuRow(title: "Коллекция NFT", count: 112, destination: NFTCollectionView())
                 }
                 .padding(.top, 40)
 
@@ -70,13 +98,17 @@ struct StatDetailedView: View {
 }
 
 #Preview("Light mode") {
-    let viewModel = ProfileStatDetailViewModel()
-    StatDetailedView(viewModel: viewModel)
+//    let viewModel = ProfileStatDetailViewModel()
+//    StatDetailedView(viewModel: viewModel)
+    let userViewWithImage = User(name: "Alex", avatar: "alex",  description: "Alex Alex Alex", website: "website", nfts: [], rating: "112", id: "1")
+    StatDetailedView(viewModel: userViewWithImage)
 }
 
 #Preview("Dark mode") {
-    let viewModel = ProfileStatDetailViewModel()
-    StatDetailedView(viewModel: viewModel)
+//    let viewModel = ProfileStatDetailViewModel()
+//    StatDetailedView(viewModel: viewModel)
+    let userViewNoImage = User(name: "Alex", avatar: "alex",  description: "Alex Alex Alex", website: "website", nfts: [], rating: "112", id: "1")
+    StatDetailedView(viewModel: userViewNoImage)
         .preferredColorScheme(.dark)
 }
 

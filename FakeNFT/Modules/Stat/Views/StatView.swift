@@ -43,14 +43,15 @@ struct StatView: View {
                             Text("\(index + 1)")
                                 .font(.system(size: 15, weight: .regular))
                                 .frame(width: 27)
-                            Text(viewModel.allUsersList[index].name)
+//                            Text(viewModel.allUsersList[index].name)
 //                            StatCellView(profile: viewModel.profileArray[index])
-//                            StatCellView(profile: viewModel.allUsersList[index])
+                            StatCellView(user: viewModel.allUsersList[index])
                         }
                         .background(
                             NavigationLink(
                                 "",
-                                destination: StatDetailedView(viewModel: detailedViewModel))
+                                destination: StatDetailedView(viewModel: viewModel.allUsersList[index]))
+//                            destination: StatDetailedView(viewModel: detailedViewModel))
                         )
                     }
                     .padding(.leading, 16)
