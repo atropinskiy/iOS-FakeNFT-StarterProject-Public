@@ -9,7 +9,7 @@ import SwiftUI
 
 struct StatView: View {
     @StateObject private var viewModel = ProfileStatViewModel()
-    @StateObject private var detailedViewModel = ProfileStatDetailViewModel()
+//    @StateObject private var detailedViewModel = ProfileStatDetailViewModel()
     @State private var showActionSheet = false
     @State private var showErrorAlert = false
     @Environment(\.colorScheme) private var colorScheme
@@ -50,8 +50,7 @@ struct StatView: View {
                         .background(
                             NavigationLink(
                                 "",
-                                destination: StatDetailedView(viewModel: viewModel.allUsersList[index]))
-//                            destination: StatDetailedView(viewModel: detailedViewModel))
+                                destination: StatDetailedView(user: viewModel.allUsersList[index]))
                         )
                     }
                     .padding(.leading, 16)

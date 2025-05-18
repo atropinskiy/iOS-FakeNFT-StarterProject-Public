@@ -10,14 +10,32 @@ import SwiftUI
 struct NFTCollectionItem: View {
     @State private var inFavorites: Bool = false
     @State private var inCart: Bool = true
-    let nftItem: NFTElementModel
+//    let nftItem: NFTElementModel
+    let nftItem: NFT
     var body: some View {
         VStack(spacing: 0) {
             ZStack(alignment: .topTrailing) {
-                Image(nftItem.image)
-                    .resizable()
-                    .frame(width: 108, height: 108)
-                    .clipShape(RoundedRectangle(cornerRadius: 12))
+                AsyncImage(url: URL(string: nftItem.images.first ?? "")) { phase in
+                    switch phase {
+                        case .empty:
+                            ProgressView()
+                                .frame(width: 108, height: 108)
+                        case .success(let image):
+                            image
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: 108, height: 108)
+                                .clipShape(RoundedRectangle(cornerRadius: 12))
+                        case .failure:
+                            Color(.tLightGray)
+                                .frame(width: 108, height: 108)
+                                .clipShape(RoundedRectangle(cornerRadius: 12))
+                        @unknown default:
+                            Color(.tLightGray)
+                                .frame(width: 108, height: 108)
+                                .clipShape(RoundedRectangle(cornerRadius: 12))
+                    }
+                }
                 Button(action: {
                     inFavorites.toggle()
                 }, label: {
@@ -30,21 +48,27 @@ struct NFTCollectionItem: View {
             .padding(.bottom, 8)
             StatisticsStars(stars: nftItem.rating)
                 .padding(.bottom, 4)
-            HStack {
+            Spacer(minLength: 0)
+            HStack(spacing: 0) {
                 VStack(spacing: 0) {
-                    Text(nftItem.name)
+                    Text(nftItem.name).font(.system(size: 17, weight: .bold)).lineLimit(2)
+                        .minimumScaleFactor(0.6)
                         .frame(maxWidth: .infinity, alignment: .leading)
-                        .font(.system(size: 17, weight: .bold))
+//                    .padding(.trailing, 10)
                     Text("\(nftItem.price)" + " " + "ETH")
-                        .frame(maxWidth: .infinity, alignment: .leading)
                         .font(.system(size: 10, weight: .regular))
                         .padding(.top, 4)
+                        .frame(maxWidth: .infinity, alignment: .leading)
                 }
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .layoutPriority(1)
                 StatisticsCart(inCart: $inCart)
             }
             .padding(.bottom, 20)
+//            .background(Color(.green))
         }
-        .frame(maxWidth: 108)
+//        .fixedSize(horizontal: false, vertical: true)
+        .frame(maxWidth: 108, maxHeight: 200)
     }
 }
 
@@ -77,6 +101,7 @@ private struct StatisticsCart: View {
             }, label: {
                 Image(getCartImagerResource(inCart: inCart))
                     .frame(width: 40, height: 40)
+//                    .background(.red)
             })
         }
     }
@@ -90,15 +115,15 @@ private struct StatisticsCart: View {
 
 #Preview("Light mode") {
     let nftItem = NFTCollectionViewModel()
-//    var inFavorites: Bool = false
-//    var inCart: Bool = true
-    NFTCollectionItem(nftItem: nftItem.nft1)
+    //    var inFavorites: Bool = false
+    //    var inCart: Bool = true
+    NFTCollectionItem(nftItem: nftItem.mockNfts[0])
 }
 
 #Preview("Dark mode") {
     let nftItem = NFTCollectionViewModel()
 //    var inFavorites: Bool = false
 //    var inCart: Bool = true
-    NFTCollectionItem(nftItem: nftItem.nft2)
+    NFTCollectionItem(nftItem: nftItem.mockNfts[0])
         .preferredColorScheme(.dark)
 }

@@ -9,31 +9,62 @@ import SwiftUI
 import WebKit
 
 struct UserSiteView: View {
-    let urlString = "https://practicum.yandex.ru"
+//    @ObservedObject var viewModel: ProfileStatViewModel
+//    let urlString = "https://practicum.yandex.ru"
+    let user: User
     @Environment(\.dismiss) private var dismiss
+    @State private var isLoading: Bool = true
+
+    init(user: User) {
+    self.user = user
+    }
 
     var body: some View {
         ZStack {
-            if let url = URL(string: urlString), isValidURL(url) {
-                UserWebView(url: url)
+//            if let url = URL(string: urlString), isValidURL(url) {
+            if let url = URL(string: user.website), isValidURL(url) {
+                UserWebView(url: url, isLoading: $isLoading)
                     .ignoresSafeArea(.all, edges: .bottom)
             } else {
                 errorWebView
             }
         }
-        .navigationTitle("Яндекс Практикум")
+//        .navigationTitle("Яндекс Практикум")
+        .navigationTitle(user.name)
         .navigationBarTitleDisplayMode(.inline)
         .navigationBarBackButtonHidden(true)
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
-                BackButtonView()
+                BackButtonView(isLoading: $isLoading)
             }
         }
         .toolbar(.hidden, for: .tabBar)
     }
 
     private func isValidURL(_ url: URL) -> Bool {
-        url.absoluteString.contains("yandex.ru")
+//        url.absoluteString.contains("yandex.ru")
+// 1. Проверка схемы URL (http/https)
+        guard let scheme = url.scheme else { return false }
+        guard ["http", "https"].contains(scheme.lowercased()) else { return false }
+        // 2. Проверка хоста (домена)
+        guard let host = url.host, !host.isEmpty else { return false }
+
+        // 3. Проверка валидности домена
+        let hostPattern = "^([a-zA-Z0-9]([a-zA-Z0-9\\-]{0,61}[a-zA-Z0-9])?\\.)+[a-zA-Z]{2,}$"
+        let hostTest = NSPredicate(format: "SELF MATCHES %@", hostPattern)
+        guard hostTest.evaluate(with: host) else { return false }
+
+        // 4. Дополнительные проверки (опционально)
+        do {
+            // Проверка с использованием NSDataDetector
+            let detector = try NSDataDetector(types: NSTextCheckingResult.CheckingType.link.rawValue)
+            let matches = detector.matches(in: url.absoluteString, range: NSRange(location: 0, length: url.absoluteString.utf16.count))
+
+            guard let match = matches.first else { return false }
+            return match.range.length == url.absoluteString.utf16.count
+        } catch {
+            return false
+        }
     }
 
     private var errorWebView: some View {
@@ -54,13 +85,14 @@ struct UserSiteView: View {
 }
 
 #Preview {
-    UserSiteView()
+    let userViewWithImage = User(name: "Alex", avatar: "alex",  description: "Alex Alex Alex", website: "https://ya.ru", nfts: [], rating: "112", id: "1")
+    UserSiteView(user: userViewWithImage)
 }
 
 struct UserWebView: UIViewRepresentable {
     let url: URL
     let progressHUD = ProgressHUDService.shared
-    @State private var isLoading: Bool = true
+    @Binding var isLoading: Bool
 
     func makeUIView(context: Context) -> WKWebView {
 
@@ -74,6 +106,7 @@ struct UserWebView: UIViewRepresentable {
 
         // Настройки страницы
         let webView = WKWebView(frame: .zero, configuration: config)
+        context.coordinator.webView = webView // сохраняем ссылку
         webView.navigationDelegate = context.coordinator
         webView.uiDelegate = context.coordinator
         webView.allowsBackForwardNavigationGestures = true
@@ -89,12 +122,19 @@ struct UserWebView: UIViewRepresentable {
         }
     }
 
+    static func dismantleUIView(_ uiView: WKWebView, coordinator: Coordinator) {
+        uiView.stopLoading() //стоп загрузки
+        coordinator.parent.isLoading = false // сброс индикатора загрузки
+        coordinator.parent.progressHUD.dismiss() // скрытие индикатора
+    }
+
     func makeCoordinator() -> Coordinator {
         Coordinator(parent: self)
     }
 
     final class Coordinator: NSObject, WKNavigationDelegate, WKUIDelegate {
         var parent: UserWebView
+        weak var webView: WKWebView?
 
         init(parent: UserWebView) {
             self.parent = parent

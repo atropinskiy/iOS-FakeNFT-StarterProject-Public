@@ -10,6 +10,8 @@ import SwiftUI
 struct NFTCollectionView: View {
     @StateObject private var viewModel = NFTCollectionViewModel()
     @Environment(\.colorScheme) private var colorScheme
+    @Binding var user: User
+//    @State private var isLoading: Bool = false
 
     let columns = [
         GridItem(.flexible(), spacing: 8),
@@ -40,6 +42,7 @@ struct NFTCollectionView: View {
                 .padding(.horizontal, 16)
                 .ignoresSafeArea(edges: .horizontal)
                 .scrollContentBackground(.hidden)
+                .scrollIndicators(.hidden)
             }
         }
         .navigationTitle("Коллекция NFT")
@@ -47,21 +50,36 @@ struct NFTCollectionView: View {
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
-                BackButtonView()
+                BackButtonView(isLoading: $viewModel.isLoading)
             }
         }
         .toolbar(.hidden, for: .tabBar)
         .onAppear {
-            viewModel.fetch()
+            viewModel.setup(with: user)
+            Task {
+                await viewModel.fetchData()
+            }
         }
     }
 }
 
 #Preview("Light mode") {
-    NFTCollectionView()
+    let nft1 = NFT(createdAt: "", name: "Archie", images: ["archie"], rating: 2, description: "", price: 1.78, author: "", id: "nft1")
+    let nft2 = NFT(createdAt: "", name: "Emma", images: ["emma"], rating: 4, description: "", price: 1.25, author: "", id: "nft2")
+    let nft3 = NFT(createdAt: "", name: "Stella", images: ["stella"], rating: 3, description: "", price: 2.5, author: "", id: "nft3")
+    let nft4 = NFT(createdAt: "", name: "Toast", images: ["toast"], rating: 1, description: "", price: 1.0, author: "", id: "nft4")
+    let nft5 = NFT(createdAt: "", name: "Zeus", images: ["zeus"], rating: 5, description: "", price: 3.85, author: "", id: "nft5")
+    @State var user = User(name: "Alex", avatar: "alex",  description: "Alex Alex Alex", website: "website", nfts: ["nft1", "nft2", "nft3", "nft4", "nft5"], rating: "112", id: "1")
+    NFTCollectionView(user: $user)
 }
 
 #Preview("Dark mode") {
-    NFTCollectionView()
+    let nft1 = NFT(createdAt: "", name: "Archie", images: ["archie"], rating: 2, description: "", price: 1.78, author: "", id: "nft1")
+    let nft2 = NFT(createdAt: "", name: "Emma", images: ["emma"], rating: 4, description: "", price: 1.25, author: "", id: "nft2")
+    let nft3 = NFT(createdAt: "", name: "Stella", images: ["stella"], rating: 3, description: "", price: 2.5, author: "", id: "nft3")
+    let nft4 = NFT(createdAt: "", name: "Toast", images: ["toast"], rating: 1, description: "", price: 1.0, author: "", id: "nft4")
+    let nft5 = NFT(createdAt: "", name: "Zeus", images: ["zeus"], rating: 5, description: "", price: 3.85, author: "", id: "nft5")
+    @State var user = User(name: "Alex", avatar: "alex",  description: "Alex Alex Alex", website: "website", nfts: ["nft1", "nft2", "nft3", "nft4", "nft5"], rating: "112", id: "1")
+    NFTCollectionView(user: $user)
         .preferredColorScheme(.dark)
 }
