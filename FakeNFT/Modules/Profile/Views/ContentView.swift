@@ -1,13 +1,14 @@
 import SwiftUI
 
 struct ContentView: View {
+    
     var body: some View {
         
         VStack(spacing: 0) {
             
-            MenuRow(title: "Мои NFT", count: 112, destination: MyNFTView())
+            MenuRow(title: "Мои NFT", count: MockNFT.shared.nfts.count, destination: MyNFTView())
             
-            MenuRow(title: "Избранные NFT", count: 11, destination: FavoriteNFTView())
+            MenuRow(title: "Избранные NFT", count: MockNFT.shared.nfts.count, destination: FavoriteNFTView())
             
             MenuRow(title: "О разработчике", count: nil, destination: DeveloperInfoView())
         }

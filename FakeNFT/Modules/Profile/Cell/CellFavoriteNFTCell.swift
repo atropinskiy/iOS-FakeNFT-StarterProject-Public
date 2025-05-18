@@ -1,11 +1,11 @@
 import SwiftUI
 
-struct CellNFTView: View {
+struct CellFavoriteNFTCell: View {
     
     let nft: NFT
     
     @State private var rating: Int = 0
-    @State private var inFavorites: Bool = false
+    @State private var inFavorites: Bool = true
     
     var body: some View {
         HStack(alignment: .center, spacing: 16) {
@@ -27,12 +27,14 @@ struct CellNFTView: View {
             
             VStack(alignment: .leading, spacing: 6) {
                 Text(nft.name)
-                    .font(.headline)
+                    .font(.system(size: 17, weight: .bold))
                 
                 HStack(spacing: 2) {
                     ForEach(1...5, id: \.self) { index in
                         Image(systemName: index <= nft.rating ? "star.fill" : "star")
-                            .foregroundColor(index <= nft.rating ? Color(.tYellowUn) : .gray)
+                            .resizable()
+                            .frame(width: 12, height: 12)
+                            .foregroundStyle(index <= nft.rating ? Color(.tYellowUn) : .gray)
                             .onTapGesture {
                                 rating = index
                             }
@@ -40,30 +42,16 @@ struct CellNFTView: View {
                 }
                 .font(.caption)
                 
-                Text(nft.author)
-                    .font(.subheadline)
-                    .foregroundStyle(Color(.tBlack))
-            }
-            
-            Spacer()
-            
-            VStack(alignment: .leading, spacing: 4) {
-                Text("Цена")
-                    .font(.subheadline)
-                    .foregroundStyle(Color(.tBlack))
-                
                 Text((String(format: "%.2f ETH", nft.price)))
-                    .font(.headline)
-                    .bold()
-                
+                    .font(.system(size: 15, weight: .regular))
             }
         }
     }
 }
 
-struct ProductCardView_Previews: PreviewProvider {
+struct CellFavoriteNFTCellPreview: PreviewProvider {
     static var previews: some View {
-        CellNFTView(nft: MockNFT.shared.nfts[0])
+        CellFavoriteNFTCell(nft: MockNFT.shared.nfts[0])
             .previewLayout(.sizeThatFits)
     }
 }

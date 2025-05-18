@@ -15,7 +15,7 @@ struct Collection: Codable {
     let id: String
 }
 
-struct NFT: Codable {
+struct NFT: Codable, Hashable {
     let createdAt: String
     let name: String
     let images: [String]

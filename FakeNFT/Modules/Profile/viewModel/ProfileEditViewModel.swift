@@ -15,8 +15,14 @@ final class ProfileEditViewModel: ObservableObject {
     @Published var editingDescriptionProfile: String = ""
     @Published var editingWebsiteProfile: String = ""
     
+    @Published var MyNfts: [NFT] = []
+    @Published var favoriteNfts: [NFT] = []
+    @Published var isLoading: Bool = false
+    
     
     init() {
+        MyNfts = MockNFT.shared.nfts
+        favoriteNfts = MockNFT.shared.nfts
         loadProfile()
     }
     
