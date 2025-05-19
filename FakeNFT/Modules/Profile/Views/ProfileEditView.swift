@@ -17,13 +17,16 @@ struct ProfileEditView: View {
             HStack {
                 Spacer()
                 Button(action: {
-                    viewModel.saveProfile()
-                    dismiss()
+                    viewModel.saveProfile {
+                        dismiss()
+                    }
+                    
                 }) {
                     Image(systemName: "xmark")
                         .foregroundStyle(Color(.tBlack))
                         .font(.system(size: 20, weight: .semibold))
                 }
+                .disabled(viewModel.isSaving)
                 .padding()
             }
             
@@ -74,7 +77,7 @@ struct ProfileEditView: View {
                     TextField("", text: $viewModel.editingNameProfile)
                         .padding()
                         .background(Color(.tLightGray))
-                        .cornerRadius(12)
+                        .clipShape(RoundedRectangle(cornerRadius: 12))
                 }
                 
                 Group {
@@ -85,7 +88,7 @@ struct ProfileEditView: View {
                         .lineLimit(5, reservesSpace: true)
                         .padding()
                         .background(Color(.tLightGray))
-                        .cornerRadius(12)
+                        .clipShape(RoundedRectangle(cornerRadius: 12))
                 }
                 
                 Group {
@@ -95,7 +98,7 @@ struct ProfileEditView: View {
                     TextField("", text: $viewModel.editingWebsiteProfile)
                         .padding()
                         .background(Color(.tLightGray))
-                        .cornerRadius(12)
+                        .clipShape(RoundedRectangle(cornerRadius: 12))
                 }
             }
             .padding(.horizontal, 24)
@@ -109,6 +112,17 @@ struct ProfileEditView: View {
         }
         .onAppear {
             viewModel.loadProfile()
+        }
+        .overlay {
+            if viewModel.isSaving {
+                ZStack {
+                    Color.black.opacity(0.3).ignoresSafeArea()
+                    ProgressView()
+                        .padding()
+                        .foregroundStyle(Color(.tBlack))
+                        .background(Color(.tLightGray))
+                        .clipShape(RoundedRectangle(cornerRadius: 12))                }
+            }
         }
     }
 }

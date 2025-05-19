@@ -14,15 +14,10 @@ final class ProfileEditViewModel: ObservableObject {
     @Published var editingNameProfile: String = ""
     @Published var editingDescriptionProfile: String = ""
     @Published var editingWebsiteProfile: String = ""
-    
-    @Published var MyNfts: [NFT] = []
-    @Published var favoriteNfts: [NFT] = []
-    @Published var isLoading: Bool = false
+    @Published var isSaving: Bool = false
     
     
     init() {
-        MyNfts = MockNFT.shared.nfts
-        favoriteNfts = MockNFT.shared.nfts
         loadProfile()
     }
     
@@ -32,9 +27,14 @@ final class ProfileEditViewModel: ObservableObject {
         editingWebsiteProfile = websiteProfile
     }
     
-    func saveProfile() {
-        nameProfile = editingNameProfile
-        descriptionProfile = editingDescriptionProfile
-        websiteProfile = editingWebsiteProfile
+    func saveProfile(completion: @escaping () -> Void) {
+        isSaving = true
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [self] in
+            nameProfile = editingNameProfile
+            descriptionProfile = editingDescriptionProfile
+            websiteProfile = editingWebsiteProfile
+            isSaving = false
+            completion()
+        }
     }
 }

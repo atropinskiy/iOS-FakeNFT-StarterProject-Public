@@ -35,12 +35,12 @@ struct ProfileView: View {
                 
                 VStack(alignment: .leading, spacing: 8) {
                     Text(viewModel.descriptionProfile)
-                        .font(.system(size: 13, weight: .light))
+                        .font(.system(size: 13, weight: .regular))
                         .foregroundStyle(Color(.tBlack))
                         .lineLimit(nil)
                     
                     Text(viewModel.websiteProfile)
-                        .font(.system(size: 15, weight: .light))
+                        .font(.system(size: 15, weight: .regular))
                         .foregroundStyle(Color(.tBlueUn))
                 }
                 .padding(.top, 20)
@@ -62,4 +62,6 @@ struct ProfileView: View {
 #Preview {
     ProfileView()
         .environmentObject(ProfileEditViewModel())
+        .environmentObject(FavoriteNFTViewModel())
+        .environmentObject(MyNFTViewModel())
 }

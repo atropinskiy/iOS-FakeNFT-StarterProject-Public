@@ -13,35 +13,38 @@ struct CellNFTView: View {
                 Image(nft.images[0])
                     .resizable()
                     .background(.gray)
-                    .frame(width: 80, height: 80)
-                    .cornerRadius(12)
+                    .frame(width: 108, height: 108)
+                    .clipShape(RoundedRectangle(cornerRadius: 12))
                 
-                Button(action: {
+                Button {
                     inFavorites.toggle()
-                }, label: {
+                } label: {
                     Image(systemName: "heart.fill")
-                        .foregroundStyle(inFavorites ? Color(.tRedUn) : Color(.white))
-                })
-                .padding(5)
+                        .resizable()
+                        .frame(width: 20, height: 18)
+                        .foregroundStyle(inFavorites ? Color(.tRedUn) : Color.white)
+                        .padding(11)
+                }
             }
             
-            VStack(alignment: .leading, spacing: 6) {
+            VStack(alignment: .leading, spacing: 4) {
                 Text(nft.name)
-                    .font(.headline)
+                    .font(.system(size: 17, weight: .bold))
                 
                 HStack(spacing: 2) {
                     ForEach(1...5, id: \.self) { index in
                         Image(systemName: index <= nft.rating ? "star.fill" : "star")
-                            .foregroundColor(index <= nft.rating ? Color(.tYellowUn) : .gray)
+                            .resizable()
+                            .frame(width: 12, height: 12)
+                            .foregroundStyle(index <= nft.rating ? Color(.tYellowUn) : .gray)
                             .onTapGesture {
                                 rating = index
                             }
                     }
                 }
-                .font(.caption)
                 
-                Text(nft.author)
-                    .font(.subheadline)
+                Text("от \(nft.author)")
+                    .font(.system(size: 13, weight: .regular))
                     .foregroundStyle(Color(.tBlack))
             }
             
@@ -49,13 +52,11 @@ struct CellNFTView: View {
             
             VStack(alignment: .leading, spacing: 4) {
                 Text("Цена")
-                    .font(.subheadline)
+                    .font(.system(size: 13, weight: .regular))
                     .foregroundStyle(Color(.tBlack))
                 
                 Text((String(format: "%.2f ETH", nft.price)))
-                    .font(.headline)
-                    .bold()
-                
+                    .font(.system(size: 17, weight: .bold))
             }
         }
     }

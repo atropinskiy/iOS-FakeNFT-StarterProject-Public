@@ -14,7 +14,7 @@ struct CellFavoriteNFTCell: View {
                     .resizable()
                     .background(.gray)
                     .frame(width: 80, height: 80)
-                    .cornerRadius(12)
+                    .clipShape(RoundedRectangle(cornerRadius: 12))
                 
                 Button(action: {
                     inFavorites.toggle()
@@ -40,7 +40,6 @@ struct CellFavoriteNFTCell: View {
                             }
                     }
                 }
-                .font(.caption)
                 
                 Text((String(format: "%.2f ETH", nft.price)))
                     .font(.system(size: 15, weight: .regular))

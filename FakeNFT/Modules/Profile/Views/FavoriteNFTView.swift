@@ -2,7 +2,7 @@ import SwiftUI
 
 struct FavoriteNFTView: View {
     
-    @EnvironmentObject var viewModel: ProfileEditViewModel
+    @EnvironmentObject var viewModel: FavoriteNFTViewModel
     @Environment(\.dismiss) private var dismiss
     
     let columns = [
@@ -37,6 +37,9 @@ struct FavoriteNFTView: View {
                     .scrollContentBackground(.hidden)
                 }
             }
+            .onAppear {
+                viewModel.loadFavorites()
+            }
         }
         .navigationBarBackButtonHidden(true)
         .navigationBarTitleDisplayMode(.inline)
@@ -59,5 +62,5 @@ struct FavoriteNFTView: View {
 
 #Preview {
     FavoriteNFTView()
-        .environmentObject(ProfileEditViewModel())
+        .environmentObject(FavoriteNFTViewModel())
 }
