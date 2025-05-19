@@ -137,7 +137,6 @@ struct CartView: View {
                     NFTDeleteModal(nft: nft,
                                    onDelete: {
                         withAnimation(.easeInOut(duration: 0.3)) {
-                            //                            cartViewModel.nfts.removeAll { $0.id == nft.id }
                             Task {
                                 await cartViewModel.deleteNFTFromCart(id: nft.id)
                             }

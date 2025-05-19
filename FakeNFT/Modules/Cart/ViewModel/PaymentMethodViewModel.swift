@@ -93,7 +93,7 @@ final class PaymentMethodViewModel: ObservableObject {
     /// Clear cart after success payment
     private func emptyCart() async {
         do {
-            try await networkService.uploadNFTSToCart(by: orderId, nfts: [])
+            _ = try await networkService.uploadNFTSToCart(by: orderId, nfts: [])
         } catch {
             self.cartEditionError = "Error emptying cart: \(error.localizedDescription)"
         }

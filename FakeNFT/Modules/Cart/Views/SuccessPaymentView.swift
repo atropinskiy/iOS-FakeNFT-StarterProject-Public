@@ -8,13 +8,13 @@ import SwiftUI
 
 struct SuccessPaymentView: View {
     @Environment(\.dismiss) private var dismiss
-    var cartViewModel: CartViewModel
+    let cartViewModel: CartViewModel
     
     var body: some View {
         VStack {
             Spacer()
             
-            VStack(alignment: .center, spacing: 20) {
+            VStack(spacing: 20) {
                 Image(.successPayment)
                     .resizable()
                     .frame(width: 278, height: 278)
@@ -40,8 +40,7 @@ struct SuccessPaymentView: View {
             .background(Color(.tBlack))
             .clipShape(RoundedRectangle(cornerRadius: 16))
         }
-        .padding(.horizontal, 16)
-        .padding(.bottom, 16)
+        .padding([.horizontal, .bottom], 16)
         .navigationBarHidden(true)
     }
 }

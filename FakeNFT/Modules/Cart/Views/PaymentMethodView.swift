@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct PaymentMethodView: View {
-    var cartViewModel: CartViewModel
+    let cartViewModel: CartViewModel
     @Environment(\.dismiss) private var dismiss
     @StateObject private var paymentMethodViewModel = PaymentMethodViewModel()
     @State private var showUserAgreement: Bool = false
@@ -91,7 +91,6 @@ struct PaymentMethodView: View {
                         }
                         
                         Button(action: {
-//                            showPaymentErrorAlert = true // Для тестирования алерта
                             Task {
                                 await paymentMethodViewModel.makePayment(currencyID: paymentMethodViewModel.selectedCurrencyId)
                             }
