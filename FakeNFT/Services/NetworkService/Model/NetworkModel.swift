@@ -15,7 +15,7 @@ struct Collection: Codable {
     let id: String
 }
 
-struct NFT: Codable {
+struct NFT: Codable, Identifiable, Equatable {
     let createdAt: String
     let name: String
     let images: [String]
@@ -26,7 +26,7 @@ struct NFT: Codable {
     let id: String
 }
 
-struct Currency: Codable {
+struct Currency: Codable, Identifiable {
     let title: String
     let name: String
     let image: String
@@ -38,7 +38,7 @@ struct Order: Codable {
     let id: String
 }
 
-struct Payment: Codable {
+struct Payment: Codable, Equatable {
     let success: Bool
     let orderId: String
     let id: String
