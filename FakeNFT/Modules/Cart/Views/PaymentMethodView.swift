@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct PaymentMethodView: View {
+    let cartViewModel: CartViewModel
     @Environment(\.dismiss) private var dismiss
     @StateObject private var paymentMethodViewModel = PaymentMethodViewModel()
     @State private var showUserAgreement: Bool = false
@@ -90,7 +91,9 @@ struct PaymentMethodView: View {
                         }
                         
                         Button(action: {
-                            paymentMethodViewModel.makePayment(currencyID: paymentMethodViewModel.selectedCurrencyId)
+                            Task {
+                                await paymentMethodViewModel.makePayment(currencyID: paymentMethodViewModel.selectedCurrencyId)
+                            }
                         }) {
                             Text("Оплатить")
                                 .font(.system(size: 17, weight: .bold))
@@ -145,9 +148,7 @@ struct PaymentMethodView: View {
                 }
             }
             .navigationDestination(isPresented: $navigationToSuccess) {
-                if let payment = paymentMethodViewModel.paymentResult {
-                    SuccessPaymentView(payment: payment)
-                }
+                SuccessPaymentView(cartViewModel: cartViewModel)
             }
             .onChange(of: paymentMethodViewModel.paymentResult) { result in
                 if let result = result, result.success {
@@ -165,10 +166,21 @@ struct PaymentMethodView: View {
                     Text("Ошибка загрузки ссылки")
                 }
             }
+            .alert("Не удалось произвести оплату", isPresented: $showPaymentErrorAlert) {
+                Button("Отмена", role: .cancel) { }
+                Button("Повторить") {
+                    if let selectedID = paymentMethodViewModel.selectedCurrencyId {
+                        Task {
+                            await paymentMethodViewModel.makePayment(currencyID: selectedID)
+                        }
+                    }
+                }
+            }
         }
     }
 }
 
 #Preview {
-    PaymentMethodView()
+    PaymentMethodView(cartViewModel: CartViewModel())
 }
+
