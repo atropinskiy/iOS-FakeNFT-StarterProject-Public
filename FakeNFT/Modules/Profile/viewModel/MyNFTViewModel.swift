@@ -6,6 +6,7 @@ enum SortOption {
     case price
 }
 
+@MainActor
 final class MyNFTViewModel: ObservableObject {
     
     @Published var myNfts: [NFT] = []

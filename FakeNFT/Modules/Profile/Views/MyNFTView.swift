@@ -32,7 +32,9 @@ struct MyNFTView: View {
                 }
             }
             .onAppear {
-                viewModel.loadData()
+                if viewModel.myNfts.isEmpty {
+                    viewModel.loadData()
+                }
             }
         }
         .navigationBarBackButtonHidden(true)

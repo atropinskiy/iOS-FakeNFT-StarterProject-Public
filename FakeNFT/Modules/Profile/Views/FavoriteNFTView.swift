@@ -38,7 +38,9 @@ struct FavoriteNFTView: View {
                 }
             }
             .onAppear {
-                viewModel.loadFavorites()
+                if viewModel.favoriteNfts.isEmpty {
+                    viewModel.loadFavorites()                    
+                }
             }
         }
         .navigationBarBackButtonHidden(true)

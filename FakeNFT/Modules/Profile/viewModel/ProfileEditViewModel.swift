@@ -1,5 +1,6 @@
 import Foundation
 
+@MainActor
 final class ProfileEditViewModel: ObservableObject {
     
     @Published var nameProfile: String = "Joaquin Phoenix"

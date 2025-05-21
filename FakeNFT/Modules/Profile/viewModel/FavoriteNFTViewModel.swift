@@ -1,5 +1,6 @@
 import Foundation
 
+@MainActor
 final class FavoriteNFTViewModel: ObservableObject {
     
     @Published var favoriteNfts: [NFT] = []
