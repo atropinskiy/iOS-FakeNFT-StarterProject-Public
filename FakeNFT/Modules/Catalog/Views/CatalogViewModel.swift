@@ -33,6 +33,11 @@ final class CatalogViewModel: ObservableObject {
         }
     }
     private let networkService = NetworkServiceFunction.shared
+    
+    init () {
+        fetchCollections()
+        fetchLikesAndCart()
+    }
 
     func fetchCollections() {
         isLoading = true

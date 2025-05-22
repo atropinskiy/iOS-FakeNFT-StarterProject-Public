@@ -12,6 +12,7 @@ final class CartViewModel: ObservableObject {
     @Published var nfts: [NFT] = []
     @Published var isLoading: Bool = false
     @Published var errorMessage: String?
+    @Published var cartEditionError: String?
     
     private let orderId: String = "1"
     private let networkService = NetworkServiceFunction.shared
@@ -27,7 +28,15 @@ final class CartViewModel: ObservableObject {
     }
     
     func refresh() async {
-        await fetchNFTsFromOrder()
+            await fetchNFTsFromOrder()
+    }
+    
+    func deleteNFTFromCart(id: String) async {
+        let updatedNFTs = nfts.filter { $0.id != id }
+        let updatedNFTIDs = updatedNFTs.map { $0.id }
+        
+        await editCart(newNFTSArray: updatedNFTIDs)
+        nfts = updatedNFTs
     }
     
     private func fetchNFTsFromOrder() async {
@@ -43,11 +52,20 @@ final class CartViewModel: ObservableObject {
                 loadedNFTs.append(nft)
             }
             
-            self.nfts = loadedNFTs
+            nfts = loadedNFTs
         } catch {
-            self.errorMessage = "Не удалось загрузить NFT из заказа: \(error.localizedDescription)"
+            errorMessage = "Не удалось загрузить NFT из заказа: \(error.localizedDescription)"
         }
         
         isLoading = false
+    }
+    
+    private func editCart(newNFTSArray: [String]) async {
+        do {
+            let order = try await networkService.uploadNFTSToCart(by: orderId, nfts: newNFTSArray)
+            print("Order updated: \(order)")
+        } catch {
+            cartEditionError = "Ошибка удаления из корзины: \(error.localizedDescription)"
+        }
     }
 }

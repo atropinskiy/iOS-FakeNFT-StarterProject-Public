@@ -8,8 +8,7 @@
 import SwiftUI
 
 struct TabBarView: View {
-    @StateObject private var catalogViewModel = CatalogViewModel()
-    @StateObject private var cartViewModel = CartViewModel()
+    
     
     var body: some View {
         TabView {
@@ -22,7 +21,7 @@ struct TabBarView: View {
                     }
                 }
             
-            CatalogView(viewModel: catalogViewModel)
+            CatalogView()
                 .tabItem {
                     VStack {
                         Image("CatalogTabBarImage")
@@ -31,7 +30,7 @@ struct TabBarView: View {
                     }
                 }
             
-            CartView(cartViewModel: cartViewModel)
+            CartView()
                 .tabItem {
                     VStack {
                         Image("CartTabBarImage")
@@ -50,10 +49,6 @@ struct TabBarView: View {
                 }
         }
         .accentColor(Color(.tBlueUn))
-        .onAppear {
-            catalogViewModel.fetchCollections()
-            catalogViewModel.fetchLikesAndCart()
-        }
     }
     
     

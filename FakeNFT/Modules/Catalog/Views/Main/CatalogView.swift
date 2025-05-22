@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CatalogView: View {
-    @ObservedObject var viewModel = CatalogViewModel()
+    @StateObject private var viewModel = CatalogViewModel()
     @State private var showActionSheet = false
     var body: some View {
         NavigationStack(path: $viewModel.path) {
