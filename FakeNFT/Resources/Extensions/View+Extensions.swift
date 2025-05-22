@@ -20,7 +20,7 @@ extension View {
     }
 }
 
-private struct BackButtonView: View {
+private struct StatBackButtonView: View {
     // Костомное вью с < вместо back
     @Environment(\.presentationMode) var presentationMode
 

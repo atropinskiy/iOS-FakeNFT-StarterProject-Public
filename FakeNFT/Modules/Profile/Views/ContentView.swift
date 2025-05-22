@@ -24,7 +24,7 @@ struct ContentView: View {
     }
 }
 
-struct MenuRow<Destination: View>: View {
+struct StatMenuRow<Destination: View>: View {
     
     let title: String
     let count: Int?
