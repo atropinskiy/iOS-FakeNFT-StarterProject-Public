@@ -15,7 +15,11 @@ struct Collection: Codable {
     let id: String
 }
 
+<<<<<<< HEAD
 struct NFT: Codable, Hashable {
+=======
+struct NFT: Codable, Identifiable, Equatable {
+>>>>>>> 8071f57cff8d4cd432f92d6b164ab201128642d9
     let createdAt: String
     let name: String
     let images: [String]
@@ -26,7 +30,7 @@ struct NFT: Codable, Hashable {
     let id: String
 }
 
-struct Currency: Codable {
+struct Currency: Codable, Identifiable {
     let title: String
     let name: String
     let image: String
@@ -38,7 +42,7 @@ struct Order: Codable {
     let id: String
 }
 
-struct Payment: Codable {
+struct Payment: Codable, Equatable {
     let success: Bool
     let orderId: String
     let id: String
@@ -75,3 +79,6 @@ struct UploadProfile: Encodable {
     let likes: [String]
 }
 
+struct LikesUpdate: Encodable {
+    let likes: [String]
+}

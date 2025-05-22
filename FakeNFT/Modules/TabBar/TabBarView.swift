@@ -21,7 +21,7 @@ struct TabBarView: View {
                         Text("Профиль")
                     }
                 }
-
+            
             CatalogView()
                 .tabItem {
                     VStack {
@@ -30,7 +30,7 @@ struct TabBarView: View {
                         Text("Каталог")
                     }
                 }
-
+            
             CartView()
                 .tabItem {
                     VStack {
@@ -39,7 +39,7 @@ struct TabBarView: View {
                         Text("Корзина")
                     }
                 }
-
+            
             StatView()
                 .tabItem {
                     VStack {
@@ -52,6 +52,8 @@ struct TabBarView: View {
         .accentColor(Color(.tBlueUn))
         .environmentObject(viewModel)
     }
+    
+    
 }
 
 #Preview {
