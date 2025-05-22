@@ -1,15 +1,25 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    @StateObject private var myNFTViewModel = MyNFTViewModel()
+    @StateObject private var favoriteNFTViewModel = FavoriteNFTViewModel()
+    
     var body: some View {
         
         VStack(spacing: 0) {
             
-            MenuRow(title: "Мои NFT", count: 112, destination: MyNFTView())
+            MenuRow(title: "Мои NFT",
+                    count: MockNFT.shared.nfts.count,
+                    destination: MyNFTView().environmentObject(myNFTViewModel))
             
-            MenuRow(title: "Избранные NFT", count: 11, destination: FavoriteNFTView())
+            MenuRow(title: "Избранные NFT",
+                    count: MockNFT.shared.nfts.count,
+                    destination: FavoriteNFTView().environmentObject(favoriteNFTViewModel))
             
-            MenuRow(title: "О разработчике", count: nil, destination: DeveloperInfoView())
+            MenuRow(title: "О разработчике",
+                    count: nil,
+                    destination: DeveloperInfoView())
         }
     }
 }

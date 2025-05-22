@@ -1,5 +1,6 @@
 import Foundation
 
+@MainActor
 final class ProfileEditViewModel: ObservableObject {
     
     @Published var nameProfile: String = "Joaquin Phoenix"
@@ -9,8 +10,32 @@ final class ProfileEditViewModel: ObservableObject {
     """
     @Published var websiteProfile: String = "Joaquin Phoenix.com"
     
+    //    Поля для редактирования
     
-    func saveProfile() {
-//        TODO: Логика сохранения данных профиля
+    @Published var editingNameProfile: String = ""
+    @Published var editingDescriptionProfile: String = ""
+    @Published var editingWebsiteProfile: String = ""
+    @Published var isSaving: Bool = false
+    
+    
+    init() {
+        loadProfile()
+    }
+    
+    func loadProfile() {
+        editingNameProfile = nameProfile
+        editingDescriptionProfile = descriptionProfile
+        editingWebsiteProfile = websiteProfile
+    }
+    
+    func saveProfile(completion: @escaping () -> Void) {
+        isSaving = true
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [self] in
+            nameProfile = editingNameProfile
+            descriptionProfile = editingDescriptionProfile
+            websiteProfile = editingWebsiteProfile
+            isSaving = false
+            completion()
+        }
     }
 }

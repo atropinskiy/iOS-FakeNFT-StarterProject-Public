@@ -8,15 +8,10 @@ struct ProfileView: View {
     var body: some View {
         
         NavigationStack {
-            
             HStack {
-                
                 Spacer()
-                
                 Button {
-                    
                     showEditProfileView = true
-                    
                 } label: {
                     Image(systemName: "square.and.pencil")
                         .resizable()
@@ -28,11 +23,10 @@ struct ProfileView: View {
             }
             
             VStack(alignment: .leading) {
-                
                 HStack() {
                     Image(.joaquin)
-                        .frame(width: 70, height: 70)
-                        .clipShape(Circle())
+                            .frame(width: 70, height: 70)
+                            .clipShape(Circle())
                     Text(viewModel.nameProfile)
                         .font(.system(size: 22, weight: .bold))
                     Spacer()
@@ -41,12 +35,12 @@ struct ProfileView: View {
                 
                 VStack(alignment: .leading, spacing: 8) {
                     Text(viewModel.descriptionProfile)
-                    .font(.system(size: 13, weight: .light))
-                    .foregroundStyle(Color(.tBlack))
-                    .lineLimit(nil)
+                        .font(.system(size: 13, weight: .regular))
+                        .foregroundStyle(Color(.tBlack))
+                        .lineLimit(nil)
                     
                     Text(viewModel.websiteProfile)
-                        .font(.system(size: 15, weight: .light))
+                        .font(.system(size: 15, weight: .regular))
                         .foregroundStyle(Color(.tBlueUn))
                 }
                 .padding(.top, 20)
@@ -58,7 +52,7 @@ struct ProfileView: View {
                 
             }
             .padding(.horizontal, 16)
-            .sheet(isPresented: $showEditProfileView ) {
+            .sheet(isPresented: $showEditProfileView) {
                 ProfileEditView()
             }
         }
@@ -67,4 +61,7 @@ struct ProfileView: View {
 
 #Preview {
     ProfileView()
-    .environmentObject(ProfileEditViewModel())}
+        .environmentObject(ProfileEditViewModel())
+        .environmentObject(FavoriteNFTViewModel())
+        .environmentObject(MyNFTViewModel())
+}

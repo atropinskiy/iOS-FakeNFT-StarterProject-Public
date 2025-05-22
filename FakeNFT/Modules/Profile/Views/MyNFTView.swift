@@ -2,16 +2,40 @@ import SwiftUI
 
 struct MyNFTView: View {
     
+    @EnvironmentObject var viewModel: MyNFTViewModel
     @Environment(\.dismiss) private var dismiss
     
-    @State private var MyNfts: [Nft] = []
     @State private var showSortSheet: Bool = false
     
     var body: some View {
         
         NavigationView {
-            Text("У вас еще нет NFT")
-                .font(.system(size: 17, weight: .bold))
+            Group {
+                if viewModel.isLoading {
+                    VStack(spacing: 16) {
+                        ProgressView()
+                            .scaleEffect(1.5)
+                        Text("Подгружаем NFT...")
+                            .font(.system(size: 16, weight: .medium))
+                    }
+                } else if viewModel.myNfts.isEmpty {
+                    Text("У вас еще нет NFT")
+                        .font(.system(size: 17, weight: .bold))
+                } else {
+                    List(viewModel.myNfts, id: \.self)  { nft in
+                        
+                        CellNFTView(nft: nft)
+                            .listStyle(.plain)
+                            .listRowSeparator(.hidden)
+                            .padding(.trailing, 39)
+                    }
+                }
+            }
+            .onAppear {
+                if viewModel.myNfts.isEmpty {
+                    viewModel.loadData()
+                }
+            }
         }
         .navigationBarBackButtonHidden(true)
         .listStyle(PlainListStyle())
@@ -46,31 +70,28 @@ struct MyNFTView: View {
 }
 
 private struct ButtonStack: View {
+    
+    @EnvironmentObject var viewModel: MyNFTViewModel
+    
     var body: some View {
         VStack {
-            Button {
-                print("Option 1 - Сортировка по имени")
-            } label: {
-                Text("По имени")
-                    .foregroundStyle(Color(.tBlueUn))
+            Button("По названию") {
+                viewModel.sortNFTs(by: .name)
             }
-            Button {
-                print("Option 2 - Сортировка по рейтингу")
-            } label: {
-                Text("По рейтингу")
-                    .foregroundStyle(Color(.tBlueUn))
+            Button("По рейтингу") {
+                viewModel.sortNFTs(by: .rating)
             }
-            Button {
-                print("Option 2 - Сортировка по названию")
-            } label: {
-                Text("По названию")
-                    .foregroundStyle(Color(.tBlueUn))
+            Button("По цене") {
+                viewModel.sortNFTs(by: .price)
             }
             Button("Закрыть", role: .cancel) {}
         }
     }
 }
 
+
+
 #Preview {
     MyNFTView()
+        .environmentObject(MyNFTViewModel())
 }
