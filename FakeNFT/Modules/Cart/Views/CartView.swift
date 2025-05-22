@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CartView: View {
-    @StateObject private var cartViewModel = CartViewModel()
+    @ObservedObject var cartViewModel: CartViewModel
     @State private var selectedNFT: NFT?
     @State private var isPaymentActive = false
     
@@ -120,8 +120,4 @@ struct CartView: View {
             }
         }
     }
-}
-
-#Preview {
-    CartView()
 }

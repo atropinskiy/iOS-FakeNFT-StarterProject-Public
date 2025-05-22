@@ -9,6 +9,7 @@ import SwiftUI
 
 struct TabBarView: View {
     @StateObject private var catalogViewModel = CatalogViewModel()
+    @StateObject private var cartViewModel = CartViewModel()
     
     var body: some View {
         TabView {
@@ -30,7 +31,7 @@ struct TabBarView: View {
                     }
                 }
             
-            CartView()
+            CartView(cartViewModel: cartViewModel)
                 .tabItem {
                     VStack {
                         Image("CartTabBarImage")
