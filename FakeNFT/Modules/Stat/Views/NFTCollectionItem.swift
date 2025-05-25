@@ -12,8 +12,8 @@ struct NFTCollectionItem: View {
     @ObservedObject var viewModel: NFTCollectionViewModel
     let nftItem: NFT
 //    @Binding var inFavorites: Bool
-    @State var inFavorites: Bool = false
-    @State var inCart: Bool = false
+    @State var inFavorites: Bool
+    @State var inCart: Bool
 //    let nftItem: NFTElementModel
 //    @Binding var nftsInCart: [String]
 //    @Binding var nftsInFavorites: [String]
@@ -24,6 +24,13 @@ struct NFTCollectionItem: View {
 //        self.inFavorites = inFavorites
 //        self.inCart = inCart
 //    }
+
+    init(viewModel: NFTCollectionViewModel, nftItem: NFT, inFavorites: Bool, inCart: Bool) {
+        self.viewModel = viewModel
+        self.nftItem = nftItem
+        self.inFavorites = inFavorites
+        self.inCart = inCart
+    }
 
     var body: some View {
         VStack(spacing: 0) {
@@ -131,14 +138,14 @@ private struct StatisticsCart: View {
     }
 }
 
-#Preview("Light mode") {
-//    let inFavorites: Bool = false
-    let viewModel = NFTCollectionViewModel()
-    let nftItem = viewModel.mockNfts[0]
-    //    var inCart: Bool = true
-    NFTCollectionItem(viewModel: viewModel, nftItem: nftItem)
-//    NFTCollectionItem(viewModel: viewModel, nftItem: nftItem, inFavorites: .constant(false))
-}
+//#Preview("Light mode") {
+////    let inFavorites: Bool = false
+//    let viewModel = NFTCollectionViewModel()
+//    let nftItem = viewModel.mockNfts[0]
+//    //    var inCart: Bool = true
+//    NFTCollectionItem(viewModel: viewModel, nftItem: nftItem)
+////    NFTCollectionItem(viewModel: viewModel, nftItem: nftItem, inFavorites: .constant(false))
+//}
 //
 //#Preview("Dark mode") {
 //    let nftItem = NFTCollectionViewModel()

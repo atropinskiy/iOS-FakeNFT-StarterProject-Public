@@ -13,6 +13,8 @@ struct NFTCollectionView: View {
     @Binding var user: User
     @Binding var nftsInCart: [String]
     @Binding var nftsInFavorites: [String]
+//    @State var inFavorites: Bool = false
+//    @State var inCart: Bool = false
 
 //    @State private var inFavorites: Bool = false
 //    @State private var isLoading: Bool = false
@@ -42,10 +44,10 @@ struct NFTCollectionView: View {
 //                            print("in forEach")
 //                            let _ = debugPrint("Debug:", inCart, inFavorites)
 //                            viewModel.isInFavorites(nft: nft)
-                            NFTCollectionItem(viewModel: viewModel, nftItem: nft)
+                            let inCart: Bool = viewModel.isInCart(nft, nftInCart: nftsInCart)
+                            let inFavorites: Bool = viewModel.isInFavorites(nft, nftInFavorite: nftsInFavorites)
+                            NFTCollectionItem(viewModel: viewModel, nftItem: nft, inFavorites: inFavorites, inCart: inCart)
                                 .onAppear {
-                                    let inCart: Bool = viewModel.isInCart(nft, nftInCart: nftsInCart)
-                                    let inFavorites: Bool = viewModel.isInFavorites(nft, nftInFavorite: nftsInFavorites)
                                     if inCart {
                                         let _ = debugPrint("Debug inCart - в Корзине:", nft.id, nft.name)
                                     }
