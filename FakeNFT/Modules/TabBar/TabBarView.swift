@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct TabBarView: View {
+    @StateObject private var viewModel = ProfileStatViewModel()
     var body: some View {
         TabView {
             ProfileView()
@@ -37,7 +38,7 @@ struct TabBarView: View {
                     }
                 }
 
-            StatView()
+            StatView(viewModel: viewModel)
                 .tabItem {
                     VStack {
                         Image("StatTabBarImage")
@@ -45,8 +46,15 @@ struct TabBarView: View {
                         Text("Статистика")
                     }
                 }
+                .onAppear() {
+                    viewModel.fetchData()
+                    Task { @MainActor in
+                        await viewModel.fetchFavoriteAndCart()
+                    }
+                }
         }
         .accentColor(Color(.tBlueUn))
+
     }
 }
 

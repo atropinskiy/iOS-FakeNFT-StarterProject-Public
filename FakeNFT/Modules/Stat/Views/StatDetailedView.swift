@@ -11,6 +11,14 @@ struct StatDetailedView: View {
     //    let viewModel: ProfileStatDetailViewModel
     @State var user: User
     @State private var showUserSite: Bool = false
+    @State var nftsInCart: [String]
+    @State var nftsInFavorites: [String]
+
+//    init(user: User, inCart: [String], inFavorites: [String]) {
+//        self.user = user
+//        self.nftsInCart = nftsInCart
+//        self.nftsInFavorites = nftsInFavorites
+//    }
 
     var body: some View {
         VStack(alignment: .leading) {
@@ -74,7 +82,7 @@ struct StatDetailedView: View {
                 .padding(.top, 28)
 
                 VStack(spacing: 0) {
-                    MenuRow(title: "Коллекция NFT", count: user.nfts.count, destination: NFTCollectionView(user: $user))
+                    MenuRow(title: "Коллекция NFT", count: user.nfts.count, destination: NFTCollectionView(user: $user, nftsInCart: $nftsInCart, nftsInFavorites: $nftsInFavorites))
                     //                    MenuRow(title: "Коллекция NFT", count: 112, destination: NFTCollectionView())
                 }
                 .padding(.top, 40)
@@ -97,20 +105,24 @@ struct StatDetailedView: View {
     }
 }
 
-#Preview("Light mode") {
-    //    let viewModel = ProfileStatDetailViewModel()
-    //    StatDetailedView(viewModel: viewModel)
-    let userViewWithImage = User(name: "Alex", avatar: "alex",  description: "Alex Alex Alex", website: "website", nfts: [], rating: "112", id: "1")
-    StatDetailedView(user: userViewWithImage)
-}
-
-#Preview("Dark mode") {
-    //    let viewModel = ProfileStatDetailViewModel()
-    //    StatDetailedView(viewModel: viewModel)
-    let userViewNoImage = User(name: "Alex", avatar: "alex",  description: "Alex Alex Alex", website: "website", nfts: [], rating: "112", id: "1")
-    StatDetailedView(user: userViewNoImage)
-        .preferredColorScheme(.dark)
-}
+//#Preview("Light mode") {
+//    //    let viewModel = ProfileStatDetailViewModel()
+//    //    StatDetailedView(viewModel: viewModel)
+//    let userViewWithImage = User(name: "Alex", avatar: "alex",  description: "Alex Alex Alex", website: "website", nfts: [], rating: "112", id: "1")
+//    @State var nftsInCart: [String] = []
+//    @State var nftsInFavorites: [String] = []
+//    StatDetailedView(user: userViewWithImage, nftsInCart: $nftsInCart, nftsInFavorites: $nftsInFavorites)
+//}
+//
+//#Preview("Dark mode") {
+//    //    let viewModel = ProfileStatDetailViewModel()
+//    //    StatDetailedView(viewModel: viewModel)
+//    let userViewNoImage = User(name: "Alex", avatar: "alex",  description: "Alex Alex Alex", website: "website", nfts: [], rating: "112", id: "1")
+//    @State var nftsInCart: [String] = []
+//    @State var nftsInFavorites: [String] = []
+//    StatDetailedView(user: userViewNoImage, nftsInCart: $nftsInCart, nftsInFavorites: $nftsInFavorites)
+//        .preferredColorScheme(.dark)
+//}
 
 struct BackButtonViewSimple: View {
     @Environment(\.presentationMode) var presentationMode

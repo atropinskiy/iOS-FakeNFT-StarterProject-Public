@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct StatView: View {
-    @StateObject private var viewModel = ProfileStatViewModel()
+    @ObservedObject var viewModel: ProfileStatViewModel
 //    @StateObject private var detailedViewModel = ProfileStatDetailViewModel()
     @State private var showActionSheet = false
     @State private var showErrorAlert = false
@@ -50,7 +50,10 @@ struct StatView: View {
                         .background(
                             NavigationLink(
                                 "",
-                                destination: StatDetailedView(user: viewModel.allUsersList[index]))
+                                destination: StatDetailedView(
+                                    user: viewModel.allUsersList[index],
+                                    nftsInCart: viewModel.nftsInCart,
+                                    nftsInFavorites: viewModel.nftsInFavorites))
                         )
                     }
                     .padding(.leading, 16)
@@ -83,11 +86,13 @@ struct StatView: View {
 }
 
 #Preview("Light Theme") {
-    StatView()
+    var viewModel = ProfileStatViewModel()
+    StatView(viewModel: viewModel)
         .preferredColorScheme(.light)
 }
 
 #Preview("Dark Theme") {
-    StatView()
+    var viewModel = ProfileStatViewModel()
+    StatView(viewModel: viewModel)
         .preferredColorScheme(.dark)
 }

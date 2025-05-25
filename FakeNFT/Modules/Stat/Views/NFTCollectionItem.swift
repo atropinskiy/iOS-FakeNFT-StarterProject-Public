@@ -8,10 +8,23 @@
 import SwiftUI
 
 struct NFTCollectionItem: View {
-    @State private var inFavorites: Bool = false
-    @State private var inCart: Bool = true
-//    let nftItem: NFTElementModel
+//    @State private var inFavorites: Bool = false
+    @ObservedObject var viewModel: NFTCollectionViewModel
     let nftItem: NFT
+//    @Binding var inFavorites: Bool
+    @State var inFavorites: Bool = false
+    @State var inCart: Bool = false
+//    let nftItem: NFTElementModel
+//    @Binding var nftsInCart: [String]
+//    @Binding var nftsInFavorites: [String]
+
+//    init(viewModel: NFTCollectionViewModel, nftItem: NFT, inFavorites: Bool, inCart: Bool) {
+//        self.viewModel = viewModel
+//        self.nftItem = nftItem
+//        self.inFavorites = inFavorites
+//        self.inCart = inCart
+//    }
+
     var body: some View {
         VStack(spacing: 0) {
             ZStack(alignment: .topTrailing) {
@@ -41,6 +54,7 @@ struct NFTCollectionItem: View {
                 }, label: {
                     Image(systemName: "heart.fill")
                         .foregroundStyle(inFavorites ? Color(.tRedUn) : Color(.white))
+//                        .foregroundStyle(viewModel.isInFavorites(nftItem) ? Color(.tRedUn) : Color(.white))
                         .font(.system(size: 20))
                 })
                 .padding(10)
@@ -69,6 +83,10 @@ struct NFTCollectionItem: View {
         }
 //        .fixedSize(horizontal: false, vertical: true)
         .frame(maxWidth: 108, maxHeight: 200)
+//        .onAppear(){
+//            inFavorites = viewModel.isInFavorites(nftItem)
+//            inCart = viewModel.isInCart(nftItem)
+//        }
     }
 }
 
@@ -108,22 +126,26 @@ private struct StatisticsCart: View {
 
     private func getCartImagerResource(inCart: Bool) -> ImageResource {
         colorScheme == .dark
-        ? (inCart ? .cartDark : .cartCrossDark)
-        : (inCart ? .cartLight : .cartCrossLight)
+        ? (inCart ? .cartCrossDark : .cartDark)
+        : (inCart ? .cartCrossLight : .cartLight)
     }
 }
 
 #Preview("Light mode") {
-    let nftItem = NFTCollectionViewModel()
-    //    var inFavorites: Bool = false
+//    let inFavorites: Bool = false
+    let viewModel = NFTCollectionViewModel()
+    let nftItem = viewModel.mockNfts[0]
     //    var inCart: Bool = true
-    NFTCollectionItem(nftItem: nftItem.mockNfts[0])
+    NFTCollectionItem(viewModel: viewModel, nftItem: nftItem)
+//    NFTCollectionItem(viewModel: viewModel, nftItem: nftItem, inFavorites: .constant(false))
 }
-
-#Preview("Dark mode") {
-    let nftItem = NFTCollectionViewModel()
-//    var inFavorites: Bool = false
-//    var inCart: Bool = true
-    NFTCollectionItem(nftItem: nftItem.mockNfts[0])
-        .preferredColorScheme(.dark)
-}
+//
+//#Preview("Dark mode") {
+//    let nftItem = NFTCollectionViewModel()
+//    let viewModel = NFTCollectionViewModel()
+////    @Previewable @State var inFavorites: Bool = false
+////    var inCart: Bool = true
+////    NFTCollectionItem(nftItem: nftItem.mockNfts[0], inFavorites: .constant(true))
+//    NFTCollectionItem(viewModel: viewModel, nftItem: nftItem.mockNfts[0])
+//        .preferredColorScheme(.dark)
+//}

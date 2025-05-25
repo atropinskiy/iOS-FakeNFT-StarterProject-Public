@@ -20,9 +20,11 @@ final class ProfileStatViewModel: ObservableObject {
 //    @Published var profileArray: [ProfileModel] = []
     @Published var allUsersList: [User] = []
     @Published var isLoading: Bool = false
+    @Published var nftsInFavorites: [String] = []
+    @Published var nftsInCart: [String] = []
+    private var profile: Profile?
 
     private let networkService = NetworkServiceFunction.shared
-
     private var cancellableSet: Set<AnyCancellable> = []
 
 //    let profileView1 = ProfileModel(avatar: "alex", name: "Alex", rating: 112, description: "", nfts: [], website: "")
@@ -80,6 +82,25 @@ final class ProfileStatViewModel: ObservableObject {
             } catch {
                 print("Ошибка загрузки списка профилей: \(error.localizedDescription)")
                 self.isLoading = false
+            }
+        }
+    }
+
+    func fetchFavoriteAndCart() async {
+        //        isLoading = true
+        Task { @MainActor in
+            do {
+                let profile = try await networkService.fetchProfile(id: 1)
+                let order = try await networkService.fetchOrder(by: "1")
+                self.profile = profile
+                self.nftsInFavorites = profile.likes
+                self.nftsInCart = order.nfts
+                //                self.isLoading = false
+                print("NFTs в избранном:", self.nftsInFavorites)
+                print("NFTs в Корзине:", self.nftsInCart)
+            } catch {
+                print("Ошибка загрузки профиля: \(error)")
+                //                self.isLoading = false
             }
         }
     }
