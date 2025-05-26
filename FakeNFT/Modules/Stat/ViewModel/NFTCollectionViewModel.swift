@@ -115,6 +115,38 @@ final class NFTCollectionViewModel: ObservableObject {
         return nftInCart.contains { $0 == nft.id }
     }
 
+    func toggleFavorites(nft: NFT, favorites: inout [String]) {
+        if let index = favorites.firstIndex(of: nft.id) {
+            print("Убрать из избранного: \(nft.id)")
+            favorites.removeAll { $0 == nft.id }
+        } else {
+            print("Добавить в избранное: \(nft.id)")
+            favorites.append(nft.id)
+        }
+        print("Favorites: \(favorites)")
+    }
+
+    func toggleCart(nft: NFT, cart: inout [String]) {
+        if let index = cart.firstIndex(of: nft.id) {
+            print("Убрать из избранного: \(nft.id)")
+            cart.removeAll { $0 == nft.id }
+        } else {
+            print("Добавить в избранное: \(nft.id)")
+            cart.append(nft.id)
+        }
+        print("Cart: \(cart)")
+    }
+
+    func addToCart(_ nft: NFT, cart: inout [String]) {
+        if !cart.contains(nft.id) {
+            cart.append(nft.id)
+        }
+    }
+
+    func removeFromCart(_ nft: NFT, cart: inout [String]) {
+        cart.removeAll { $0 == nft.id }
+    }
+
 //    private func fetchFavoriteAndCart() async {
 ////        isLoading = true
 //        Task { @MainActor in

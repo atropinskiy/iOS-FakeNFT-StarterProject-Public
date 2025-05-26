@@ -14,11 +14,11 @@ struct StatDetailedView: View {
     @State var nftsInCart: [String]
     @State var nftsInFavorites: [String]
 
-//    init(user: User, inCart: [String], inFavorites: [String]) {
-//        self.user = user
-//        self.nftsInCart = nftsInCart
-//        self.nftsInFavorites = nftsInFavorites
-//    }
+    init(user: User, nftsInCart: [String], nftsInFavorites: [String]) {
+        self.user = user
+        self.nftsInCart = nftsInCart
+        self.nftsInFavorites = nftsInFavorites
+    }
 
     var body: some View {
         VStack(alignment: .leading) {

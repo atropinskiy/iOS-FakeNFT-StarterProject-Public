@@ -40,6 +40,9 @@ struct NFTCollectionView: View {
                         spacing: 8
                     ) {
                         ForEach(viewModel.nfts, id: \.id) { nft in
+//                            NFTCollectionItem(viewModel: viewModel, nftItem: nft, nftsInCart: $nftsInCart, nftsInFavorites: $nftsInFavorites)
+//                        }
+
 //                            print(viewModel.isInFavorites(nft: nft))
 //                            print("in forEach")
 //                            let _ = debugPrint("Debug:", inCart, inFavorites)
@@ -56,7 +59,11 @@ struct NFTCollectionView: View {
                                     }
 
                                 }
-//                            NFTCollectionItem(nftItem: nft, nftsInCart: $nftsInCart, nftsInFavorites: $nftsInFavorites)
+//                                .onChange(of: inFavorites) { newValue in
+//                                    print("In onChange: \(newValue)")
+//                                    viewModel.nftInsertRemoveToFavorites(nft: nft, nftInFavorite: &nftsInFavorites)
+//                                }
+//                            NFTCollectionItem(nftItem: nft)
 //                            NFTCollectionItem(viewModel: viewModel, nftItem: nft, inCart: inCart, inFavorites: inFavorites)
 //                            NFTCollectionItem(viewModel: viewModel, nftItem: nft, inCart: viewModel.isInCart(nft, nftInCart: nftsInCart), inFavorites: viewModel.isInFavorites(nft, nftInFavorite: nftsInFavorites))
                         }

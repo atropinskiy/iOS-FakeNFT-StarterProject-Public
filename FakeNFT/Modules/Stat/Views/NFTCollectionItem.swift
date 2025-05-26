@@ -18,11 +18,21 @@ struct NFTCollectionItem: View {
 //    @Binding var nftsInCart: [String]
 //    @Binding var nftsInFavorites: [String]
 
-//    init(viewModel: NFTCollectionViewModel, nftItem: NFT, inFavorites: Bool, inCart: Bool) {
-//        self.viewModel = viewModel
-//        self.nftItem = nftItem
-//        self.inFavorites = inFavorites
-//        self.inCart = inCart
+//    private var inCart: Binding<Bool> {
+//        Binding(
+//            get: { viewModel.isInCart(nftItem, nftInCart: nftsInCart) },
+//            set: { newValue in
+//                if newValue {
+//                    viewModel.addToCart(nftItem, cart: &nftsInCart)
+//                } else {
+//                    viewModel.removeFromCart(nftItem, cart: &nftsInCart)
+//                }
+//            }
+//        )
+//    }
+//
+//    private var inFavorites: Bool {
+//        viewModel.isInFavorites(nftItem, nftInFavorite: nftsInFavorites)
 //    }
 
     init(viewModel: NFTCollectionViewModel, nftItem: NFT, inFavorites: Bool, inCart: Bool) {
@@ -31,6 +41,20 @@ struct NFTCollectionItem: View {
         self.inFavorites = inFavorites
         self.inCart = inCart
     }
+
+//    init(viewModel: NFTCollectionViewModel, nftItem: NFT, nftsInFavorites: [String], nftsInCart: [String]) {
+//    init(nftItem: NFT) {
+//          self.nftItem = nftItem
+//        self.nftsInFavorites = nftsInFavorites
+//        self.nftsInCart = nftsInCart
+//        setup()
+//    }
+
+
+//    func setup() {
+//        self.inFavorites = viewModel.isInFavorites(nftItem, nftInFavorite: nftsInFavorites)
+//        self.inCart = viewModel.isInCart(nftItem, nftInCart: nftsInCart)
+//    }
 
     var body: some View {
         VStack(spacing: 0) {
@@ -58,6 +82,8 @@ struct NFTCollectionItem: View {
                 }
                 Button(action: {
                     inFavorites.toggle()
+//                    viewModel.toggleFavorites(nft: nftItem, favorites: &nftsInFavorites)
+                    print("inFavorites", inFavorites)
                 }, label: {
                     Image(systemName: "heart.fill")
                         .foregroundStyle(inFavorites ? Color(.tRedUn) : Color(.white))
@@ -91,8 +117,12 @@ struct NFTCollectionItem: View {
 //        .fixedSize(horizontal: false, vertical: true)
         .frame(maxWidth: 108, maxHeight: 200)
 //        .onAppear(){
-//            inFavorites = viewModel.isInFavorites(nftItem)
-//            inCart = viewModel.isInCart(nftItem)
+//            inFavorites = viewModel.isInFavorites(nftItem, nftInFavorite: nftsInFavorites)
+//            inCart = viewModel.isInCart(nftItem, nftInCart: nftsInCart)
+//        }
+//        .onChange(of: inFavorites) { newValue in
+//            print("in onChange for NFTCollectionItem: \(newValue)")
+//            viewModel.nftInsertRemoveToFavorites(nft: self.nftItem, nftInFavorite: &nftsInFavorites)
 //        }
     }
 }
@@ -123,10 +153,11 @@ private struct StatisticsCart: View {
             Spacer()
             Button(action: {
                 inCart.toggle()
+                print("inCart", inCart)
+//                viewModel.toggleFavorites(nft: nftItem, favorites: &nftsInFavorites)
             }, label: {
                 Image(getCartImagerResource(inCart: inCart))
                     .frame(width: 40, height: 40)
-//                    .background(.red)
             })
         }
     }
@@ -143,8 +174,9 @@ private struct StatisticsCart: View {
 //    let viewModel = NFTCollectionViewModel()
 //    let nftItem = viewModel.mockNfts[0]
 //    //    var inCart: Bool = true
+////    NFTCollectionItem(viewModel: viewModel, nftItem: nftItem, nftsInFavorites: [], nftsInCart: [])
 //    NFTCollectionItem(viewModel: viewModel, nftItem: nftItem)
-////    NFTCollectionItem(viewModel: viewModel, nftItem: nftItem, inFavorites: .constant(false))
+////    NFTCollectionItem(viewModel: viewModel, nftItem: nftItem, inFavorites: false, inCart: false)
 //}
 //
 //#Preview("Dark mode") {
