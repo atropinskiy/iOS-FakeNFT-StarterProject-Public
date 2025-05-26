@@ -83,12 +83,15 @@ struct StatDetailedView: View {
                 .padding(.top, 28)
 
                 VStack(spacing: 0) {
-                    MenuRow(title: "Коллекция NFT", count: user.nfts.count, destination: NFTCollectionView(statUserViewModel: viewModel, user: $user))
-//                    MenuRow(title: "Коллекция NFT", count: user.nfts.count, destination: NFTCollectionView(user: $user, nftsInCart: $nftsInCart, nftsInFavorites: $nftsInFavorites))
-                    //                    MenuRow(title: "Коллекция NFT", count: 112, destination: NFTCollectionView())
+                    if user.nfts.count == 0 {
+                        MenuRow(title: "Коллекция NFT", count: user.nfts.count, destination: EmptyNFTView(title: "Тут NFT нет", imageName: "exclamationmark.octagon", description: "В этой коллекции пока нет ни одного NFT"))
+                    } else {
+                        MenuRow(title: "Коллекция NFT", count: user.nfts.count, destination: NFTCollectionView(statUserViewModel: viewModel, user: $user))
+                        //                    MenuRow(title: "Коллекция NFT", count: user.nfts.count, destination: NFTCollectionView(user: $user, nftsInCart: $nftsInCart, nftsInFavorites: $nftsInFavorites))
+                        //                    MenuRow(title: "Коллекция NFT", count: 112, destination: NFTCollectionView())
+                    }
                 }
                 .padding(.top, 40)
-
             }
             .padding(.top, 28)
         }

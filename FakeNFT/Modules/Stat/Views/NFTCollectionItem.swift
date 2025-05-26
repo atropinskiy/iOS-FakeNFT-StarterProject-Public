@@ -13,6 +13,7 @@ struct NFTCollectionItem: View {
     let nftItem: NFT
     @State var inFavorites: Bool
     @State var inCart: Bool
+    @State var isProcessingFavorites: Bool = false
 
     init(viewModel: NFTCollectionViewModel, statUserViewModel: ProfileStatViewModel, nftItem: NFT, inFavorites: Bool, inCart: Bool) {
         self.viewModel = viewModel
@@ -47,18 +48,23 @@ struct NFTCollectionItem: View {
                     }
                 }
                 Button(action: {
+                    guard !isProcessingFavorites else { return }
+                    isProcessingFavorites = true
                     inFavorites.toggle()
 //                    viewModel.toggleFavorites(nft: nftItem, favorites: &nftsInFavorites)
-                    print("inFavorites", inFavorites)
+//                    print("inFavorites", inFavorites)
                     Task {
                         await statUserViewModel.toggleFavorites(nft: nftItem)
+                        isProcessingFavorites = false
                     }
 //                    viewModel.showStatus = 1
                 }, label: {
                     Image(systemName: "heart.fill")
                         .foregroundStyle(inFavorites ? Color(.tRedUn) : Color(.white))
                         .font(.system(size: 20))
-                })
+                }
+                )
+                .disabled(isProcessingFavorites)
                 .padding(10)
             }
             .padding(.bottom, 8)
@@ -77,7 +83,7 @@ struct NFTCollectionItem: View {
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .layoutPriority(1)
-                StatisticsCart(viewModel: viewModel, inCart: $inCart)
+                StatisticsCart(viewModel: statUserViewModel, inCart: $inCart, nftItem: nftItem)
             }
             .padding(.bottom, 20)
         }
@@ -109,22 +115,31 @@ private struct StatisticsStars: View {
 }
 
 private struct StatisticsCart: View {
-    @ObservedObject var viewModel: NFTCollectionViewModel
+    @ObservedObject var viewModel: ProfileStatViewModel
     @Binding var inCart: Bool
+    @State var isProcessingCart: Bool = false
     @Environment(\.colorScheme) private var colorScheme
+    let nftItem: NFT
 
     var body: some View {
         HStack {
             Spacer()
             Button(action: {
+                guard !isProcessingCart else { return }
+                isProcessingCart = true
                 inCart.toggle()
-                print("inCart", inCart)
+//                print("inCart", inCart)
+                Task {
+                    await viewModel.toggleCart(nft: nftItem)
+                    isProcessingCart = false
+                }
 //                viewModel.showStatus = 2
 //                viewModel.toggleFavorites(nft: nftItem, favorites: &nftsInFavorites)
             }, label: {
                 Image(getCartImagerResource(inCart: inCart))
                     .frame(width: 40, height: 40)
             })
+            .disabled(isProcessingCart)
         }
     }
 

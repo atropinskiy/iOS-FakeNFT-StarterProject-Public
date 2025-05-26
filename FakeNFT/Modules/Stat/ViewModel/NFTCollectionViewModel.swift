@@ -67,24 +67,23 @@ final class NFTCollectionViewModel: ObservableObject {
 
  @MainActor
     func fetchData() async {
-        //        var counter = 0
-        print("Step 1 - Начинаю качать список NFT пользователя...")
+//        print("Step 1 - Начинаю качать список NFT пользователя...")
         //        profileArray = [profileView1, profileView2, profileView3, profileView4, profileView5, profileView6, profileView7, profileView8, profileView9]
-        print("userNFTIDs", userNFTIDs)
+//        print("userNFTIDs", userNFTIDs)
         guard !userNFTIDs.isEmpty else { return }
 //        Task { @MainActor in
             self.isLoading = true
 //        }
         nfts.removeAll()
-        print("Step 2 - Начинаю качать список NFT пользователя...")
+//        print("Step 2 - Начинаю качать список NFT пользователя...")
         let publishers = userNFTIDs.map { id in
             Future<NFT, Error> { [weak self] promise in
                 guard let self else { return }
                 Task {
                     do {
-                        print("Скачиваю NFT с id \(id)...")
+//                        print("Скачиваю NFT с id \(id)...")
                         let nft = try await self.networkService.fetchNft(with: id)
-                        print("Имя NFT: \(nft.name)")
+//                        print("Имя NFT: \(nft.name)")
                         promise(.success(nft))
                     } catch {
                         promise(.failure(error))
@@ -92,7 +91,6 @@ final class NFTCollectionViewModel: ObservableObject {
                 }
             }
         }
-//        await fetchFavoriteAndCart()
         Publishers.MergeMany(publishers)
             .collect()
             .receive(on: RunLoop.main)
@@ -103,7 +101,7 @@ final class NFTCollectionViewModel: ObservableObject {
                 }
             } receiveValue: { [weak self] nfts in
                 self?.nfts = nfts.sorted { $0.id < $1.id }
-                print("NFT count: \(nfts.count)")
+//                print("NFT count: \(nfts.count)")
             }
             .store(in: &cancellableSet)
     }
@@ -115,56 +113,4 @@ final class NFTCollectionViewModel: ObservableObject {
     func isInCart(_ nft: NFT, nftInCart: [String]) -> Bool {
         return nftInCart.contains { $0 == nft.id }
     }
-
-    func toggleFavorites(nft: NFT, favorites: inout [String]) {
-        if let index = favorites.firstIndex(of: nft.id) {
-            print("Убрать из избранного: \(nft.id)")
-            favorites.removeAll { $0 == nft.id }
-        } else {
-            print("Добавить в избранное: \(nft.id)")
-            favorites.append(nft.id)
-        }
-        print("Favorites: \(favorites)")
-    }
-
-    func toggleCart(nft: NFT, cart: inout [String]) {
-        if let index = cart.firstIndex(of: nft.id) {
-            print("Убрать из избранного: \(nft.id)")
-            cart.removeAll { $0 == nft.id }
-        } else {
-            print("Добавить в избранное: \(nft.id)")
-            cart.append(nft.id)
-        }
-        print("Cart: \(cart)")
-    }
-
-    func addToCart(_ nft: NFT, cart: inout [String]) {
-        if !cart.contains(nft.id) {
-            cart.append(nft.id)
-        }
-    }
-
-    func removeFromCart(_ nft: NFT, cart: inout [String]) {
-        cart.removeAll { $0 == nft.id }
-    }
-
-//    private func fetchFavoriteAndCart() async {
-////        isLoading = true
-//        Task { @MainActor in
-//            do {
-//                let profile = try await networkService.fetchProfile(id: 1)
-//                let order = try await networkService.fetchOrder(by: "1")
-//                self.profile = profile
-//                self.nftsInFavorites = profile.likes
-//                self.nftsInCart = order.nfts
-////                self.isLoading = false
-//                print("NFTs в избранном:", self.nftsInFavorites)
-//                print("NFTs в Корзине:", self.nftsInCart)
-//            } catch {
-//                print("Ошибка загрузки профиля: \(error)")
-////                self.isLoading = false
-//            }
-//        }
-//    }
-
 }

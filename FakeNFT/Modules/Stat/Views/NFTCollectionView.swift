@@ -41,15 +41,14 @@ struct NFTCollectionView: View {
                             let inCart: Bool = viewModel.isInCart(nft, nftInCart: statUserViewModel.nftsInCart)
                             let inFavorites: Bool = viewModel.isInFavorites(nft, nftInFavorite: statUserViewModel.nftsInFavorites)
                             NFTCollectionItem(viewModel: viewModel, statUserViewModel: statUserViewModel, nftItem: nft, inFavorites: inFavorites, inCart: inCart)
-                                .onAppear {
-                                    if inCart {
-                                        let _ = debugPrint("Debug inCart - в Корзине:", nft.id, nft.name)
-                                    }
-                                    if inFavorites {
-                                        let _ = debugPrint("Debug inFavorites - в Избранном:", nft.id, nft.name)
-                                    }
-                                }
-
+//                                .onAppear {
+//                                    if inCart {
+//                                        let _ = debugPrint("Debug inCart - в Корзине:", nft.id, nft.name)
+//                                    }
+//                                    if inFavorites {
+//                                        let _ = debugPrint("Debug inFavorites - в Избранном:", nft.id, nft.name)
+//                                    }
+//                                }
 //                            NFTCollectionItem(nftItem: nft)
 //                            NFTCollectionItem(viewModel: viewModel, nftItem: nft, inCart: inCart, inFavorites: inFavorites)
 //                            NFTCollectionItem(viewModel: viewModel, nftItem: nft, inCart: viewModel.isInCart(nft, nftInCart: nftsInCart), inFavorites: viewModel.isInFavorites(nft, nftInFavorite: nftsInFavorites))
@@ -82,15 +81,18 @@ struct NFTCollectionView: View {
 }
 
 //#Preview("Light mode") {
+//    let statUserViewModel = ProfileStatViewModel()
 //    let nft1 = NFT(createdAt: "", name: "Archie", images: ["archie"], rating: 2, description: "", price: 1.78, author: "", id: "nft1")
 //    let nft2 = NFT(createdAt: "", name: "Emma", images: ["emma"], rating: 4, description: "", price: 1.25, author: "", id: "nft2")
 //    let nft3 = NFT(createdAt: "", name: "Stella", images: ["stella"], rating: 3, description: "", price: 2.5, author: "", id: "nft3")
 //    let nft4 = NFT(createdAt: "", name: "Toast", images: ["toast"], rating: 1, description: "", price: 1.0, author: "", id: "nft4")
 //    let nft5 = NFT(createdAt: "", name: "Zeus", images: ["zeus"], rating: 5, description: "", price: 3.85, author: "", id: "nft5")
 //    @State var user = User(name: "Alex", avatar: "alex",  description: "Alex Alex Alex", website: "website", nfts: ["nft1", "nft2", "nft3", "nft4", "nft5"], rating: "112", id: "1")
-//    @State var nftsInCart: [String] = []
-//    @State var nftsInFavorites: [String] = []
-//    NFTCollectionView(user: $user, nftsInCart: $nftsInCart, nftsInFavorites: $nftsInFavorites)
+////    @State var nftsInCart: [String] = []
+////    @State var nftsInFavorites: [String] = []
+//    var viewModel = NFTCollectionViewModel()
+//    NFTCollectionView(statUserViewModel: statUserViewModel, user: $user)
+////    NFTCollectionView(statUserViewModel: viewModel, user: $user, nftsInCart: $nftsInCart, nftsInFavorites: $nftsInFavorites)
 //}
 //
 //#Preview("Dark mode") {

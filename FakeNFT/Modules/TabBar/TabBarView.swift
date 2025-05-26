@@ -49,7 +49,6 @@ struct TabBarView: View {
                 .onAppear() {
                     viewModel.fetchData()
                     Task { @MainActor in
-//                        await viewModel.fetchCurrentProfile()
                         await viewModel.fetchFavoriteAndCart()
                     }
                 }
