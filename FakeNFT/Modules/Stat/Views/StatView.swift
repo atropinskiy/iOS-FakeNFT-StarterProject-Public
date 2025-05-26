@@ -52,8 +52,11 @@ struct StatView: View {
                                 "",
                                 destination: StatDetailedView(
                                     user: viewModel.allUsersList[index],
-                                    nftsInCart: viewModel.nftsInCart,
-                                    nftsInFavorites: viewModel.nftsInFavorites))
+                                    statUserViewModel: viewModel))
+//                                destination: StatDetailedView(
+//                                    user: viewModel.allUsersList[index],
+//                                    nftsInCart: viewModel.nftsInCart,
+//                                    nftsInFavorites: viewModel.nftsInFavorites))
                         )
                     }
                     .padding(.leading, 16)

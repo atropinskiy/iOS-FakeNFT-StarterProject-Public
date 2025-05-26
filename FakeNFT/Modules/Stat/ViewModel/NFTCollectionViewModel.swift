@@ -9,6 +9,7 @@ import Foundation
 import Combine
 
 final class NFTCollectionViewModel: ObservableObject {
+    @Published var showStatus: Int = 0
     @Published var nfts: [NFT] = []
     @Published var mockNfts: [NFT] = []
     //    @Published var nfts: [NFTElementModel] = []

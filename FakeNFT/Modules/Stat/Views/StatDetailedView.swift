@@ -9,15 +9,16 @@ import SwiftUI
 
 struct StatDetailedView: View {
     //    let viewModel: ProfileStatDetailViewModel
+    @ObservedObject var viewModel: ProfileStatViewModel
     @State var user: User
     @State private var showUserSite: Bool = false
-    @State var nftsInCart: [String]
-    @State var nftsInFavorites: [String]
+    @State var nftsInCart: [String] = []
+    @State var nftsInFavorites: [String] = []
 
-    init(user: User, nftsInCart: [String], nftsInFavorites: [String]) {
+//    init(user: User, nftsInCart: [String], nftsInFavorites: [String]) {
+    init(user: User, statUserViewModel: ProfileStatViewModel) {
+        self.viewModel = statUserViewModel
         self.user = user
-        self.nftsInCart = nftsInCart
-        self.nftsInFavorites = nftsInFavorites
     }
 
     var body: some View {
@@ -82,7 +83,8 @@ struct StatDetailedView: View {
                 .padding(.top, 28)
 
                 VStack(spacing: 0) {
-                    MenuRow(title: "Коллекция NFT", count: user.nfts.count, destination: NFTCollectionView(user: $user, nftsInCart: $nftsInCart, nftsInFavorites: $nftsInFavorites))
+                    MenuRow(title: "Коллекция NFT", count: user.nfts.count, destination: NFTCollectionView(statUserViewModel: viewModel, user: $user))
+//                    MenuRow(title: "Коллекция NFT", count: user.nfts.count, destination: NFTCollectionView(user: $user, nftsInCart: $nftsInCart, nftsInFavorites: $nftsInFavorites))
                     //                    MenuRow(title: "Коллекция NFT", count: 112, destination: NFTCollectionView())
                 }
                 .padding(.top, 40)
@@ -101,6 +103,10 @@ struct StatDetailedView: View {
             }
         }
         .toolbar(.hidden, for: .tabBar)
+        .onAppear {
+            self.nftsInCart = viewModel.nftsInCart
+            self.nftsInFavorites = viewModel.nftsInFavorites
+        }
         Spacer()
     }
 }

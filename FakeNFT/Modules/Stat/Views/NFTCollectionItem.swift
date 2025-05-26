@@ -8,53 +8,19 @@
 import SwiftUI
 
 struct NFTCollectionItem: View {
-//    @State private var inFavorites: Bool = false
     @ObservedObject var viewModel: NFTCollectionViewModel
+    @ObservedObject var statUserViewModel: ProfileStatViewModel
     let nftItem: NFT
-//    @Binding var inFavorites: Bool
     @State var inFavorites: Bool
     @State var inCart: Bool
-//    let nftItem: NFTElementModel
-//    @Binding var nftsInCart: [String]
-//    @Binding var nftsInFavorites: [String]
 
-//    private var inCart: Binding<Bool> {
-//        Binding(
-//            get: { viewModel.isInCart(nftItem, nftInCart: nftsInCart) },
-//            set: { newValue in
-//                if newValue {
-//                    viewModel.addToCart(nftItem, cart: &nftsInCart)
-//                } else {
-//                    viewModel.removeFromCart(nftItem, cart: &nftsInCart)
-//                }
-//            }
-//        )
-//    }
-//
-//    private var inFavorites: Bool {
-//        viewModel.isInFavorites(nftItem, nftInFavorite: nftsInFavorites)
-//    }
-
-    init(viewModel: NFTCollectionViewModel, nftItem: NFT, inFavorites: Bool, inCart: Bool) {
+    init(viewModel: NFTCollectionViewModel, statUserViewModel: ProfileStatViewModel, nftItem: NFT, inFavorites: Bool, inCart: Bool) {
         self.viewModel = viewModel
+        self.statUserViewModel = statUserViewModel
         self.nftItem = nftItem
         self.inFavorites = inFavorites
         self.inCart = inCart
     }
-
-//    init(viewModel: NFTCollectionViewModel, nftItem: NFT, nftsInFavorites: [String], nftsInCart: [String]) {
-//    init(nftItem: NFT) {
-//          self.nftItem = nftItem
-//        self.nftsInFavorites = nftsInFavorites
-//        self.nftsInCart = nftsInCart
-//        setup()
-//    }
-
-
-//    func setup() {
-//        self.inFavorites = viewModel.isInFavorites(nftItem, nftInFavorite: nftsInFavorites)
-//        self.inCart = viewModel.isInCart(nftItem, nftInCart: nftsInCart)
-//    }
 
     var body: some View {
         VStack(spacing: 0) {
@@ -84,10 +50,13 @@ struct NFTCollectionItem: View {
                     inFavorites.toggle()
 //                    viewModel.toggleFavorites(nft: nftItem, favorites: &nftsInFavorites)
                     print("inFavorites", inFavorites)
+                    Task {
+                        await statUserViewModel.toggleFavorites(nft: nftItem)
+                    }
+//                    viewModel.showStatus = 1
                 }, label: {
                     Image(systemName: "heart.fill")
                         .foregroundStyle(inFavorites ? Color(.tRedUn) : Color(.white))
-//                        .foregroundStyle(viewModel.isInFavorites(nftItem) ? Color(.tRedUn) : Color(.white))
                         .font(.system(size: 20))
                 })
                 .padding(10)
@@ -101,7 +70,6 @@ struct NFTCollectionItem: View {
                     Text(nftItem.name).font(.system(size: 17, weight: .bold)).lineLimit(2)
                         .minimumScaleFactor(0.6)
                         .frame(maxWidth: .infinity, alignment: .leading)
-//                    .padding(.trailing, 10)
                     Text("\(nftItem.price)" + " " + "ETH")
                         .font(.system(size: 10, weight: .regular))
                         .padding(.top, 4)
@@ -109,21 +77,17 @@ struct NFTCollectionItem: View {
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .layoutPriority(1)
-                StatisticsCart(inCart: $inCart)
+                StatisticsCart(viewModel: viewModel, inCart: $inCart)
             }
             .padding(.bottom, 20)
-//            .background(Color(.green))
         }
-//        .fixedSize(horizontal: false, vertical: true)
+//        .onChange(of: viewModel.showStatus) { newValue in
+//            print("Status updated: \(newValue)")
+//        }
+//        .onReceive(viewModel.$showStatus.dropFirst()) { newValue in
+//            print("Status updated: \(newValue)")
+//        }
         .frame(maxWidth: 108, maxHeight: 200)
-//        .onAppear(){
-//            inFavorites = viewModel.isInFavorites(nftItem, nftInFavorite: nftsInFavorites)
-//            inCart = viewModel.isInCart(nftItem, nftInCart: nftsInCart)
-//        }
-//        .onChange(of: inFavorites) { newValue in
-//            print("in onChange for NFTCollectionItem: \(newValue)")
-//            viewModel.nftInsertRemoveToFavorites(nft: self.nftItem, nftInFavorite: &nftsInFavorites)
-//        }
     }
 }
 
@@ -145,6 +109,7 @@ private struct StatisticsStars: View {
 }
 
 private struct StatisticsCart: View {
+    @ObservedObject var viewModel: NFTCollectionViewModel
     @Binding var inCart: Bool
     @Environment(\.colorScheme) private var colorScheme
 
@@ -154,6 +119,7 @@ private struct StatisticsCart: View {
             Button(action: {
                 inCart.toggle()
                 print("inCart", inCart)
+//                viewModel.showStatus = 2
 //                viewModel.toggleFavorites(nft: nftItem, favorites: &nftsInFavorites)
             }, label: {
                 Image(getCartImagerResource(inCart: inCart))

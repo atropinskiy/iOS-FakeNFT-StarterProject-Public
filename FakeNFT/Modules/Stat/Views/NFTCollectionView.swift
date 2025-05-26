@@ -9,15 +9,11 @@ import SwiftUI
 
 struct NFTCollectionView: View {
     @StateObject private var viewModel = NFTCollectionViewModel()
-    @Environment(\.colorScheme) private var colorScheme
+    @ObservedObject var statUserViewModel: ProfileStatViewModel
     @Binding var user: User
-    @Binding var nftsInCart: [String]
-    @Binding var nftsInFavorites: [String]
-//    @State var inFavorites: Bool = false
-//    @State var inCart: Bool = false
-
-//    @State private var inFavorites: Bool = false
-//    @State private var isLoading: Bool = false
+    @Environment(\.colorScheme) private var colorScheme
+//    @Binding var nftsInCart: [String]
+//    @Binding var nftsInFavorites: [String]
 
     let columns = [
         GridItem(.flexible(), spacing: 8),
@@ -40,16 +36,11 @@ struct NFTCollectionView: View {
                         spacing: 8
                     ) {
                         ForEach(viewModel.nfts, id: \.id) { nft in
-//                            NFTCollectionItem(viewModel: viewModel, nftItem: nft, nftsInCart: $nftsInCart, nftsInFavorites: $nftsInFavorites)
-//                        }
-
-//                            print(viewModel.isInFavorites(nft: nft))
-//                            print("in forEach")
-//                            let _ = debugPrint("Debug:", inCart, inFavorites)
-//                            viewModel.isInFavorites(nft: nft)
-                            let inCart: Bool = viewModel.isInCart(nft, nftInCart: nftsInCart)
-                            let inFavorites: Bool = viewModel.isInFavorites(nft, nftInFavorite: nftsInFavorites)
-                            NFTCollectionItem(viewModel: viewModel, nftItem: nft, inFavorites: inFavorites, inCart: inCart)
+//                            let inCart: Bool = viewModel.isInCart(nft, nftInCart: nftsInCart)
+//                            let inFavorites: Bool = viewModel.isInFavorites(nft, nftInFavorite: nftsInFavorites)
+                            let inCart: Bool = viewModel.isInCart(nft, nftInCart: statUserViewModel.nftsInCart)
+                            let inFavorites: Bool = viewModel.isInFavorites(nft, nftInFavorite: statUserViewModel.nftsInFavorites)
+                            NFTCollectionItem(viewModel: viewModel, statUserViewModel: statUserViewModel, nftItem: nft, inFavorites: inFavorites, inCart: inCart)
                                 .onAppear {
                                     if inCart {
                                         let _ = debugPrint("Debug inCart - в Корзине:", nft.id, nft.name)
@@ -57,12 +48,8 @@ struct NFTCollectionView: View {
                                     if inFavorites {
                                         let _ = debugPrint("Debug inFavorites - в Избранном:", nft.id, nft.name)
                                     }
-
                                 }
-//                                .onChange(of: inFavorites) { newValue in
-//                                    print("In onChange: \(newValue)")
-//                                    viewModel.nftInsertRemoveToFavorites(nft: nft, nftInFavorite: &nftsInFavorites)
-//                                }
+
 //                            NFTCollectionItem(nftItem: nft)
 //                            NFTCollectionItem(viewModel: viewModel, nftItem: nft, inCart: inCart, inFavorites: inFavorites)
 //                            NFTCollectionItem(viewModel: viewModel, nftItem: nft, inCart: viewModel.isInCart(nft, nftInCart: nftsInCart), inFavorites: viewModel.isInFavorites(nft, nftInFavorite: nftsInFavorites))
@@ -77,15 +64,14 @@ struct NFTCollectionView: View {
             }
         }
         .navigationTitle("Коллекция NFT")
-//        .navigationBarBackButtonHidden(true)
-        .navigationBarBackButtonHidden(false)
+        .navigationBarBackButtonHidden(true)
         .navigationBarTitleDisplayMode(.inline)
         .toolbar(.hidden, for: .tabBar)
-//        .toolbar {
-//            ToolbarItem(placement: .topBarLeading) {
-//                BackButtonView(isLoading: $viewModel.isLoading)
-//            }
-//        }
+        .toolbar {
+            ToolbarItem(placement: .topBarLeading) {
+                BackButtonView(isLoading: $viewModel.isLoading)
+            }
+        }
         .onAppear {
             viewModel.setup(with: user)
             Task { @MainActor in
