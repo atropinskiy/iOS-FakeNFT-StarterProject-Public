@@ -2,40 +2,79 @@ import Foundation
 
 @MainActor
 final class ProfileEditViewModel: ObservableObject {
-    
-    @Published var nameProfile: String = "Joaquin Phoenix"
-    @Published var descriptionProfile: String = """
-    Дизайнер из Казани, люблю цифровое искусство и бейглы. В моей коллекции уже 100+ NFT, \
-    и еще больше — на моём сайте. Открыт к коллаборациям.
-    """
-    @Published var websiteProfile: String = "Joaquin Phoenix.com"
-    
-    //    Поля для редактирования
-    
-    @Published var editingNameProfile: String = ""
-    @Published var editingDescriptionProfile: String = ""
-    @Published var editingWebsiteProfile: String = ""
+    @Published var profile: Profile = Profile(name: "", avatar: "", description: "", website: "", nfts: [], likes: [], id: "")
+    @Published var myloadedNFTs: [NFT] = []
+    @Published var myFavNFTS: [NFT] = []
+    @Published var isLoading: Bool = false
     @Published var isSaving: Bool = false
+    @Published var loadProfileErrorMessage: String?
+    @Published var saveProfileErrorMessage: String?
     
+    var editedName = ""
+    var editedDescription = ""
+    var editedWebsite: String = ""
+    var editedLikes: [String] = []
+    
+    private let networkService = NetworkServiceFunction.shared
+    private let profileId: Int = 1
     
     init() {
-        loadProfile()
-    }
-    
-    func loadProfile() {
-        editingNameProfile = nameProfile
-        editingDescriptionProfile = descriptionProfile
-        editingWebsiteProfile = websiteProfile
-    }
-    
-    func saveProfile(completion: @escaping () -> Void) {
-        isSaving = true
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [self] in
-            nameProfile = editingNameProfile
-            descriptionProfile = editingDescriptionProfile
-            websiteProfile = editingWebsiteProfile
-            isSaving = false
-            completion()
+        Task {
+            await loadProfile()
         }
     }
+    
+    func loadProfile() async {
+            await fetchDataFromProfile()
+    }
+    
+    private func fetchDataFromProfile() async {
+        isLoading = true
+        loadProfileErrorMessage = nil
+        
+        do {
+            let loadedProfile = try await networkService.fetchProfile(id: profileId)
+            editedName = loadedProfile.name
+            editedDescription = loadedProfile.description
+            editedWebsite = loadedProfile.website
+            editedLikes = loadedProfile.likes
+            profile = loadedProfile
+            
+            var loadedNFTs: [NFT] = []
+            var favNfts: [NFT] = []
+            
+            for nftId in profile.nfts {
+                let myNFTs = try await networkService.fetchNft(with: nftId)
+                loadedNFTs.append(myNFTs)
+            }
+            
+            for nftId in profile.likes {
+                let myNFTs = try await networkService.fetchNft(with: nftId)
+                favNfts.append(myNFTs)
+            }
+            
+            myloadedNFTs = loadedNFTs
+            myFavNFTS = favNfts
+            
+            
+        } catch {
+            loadProfileErrorMessage = "Не удалось загрузить профиль: \(error.localizedDescription)"
+        }
+        isLoading = false
+    }
+    
+    func saveProfile() async {
+        isSaving = true
+        saveProfileErrorMessage = nil
+        
+        let savedProfile = Profile(name: editedName, avatar: profile.avatar, description: editedDescription, website: editedWebsite, nfts: profile.nfts, likes: editedLikes, id: profile.id)
+        
+        do {
+            _ = try await networkService.uploadProfile(by: String(profileId), with: savedProfile)
+        } catch {
+            saveProfileErrorMessage = "Не удалось сохранить профиль: \(error.localizedDescription)"
+        }
+        isSaving = false
+    }
 }
+

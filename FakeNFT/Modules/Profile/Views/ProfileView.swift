@@ -2,7 +2,7 @@ import SwiftUI
 
 struct ProfileView: View {
     
-    @EnvironmentObject var viewModel: ProfileEditViewModel
+    @StateObject private var viewModel = ProfileEditViewModel()
     @State private var showEditProfileView: Bool = false
     
     var body: some View {
@@ -23,37 +23,65 @@ struct ProfileView: View {
             }
             
             VStack(alignment: .leading) {
-                HStack() {
-                    Image(.joaquin)
-                            .frame(width: 70, height: 70)
-                            .clipShape(Circle())
-                    Text(viewModel.nameProfile)
-                        .font(.system(size: 22, weight: .bold))
-                    Spacer()
-                }
-                .padding(.top, 20)
                 
-                VStack(alignment: .leading, spacing: 8) {
-                    Text(viewModel.descriptionProfile)
-                        .font(.system(size: 13, weight: .regular))
-                        .foregroundStyle(Color(.tBlack))
-                        .lineLimit(nil)
+                VStack(alignment: .leading) {
+                    if viewModel.isLoading {
+                        Spacer()
+                        ProgressView("Загрузка...")
+                            .progressViewStyle(CircularProgressViewStyle(tint: Color(.tBlack)))
+                            .padding(.top, 50)
+                        Spacer()
+                    } else {
+                        HStack() {
+                            AsyncImage(url: URL(string: viewModel.profile.avatar)) { phase in
+                                switch phase {
+                                case .empty:
+                                    ProgressView()
+                                case .success(let image):
+                                    image
+                                        .resizable()
+                                        .scaledToFill()
+                                        .frame(width: 70, height: 70)
+                                        .clipShape(Circle())
+                                case .failure:
+                                    Image(systemName: "person.circle.fill")
+                                        .resizable()
+                                        .frame(width: 70, height: 70)
+                                @unknown default:
+                                    EmptyView()
+                                }
+                            }
+                            Text(viewModel.profile.name)
+                                .font(.system(size: 22, weight: .bold))
+                            Spacer()
+                        }
+                        .padding(.top, 20)
+                        
+                        VStack(alignment: .leading, spacing: 8) {
+                            Text(viewModel.profile.description)
+                                .font(.system(size: 13, weight: .regular))
+                                .foregroundStyle(Color(.tBlack))
+                                .lineLimit(nil)
+                            
+                            Text(viewModel.profile.website)
+                                .font(.system(size: 15, weight: .regular))
+                                .foregroundStyle(Color(.tBlueUn))
+                        }
+                        .padding(.top, 20)
+                        
+                        ContentView()
+                            .padding(.top, 40)
+                        
+                        Spacer()
+                        
+                    }
                     
-                    Text(viewModel.websiteProfile)
-                        .font(.system(size: 15, weight: .regular))
-                        .foregroundStyle(Color(.tBlueUn))
+                    
                 }
-                .padding(.top, 20)
-                
-                ContentView()
-                    .padding(.top, 40)
-                
-                Spacer()
-                
-            }
-            .padding(.horizontal, 16)
-            .sheet(isPresented: $showEditProfileView) {
-                ProfileEditView()
+                .padding(.horizontal, 16)
+                .sheet(isPresented: $showEditProfileView) {
+                    ProfileEditView()
+                }
             }
         }
     }
@@ -65,3 +93,4 @@ struct ProfileView: View {
         .environmentObject(FavoriteNFTViewModel())
         .environmentObject(MyNFTViewModel())
 }
+

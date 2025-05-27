@@ -17,10 +17,10 @@ struct ProfileEditView: View {
             HStack {
                 Spacer()
                 Button(action: {
-                    viewModel.saveProfile {
+                    Task {
+                        await viewModel.saveProfile()
                         dismiss()
                     }
-                    
                 }) {
                     Image(systemName: "xmark")
                         .foregroundStyle(Color(.tBlack))
@@ -74,7 +74,7 @@ struct ProfileEditView: View {
                     // Имя
                     Text("Имя")
                         .font(.system(size: 18, weight: .bold))
-                    TextField("", text: $viewModel.editingNameProfile)
+                    TextField("", text: $viewModel.editedName)
                         .padding()
                         .background(Color(.tLightGray))
                         .clipShape(RoundedRectangle(cornerRadius: 12))
@@ -84,7 +84,7 @@ struct ProfileEditView: View {
                     // Описание
                     Text("Описание")
                         .font(.system(size: 18, weight: .bold))
-                    TextField("", text: $viewModel.editingDescriptionProfile, axis: .vertical)
+                    TextField("", text: $viewModel.editedDescription, axis: .vertical)
                         .lineLimit(5, reservesSpace: true)
                         .padding()
                         .background(Color(.tLightGray))
@@ -95,7 +95,7 @@ struct ProfileEditView: View {
                     // Сайт
                     Text("Сайт")
                         .font(.system(size: 18, weight: .bold))
-                    TextField("", text: $viewModel.editingWebsiteProfile)
+                    TextField("", text: $viewModel.editedWebsite)
                         .padding()
                         .background(Color(.tLightGray))
                         .clipShape(RoundedRectangle(cornerRadius: 12))
@@ -111,7 +111,9 @@ struct ProfileEditView: View {
             ImagePicker(sourceType: imagePickerSource, selectedImage: $selectedImage)
         }
         .onAppear {
-            viewModel.loadProfile()
+            Task {
+                await viewModel.loadProfile()
+            }
         }
         .overlay {
             if viewModel.isSaving {
@@ -131,4 +133,5 @@ struct ProfileEditView: View {
     ProfileEditView()
         .environmentObject(ProfileEditViewModel())
 }
+
 

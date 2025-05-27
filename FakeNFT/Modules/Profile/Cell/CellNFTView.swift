@@ -10,11 +10,38 @@ struct CellNFTView: View {
     var body: some View {
         HStack(alignment: .center, spacing: 16) {
             ZStack(alignment: .topTrailing) {
-                Image(nft.images[0])
-                    .resizable()
-                    .background(.gray)
-                    .frame(width: 108, height: 108)
-                    .clipShape(RoundedRectangle(cornerRadius: 12))
+                if let imageUrlString = nft.images.first,
+                   let url = URL(string: imageUrlString) {
+                    AsyncImage(url: url) { phase in
+                        switch phase {
+                        case .empty:
+                            ProgressView()
+                                .frame(width: 108, height: 108)
+                                .background(Color.gray.opacity(0.2))
+                                .clipShape(RoundedRectangle(cornerRadius: 12))
+                        case .success(let image):
+                            image
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                                .frame(width: 108, height: 108)
+                                .clipShape(RoundedRectangle(cornerRadius: 12))
+                        case .failure:
+                            Image(systemName: "photo")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 48, height: 48)
+                                .frame(width: 108, height: 108)
+                                .background(Color.gray.opacity(0.2))
+                                .clipShape(RoundedRectangle(cornerRadius: 12))
+                        @unknown default:
+                            EmptyView()
+                        }
+                    }
+                } else {
+                    RoundedRectangle(cornerRadius: 12)
+                        .fill(Color.gray.opacity(0.2))
+                        .frame(width: 108, height: 108)
+                }
                 
                 Button {
                     inFavorites.toggle()
@@ -43,7 +70,7 @@ struct CellNFTView: View {
                     }
                 }
                 
-                Text("от \(nft.author)")
+                Text("от \(nft.name)")
                     .font(.system(size: 13, weight: .regular))
                     .foregroundStyle(Color(.tBlack))
             }
@@ -68,4 +95,5 @@ struct ProductCardView_Previews: PreviewProvider {
             .previewLayout(.sizeThatFits)
     }
 }
+
 

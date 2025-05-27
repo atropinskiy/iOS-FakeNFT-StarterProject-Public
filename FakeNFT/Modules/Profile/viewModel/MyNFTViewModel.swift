@@ -23,11 +23,10 @@ final class MyNFTViewModel: ObservableObject {
         }
     }
     
-    func loadData() {
-        isLoading = true
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) { // имитация запроса
-            self.myNfts = MockNFT.shared.nfts
-            self.isLoading = false
-        }
+    
+    func updateNFTs(with nfts: [NFT]) {
+        myNfts = nfts
+        isLoading = false
     }
 }
+

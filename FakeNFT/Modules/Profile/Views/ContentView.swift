@@ -10,11 +10,11 @@ struct ContentView: View {
         VStack(spacing: 0) {
             
             MenuRow(title: "Мои NFT",
-                    count: MockNFT.shared.nfts.count,
+                    count: myNFTViewModel.myNfts.count,
                     destination: MyNFTView().environmentObject(myNFTViewModel))
             
             MenuRow(title: "Избранные NFT",
-                    count: MockNFT.shared.nfts.count,
+                    count: favoriteNFTViewModel.favoriteNfts.count ,
                     destination: FavoriteNFTView().environmentObject(favoriteNFTViewModel))
             
             MenuRow(title: "О разработчике",
