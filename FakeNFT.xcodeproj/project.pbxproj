@@ -207,7 +207,6 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		8485DFCA2DC7A9B3007843A1 /* Model */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Model; sourceTree = "<group>"; };
 		8485DFCB2DC7A9B9007843A1 /* ViewModel */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = ViewModel; sourceTree = "<group>"; };
 		84A9C5BD2DC0128E00688791 /* NetworkService */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = NetworkService; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -291,13 +290,6 @@
 				0CFCB74D2A7817DC0009A829 /* NftStorage.swift */,
 			);
 			path = MemoryStorage;
-			sourceTree = "<group>";
-		};
-		1261D3482DCB610B00F5B252 /* Models */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Models;
 			sourceTree = "<group>";
 		};
 		1261D3492DCB611400F5B252 /* Cell */ = {
@@ -395,7 +387,6 @@
 			isa = PBXGroup;
 			children = (
 				8485DFCB2DC7A9B9007843A1 /* ViewModel */,
-				8485DFCA2DC7A9B3007843A1 /* Model */,
 				22BB22E12DB29C4C00D61BF5 /* Views */,
 			);
 			path = Cart;
@@ -416,7 +407,6 @@
 			isa = PBXGroup;
 			children = (
 				1261D3492DCB611400F5B252 /* Cell */,
-				1261D3482DCB610B00F5B252 /* Models */,
 				126AD3F42DC9DBC4008615DD /* viewModel */,
 				22BB22DF2DB29C2E00D61BF5 /* Views */,
 			);
@@ -713,7 +703,6 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				8485DFCA2DC7A9B3007843A1 /* Model */,
 				8485DFCB2DC7A9B9007843A1 /* ViewModel */,
 				84A9C5BD2DC0128E00688791 /* NetworkService */,
 			);
