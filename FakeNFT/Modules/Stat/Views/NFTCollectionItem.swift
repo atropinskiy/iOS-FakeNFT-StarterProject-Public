@@ -51,13 +51,10 @@ struct NFTCollectionItem: View {
                     guard !isProcessingFavorites else { return }
                     isProcessingFavorites = true
                     inFavorites.toggle()
-//                    viewModel.toggleFavorites(nft: nftItem, favorites: &nftsInFavorites)
-//                    print("inFavorites", inFavorites)
                     Task {
                         await statUserViewModel.toggleFavorites(nft: nftItem)
                         isProcessingFavorites = false
                     }
-//                    viewModel.showStatus = 1
                 }, label: {
                     Image(systemName: "heart.fill")
                         .foregroundStyle(inFavorites ? Color(.tRedUn) : Color(.white))
@@ -87,12 +84,6 @@ struct NFTCollectionItem: View {
             }
             .padding(.bottom, 20)
         }
-//        .onChange(of: viewModel.showStatus) { newValue in
-//            print("Status updated: \(newValue)")
-//        }
-//        .onReceive(viewModel.$showStatus.dropFirst()) { newValue in
-//            print("Status updated: \(newValue)")
-//        }
         .frame(maxWidth: 108, maxHeight: 200)
     }
 }
@@ -128,13 +119,10 @@ private struct StatisticsCart: View {
                 guard !isProcessingCart else { return }
                 isProcessingCart = true
                 inCart.toggle()
-//                print("inCart", inCart)
                 Task {
                     await viewModel.toggleCart(nft: nftItem)
                     isProcessingCart = false
                 }
-//                viewModel.showStatus = 2
-//                viewModel.toggleFavorites(nft: nftItem, favorites: &nftsInFavorites)
             }, label: {
                 Image(getCartImagerResource(inCart: inCart))
                     .frame(width: 40, height: 40)

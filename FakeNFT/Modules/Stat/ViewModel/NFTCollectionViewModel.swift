@@ -8,14 +8,12 @@
 import Foundation
 import Combine
 
+@MainActor
 final class NFTCollectionViewModel: ObservableObject {
     @Published var showStatus: Int = 0
     @Published var nfts: [NFT] = []
     @Published var mockNfts: [NFT] = []
-    //    @Published var nfts: [NFTElementModel] = []
     @Published var isLoading: Bool = false
-//    @Published private var nftsInFavorites: [String] = []
-//    private var nftsInCart: [String] = []
     private let networkService = NetworkServiceFunction.shared
     private var userNFTIDs: [String] = []
     private var cancellableSet: Set<AnyCancellable> = []
@@ -36,54 +34,23 @@ final class NFTCollectionViewModel: ObservableObject {
     let nft5 = NFT(createdAt: "", name: "Zeus", images: ["zeus"], rating: 5, description: "", price: 3.85, author: "", id: "5")
 
     init() {
-        //        self.nfts = user.nfts
         self.mockNfts = [nft1, nft2, nft3, nft4, nft5]
-        //        $orderByName
-        //            .map { [weak self] _ in
-        //                guard let self else { return [] }
-        //                return self.nfts.sorted { $0.name < $1.name}
-        //            }
-        //            .sink { [weak self] nfts in
-        //                self?.nfts = nfts
-        //            }
-        //            .store(in: &cancellableSet)
     }
 
     func setup(with user: User) {
         self.userNFTIDs = user.nfts
     }
 
-    //    func fetch() {
-    //        isLoading = true
-    //        Just(nfts)
-    //            .delay(for: 2, scheduler: RunLoop.main)
-    //            .map { $0 }
-    //            .sink { [weak self] nfts in
-    //                self?.nfts = nfts
-    //                self?.isLoading = false
-    //            }
-    //            .store(in: &cancellableSet)
-    //    }
-
- @MainActor
     func fetchData() async {
-//        print("Step 1 - Начинаю качать список NFT пользователя...")
-        //        profileArray = [profileView1, profileView2, profileView3, profileView4, profileView5, profileView6, profileView7, profileView8, profileView9]
-//        print("userNFTIDs", userNFTIDs)
         guard !userNFTIDs.isEmpty else { return }
-//        Task { @MainActor in
             self.isLoading = true
-//        }
         nfts.removeAll()
-//        print("Step 2 - Начинаю качать список NFT пользователя...")
         let publishers = userNFTIDs.map { id in
             Future<NFT, Error> { [weak self] promise in
                 guard let self else { return }
                 Task {
                     do {
-//                        print("Скачиваю NFT с id \(id)...")
                         let nft = try await self.networkService.fetchNft(with: id)
-//                        print("Имя NFT: \(nft.name)")
                         promise(.success(nft))
                     } catch {
                         promise(.failure(error))
@@ -101,7 +68,6 @@ final class NFTCollectionViewModel: ObservableObject {
                 }
             } receiveValue: { [weak self] nfts in
                 self?.nfts = nfts.sorted { $0.id < $1.id }
-//                print("NFT count: \(nfts.count)")
             }
             .store(in: &cancellableSet)
     }

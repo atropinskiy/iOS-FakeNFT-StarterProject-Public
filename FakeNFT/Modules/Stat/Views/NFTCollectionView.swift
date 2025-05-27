@@ -12,8 +12,6 @@ struct NFTCollectionView: View {
     @ObservedObject var statUserViewModel: ProfileStatViewModel
     @Binding var user: User
     @Environment(\.colorScheme) private var colorScheme
-//    @Binding var nftsInCart: [String]
-//    @Binding var nftsInFavorites: [String]
 
     let columns = [
         GridItem(.flexible(), spacing: 8),
@@ -36,22 +34,9 @@ struct NFTCollectionView: View {
                         spacing: 8
                     ) {
                         ForEach(viewModel.nfts, id: \.id) { nft in
-//                            let inCart: Bool = viewModel.isInCart(nft, nftInCart: nftsInCart)
-//                            let inFavorites: Bool = viewModel.isInFavorites(nft, nftInFavorite: nftsInFavorites)
                             let inCart: Bool = viewModel.isInCart(nft, nftInCart: statUserViewModel.nftsInCart)
                             let inFavorites: Bool = viewModel.isInFavorites(nft, nftInFavorite: statUserViewModel.nftsInFavorites)
                             NFTCollectionItem(viewModel: viewModel, statUserViewModel: statUserViewModel, nftItem: nft, inFavorites: inFavorites, inCart: inCart)
-//                                .onAppear {
-//                                    if inCart {
-//                                        let _ = debugPrint("Debug inCart - в Корзине:", nft.id, nft.name)
-//                                    }
-//                                    if inFavorites {
-//                                        let _ = debugPrint("Debug inFavorites - в Избранном:", nft.id, nft.name)
-//                                    }
-//                                }
-//                            NFTCollectionItem(nftItem: nft)
-//                            NFTCollectionItem(viewModel: viewModel, nftItem: nft, inCart: inCart, inFavorites: inFavorites)
-//                            NFTCollectionItem(viewModel: viewModel, nftItem: nft, inCart: viewModel.isInCart(nft, nftInCart: nftsInCart), inFavorites: viewModel.isInFavorites(nft, nftInFavorite: nftsInFavorites))
                         }
                     }
                     .padding(.top, 20)

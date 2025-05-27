@@ -9,7 +9,6 @@ import SwiftUI
 
 struct StatView: View {
     @ObservedObject var viewModel: ProfileStatViewModel
-    //    @StateObject private var detailedViewModel = ProfileStatDetailViewModel()
     @State private var showActionSheet = false
     @State private var showErrorAlert = false
     @Environment(\.colorScheme) private var colorScheme
@@ -45,11 +44,9 @@ struct StatView: View {
                         }
                         .confirmationDialog("Сортировка", isPresented: $showActionSheet, titleVisibility: .visible) {
                             Button("По имени") {
-//                                print("Option 1 - Сортировка по имени")
                                 viewModel.sortOrder = .name
                             }
                             Button("По рейтингу") {
-//                                print("Option 2 - Сортировка по рейтингу")
                                 viewModel.sortOrder = .rating
                             }
                             Button("Закрыть", role: .cancel) {}

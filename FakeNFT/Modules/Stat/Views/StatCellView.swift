@@ -9,7 +9,6 @@ import SwiftUI
 import Kingfisher
 
 struct StatCellView: View {
-    //    let profile: UserModel
     let user: User
     private let statCellCornerRadius: CGFloat = 12
     private let statCellHeight: CGFloat = 80
@@ -19,11 +18,6 @@ struct StatCellView: View {
             RoundedRectangle(cornerRadius: statCellCornerRadius)
                 .foregroundStyle(Color(.tLightGray))
             HStack {
-//                let cellImage = user.avatar.isEmpty ? Image(systemName: "person.circle.fill") : Image(user.avatar)
-                //                cellImage
-                //                    .resizable()
-                //                    .frame(width: 28, height: 28)
-                //                    .clipShape(Circle())
                 AsyncImage(url: URL(string: user.avatar)) { phase in
                     switch phase {
                         case .empty:
@@ -60,15 +54,11 @@ struct StatCellView: View {
 }
 
 #Preview {
-    //    let profileViewWithImage = ProfileModel(avatar: "alex", name: "Alex", rating: 112, description: "", nfts: [], website: "")
-    //    StatCellView(profile: profileViewWithImage)
     let userViewWithImage = User(name: "Alex", avatar: "alex",  description: "Alex Alex Alex", website: "website", nfts: [], rating: "112", id: "1")
     StatCellView(user: userViewWithImage)
 }
 
 #Preview {
-    //    let profileViewNoImage = ProfileModel(avatar: "", name: "Bill", rating: 98, description: "", nfts: [], website: "")
-    //    StatCellView(profile: profileViewNoImage)
     let userViewWithImage = User(name: "Bill", avatar: "",  description: "Bill Bill Bill", website: "website", nfts: [], rating: "98", id: "2")
     StatCellView(user: userViewWithImage)
 }

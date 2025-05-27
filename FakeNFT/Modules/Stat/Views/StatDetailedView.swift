@@ -8,14 +8,12 @@
 import SwiftUI
 
 struct StatDetailedView: View {
-    //    let viewModel: ProfileStatDetailViewModel
     @ObservedObject var viewModel: ProfileStatViewModel
     @State var user: User
     @State private var showUserSite: Bool = false
     @State var nftsInCart: [String] = []
     @State var nftsInFavorites: [String] = []
 
-//    init(user: User, nftsInCart: [String], nftsInFavorites: [String]) {
     init(user: User, statUserViewModel: ProfileStatViewModel) {
         self.viewModel = statUserViewModel
         self.user = user
@@ -24,14 +22,6 @@ struct StatDetailedView: View {
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
-                //                Image(viewModel.profileDetails.avatar)
-                //                Image("alex")
-                //                    .resizable()
-                //                    .aspectRatio(contentMode: .fill)
-                //                    .frame(width: 70, height: 70)
-                //                    .clipShape(Circle())
-                //                    .padding(.trailing, 16)
-                //                Text(viewModel.profileDetails.name)
                 AsyncImage(url: URL(string: user.avatar)) { phase in
                     switch phase {
                         case .empty:
@@ -59,7 +49,6 @@ struct StatDetailedView: View {
             }
             .padding(.top, 20)
             VStack(alignment: .leading, spacing: 8) {
-                //                Text(viewModel.profileDetails.description)
                 Text(user.description)
                     .font(.system(size: 13, weight: .regular))
                     .lineSpacing(18 - UIFont.systemFont(ofSize: 13, weight: .regular).lineHeight)
@@ -87,8 +76,6 @@ struct StatDetailedView: View {
                         MenuRow(title: "Коллекция NFT", count: user.nfts.count, destination: EmptyNFTView(title: "Тут NFT нет", imageName: "exclamationmark.octagon", description: "В этой коллекции пока нет ни одного NFT"))
                     } else {
                         MenuRow(title: "Коллекция NFT", count: user.nfts.count, destination: NFTCollectionView(statUserViewModel: viewModel, user: $user))
-                        //                    MenuRow(title: "Коллекция NFT", count: user.nfts.count, destination: NFTCollectionView(user: $user, nftsInCart: $nftsInCart, nftsInFavorites: $nftsInFavorites))
-                        //                    MenuRow(title: "Коллекция NFT", count: 112, destination: NFTCollectionView())
                     }
                 }
                 .padding(.top, 40)

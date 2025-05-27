@@ -9,7 +9,6 @@ import SwiftUI
 import WebKit
 
 struct UserSiteView: View {
-//    @ObservedObject var viewModel: ProfileStatViewModel
 //    let urlString = "https://practicum.yandex.ru"
     let user: User
     @Environment(\.dismiss) private var dismiss
@@ -21,7 +20,6 @@ struct UserSiteView: View {
 
     var body: some View {
         ZStack {
-//            if let url = URL(string: urlString), isValidURL(url) {
             if let url = URL(string: user.website), isValidURL(url) {
                 UserWebView(url: url, isLoading: $isLoading)
                     .ignoresSafeArea(.all, edges: .bottom)
@@ -29,7 +27,6 @@ struct UserSiteView: View {
                 errorWebView
             }
         }
-//        .navigationTitle("Яндекс Практикум")
         .navigationTitle(user.name)
         .navigationBarTitleDisplayMode(.inline)
         .navigationBarBackButtonHidden(true)
