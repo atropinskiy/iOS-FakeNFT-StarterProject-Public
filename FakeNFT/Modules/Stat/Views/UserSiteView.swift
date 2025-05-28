@@ -40,17 +40,14 @@ struct UserSiteView: View {
 
     private func isValidURL(_ url: URL) -> Bool {
 //        url.absoluteString.contains("yandex.ru")
-// 1. Проверка схемы URL (http/https)
-        guard let scheme = url.scheme else { return false }
-        guard ["http", "https"].contains(scheme.lowercased()) else { return false }
+        // 1. Проверка схемы URL (http/https)
+        guard let scheme = url.scheme, ["http", "https"].contains(scheme.lowercased()) else { return false }
         // 2. Проверка хоста (домена)
         guard let host = url.host, !host.isEmpty else { return false }
-
         // 3. Проверка валидности домена
         let hostPattern = "^([a-zA-Z0-9]([a-zA-Z0-9\\-]{0,61}[a-zA-Z0-9])?\\.)+[a-zA-Z]{2,}$"
         let hostTest = NSPredicate(format: "SELF MATCHES %@", hostPattern)
         guard hostTest.evaluate(with: host) else { return false }
-
         // 4. Дополнительные проверки (опционально)
         do {
             // Проверка с использованием NSDataDetector

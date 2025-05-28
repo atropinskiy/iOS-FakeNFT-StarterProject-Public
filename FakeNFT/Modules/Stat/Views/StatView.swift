@@ -26,12 +26,12 @@ struct StatView: View {
                     ContentUnavailableView(
                         "Нет данных",
                         systemImage: "person.3",
-                        description: Text("Не удалось загрузить список пользователей"))
+                        description: Text("Не удалось загрузить список пользователей.\nВернитесь на главную страницу и попробуйте еще раз."))
                 } else {
                     EmptyStatView (
                         title: "Нет данных",
                         imageName: "person.3",
-                        description: "Не удалось загрузить список пользователей"
+                        description: "Не удалось загрузить список пользователей. \nВернитесь на главную страницу и попробуйте еще раз."
                     )
                 }
             } else {
@@ -61,6 +61,14 @@ struct StatView: View {
                                     .frame(width: 27)
                                 StatCellView(user: viewModel.allUsersList[index])
                             }
+//                            .task {
+//                                if viewModel.allUsersList[index].description == nil {
+//                                    print("[DEBUG] user.description", viewModel.allUsersList[index].name, viewModel.allUsersList[index].description ?? "nil")
+//                                }
+//                                if viewModel.allUsersList[index].website.isEmpty {
+//                                    print("[DEBUG] user.website", viewModel.allUsersList[index].name, viewModel.allUsersList[index].website ?? "nil")
+//                                }
+//                            }
                             .background(
                                 NavigationLink(
                                     "",

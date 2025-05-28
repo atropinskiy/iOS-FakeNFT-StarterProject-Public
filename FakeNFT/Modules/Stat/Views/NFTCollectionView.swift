@@ -58,7 +58,8 @@ struct NFTCollectionView: View {
         }
         .onAppear {
             viewModel.setup(with: user)
-            Task { @MainActor in
+//            Task { @MainActor in
+            Task { 
                 await viewModel.fetchData()
             }
         }

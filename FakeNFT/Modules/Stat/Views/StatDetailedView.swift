@@ -49,7 +49,7 @@ struct StatDetailedView: View {
             }
             .padding(.top, 20)
             VStack(alignment: .leading, spacing: 8) {
-                Text(user.description)
+                Text(user.description ?? "Описания нет")
                     .font(.system(size: 13, weight: .regular))
                     .lineSpacing(18 - UIFont.systemFont(ofSize: 13, weight: .regular).lineHeight)
                     .tracking(-0.08)
@@ -72,11 +72,18 @@ struct StatDetailedView: View {
                 .padding(.top, 28)
 
                 VStack(spacing: 0) {
-                    if user.nfts.count == 0 {
-                        MenuRow(title: "Коллекция NFT", count: user.nfts.count, destination: EmptyNFTView(title: "Тут NFT нет", imageName: "exclamationmark.octagon", description: "В этой коллекции пока нет ни одного NFT"))
-                    } else {
-                        MenuRow(title: "Коллекция NFT", count: user.nfts.count, destination: NFTCollectionView(statUserViewModel: viewModel, user: $user))
-                    }
+// Предыдущий вариант - как его заменить с использованием .opacity?
+//                    if user.nfts.count == 0 {
+//                        MenuRow(title: "Коллекция NFT", count: user.nfts.count, destination: EmptyNFTView(title: "Тут NFT нет", imageName: "exclamationmark.octagon", description: "В этой коллекции пока нет ни одного NFT"))
+//                    } else {
+//                        MenuRow(title: "Коллекция NFT", count: user.nfts.count, destination: NFTCollectionView(statUserViewModel: viewModel, user: $user))
+//                    }
+                    MenuRow(title: "Коллекция NFT",
+                            count: user.nfts.count,
+                            destination: user.nfts.count == 0
+                            ? AnyView(EmptyNFTView(title: "Тут NFT нет", imageName: "exclamationmark.octagon", description: "В этой коллекции пока нет ни одного NFT"))
+                            : AnyView(NFTCollectionView(statUserViewModel: viewModel, user: $user))
+                    )
                 }
                 .padding(.top, 40)
             }
@@ -121,7 +128,7 @@ struct StatDetailedView: View {
 //}
 
 struct BackButtonViewSimple: View {
-    @Environment(\.presentationMode) var presentationMode
+    @Environment(\.presentationMode) private var presentationMode
 
     var body: some View {
         Button(action: {
@@ -135,7 +142,7 @@ struct BackButtonViewSimple: View {
 }
 
 struct BackButtonView: View {
-    @Environment(\.dismiss) var dismiss
+    @Environment(\.dismiss) private var dismiss
     @Binding var isLoading: Bool
 
     var body: some View {

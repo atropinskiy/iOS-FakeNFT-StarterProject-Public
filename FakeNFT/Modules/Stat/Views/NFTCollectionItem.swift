@@ -10,10 +10,10 @@ import SwiftUI
 struct NFTCollectionItem: View {
     @ObservedObject var viewModel: NFTCollectionViewModel
     @ObservedObject var statUserViewModel: ProfileStatViewModel
-    let nftItem: NFT
-    @State var inFavorites: Bool
-    @State var inCart: Bool
-    @State var isProcessingFavorites: Bool = false
+    private let nftItem: NFT
+    @State private var inFavorites: Bool
+    @State private var inCart: Bool
+    @State private var isProcessingFavorites: Bool = false
 
     init(viewModel: NFTCollectionViewModel, statUserViewModel: ProfileStatViewModel, nftItem: NFT, inFavorites: Bool, inCart: Bool) {
         self.viewModel = viewModel
@@ -108,7 +108,7 @@ private struct StatisticsStars: View {
 private struct StatisticsCart: View {
     @ObservedObject var viewModel: ProfileStatViewModel
     @Binding var inCart: Bool
-    @State var isProcessingCart: Bool = false
+    @State private var isProcessingCart: Bool = false
     @Environment(\.colorScheme) private var colorScheme
     let nftItem: NFT
 

@@ -56,7 +56,8 @@ final class ProfileStatViewModel: ObservableObject {
             .assign(to: \.allUsersList, on: self)
             .store(in: &cancellableSet)
     }
-
+    
+    @MainActor
     func fetchData() {
         isLoading = true
         Task {
@@ -76,6 +77,9 @@ final class ProfileStatViewModel: ObservableObject {
         do {
             let profile = try await networkService.fetchProfile(id: 1)
             let order = try await networkService.fetchOrder(by: "1")
+            if profile.description.isEmpty {
+                print("Описания нет в профиле \(profile.name)")
+            }
             await MainActor.run {
                 self.profile = profile
                 self.nftsInFavorites = profile.likes

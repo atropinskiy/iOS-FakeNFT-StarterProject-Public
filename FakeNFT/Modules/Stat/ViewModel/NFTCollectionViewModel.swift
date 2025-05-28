@@ -18,13 +18,7 @@ final class NFTCollectionViewModel: ObservableObject {
     private var userNFTIDs: [String] = []
     private var cancellableSet: Set<AnyCancellable> = []
 
-    //    let nft1 = NFT(createdAt: "", name: "Archie", images: ["archie"], rating: 2, description: "", price: 1.78, author: "", id: "")
-    //    let nft1 = NFTElementModel(name: "Archie", image: "nftArchie", rating: 2, price: 1.78, isFavorite: false)
-    //    let nft2 = NFTElementModel(name: "Emma", image: "nftEmma", rating: 4, price: 1.25, isFavorite: false)
-    //    let nft3 = NFTElementModel(name: "Stella", image: "nftStella", rating: 3, price: 2.5, isFavorite: false)
-    //    let nft4 = NFTElementModel(name: "Toast", image: "nftToast", rating: 1, price: 1.0, isFavorite: false)
-    //    let nft5 = NFTElementModel(name: "Zeus", image: "nftZeus", rating: 5, price: 3.85, isFavorite: false)
-
+    // набор нфт и init() нужны для Preview
     //    let nft1 = NFT(createdAt: "", name: "Carmine Cervantez", images: ["https://code.s3.yandex.net/Mobile/iOS/NFT/Beige/April/1.png"], rating: 2, description: "", price: 1.78, author: "", id: "1")
     let nft1 = NFT(createdAt: "", name: "Archie", images: ["https://code.s3.yandex.net/Mobile/iOS/NFT/Beige/April/1.png"], rating: 2, description: "", price: 1.78, author: "", id: "1")
     //    let nft1 = NFT(createdAt: "", name: "Archie", images: ["archie"], rating: 2, description: "", price: 1.78, author: "", id: "1")
@@ -38,45 +32,64 @@ final class NFTCollectionViewModel: ObservableObject {
     }
 
     func setup(with user: User) {
-        self.userNFTIDs = user.nfts
+        userNFTIDs = user.nfts
     }
 
     func fetchData() async {
         guard !userNFTIDs.isEmpty else { return }
-            self.isLoading = true
+        isLoading = true
         nfts.removeAll()
-        let publishers = userNFTIDs.map { id in
-            Future<NFT, Error> { [weak self] promise in
-                guard let self else { return }
-                Task {
-                    do {
-                        let nft = try await self.networkService.fetchNft(with: id)
-                        promise(.success(nft))
-                    } catch {
-                        promise(.failure(error))
+        do {
+            let results = try await withThrowingTaskGroup(of: NFT.self) { group in
+                for id in userNFTIDs {
+                    group.addTask {
+                        try await self.networkService.fetchNft(with: id)
                     }
                 }
-            }
-        }
-        Publishers.MergeMany(publishers)
-            .collect()
-            .receive(on: RunLoop.main)
-            .sink { [weak self] completion in
-                self?.isLoading = false
-                if case .failure(let error) = completion {
-                    print("Ошибка: \(error.localizedDescription)")
+                var collected: [NFT] = []
+                for try await nft in group {
+                    collected.append(nft)
                 }
-            } receiveValue: { [weak self] nfts in
-                self?.nfts = nfts.sorted { $0.id < $1.id }
+                return collected
             }
-            .store(in: &cancellableSet)
+            nfts = results.sorted { $0.id < $1.id }
+        } catch {
+            print("Ошибка: \(error.localizedDescription)")
+        }
+        isLoading = false
+
+        //        let publishers = userNFTIDs.map { id in
+        //            Future<NFT, Error> { [weak self] promise in
+        //                guard let self else { return }
+        //                Task {
+        //                    do {
+        //                        let nft = try await self.networkService.fetchNft(with: id)
+        //                        promise(.success(nft))
+        //                    } catch {
+        //                        promise(.failure(error))
+        //                    }
+        //                }
+        //            }
+        //        }
+        //        Publishers.MergeMany(publishers)
+        //            .collect()
+        //            .receive(on: RunLoop.main)
+        //            .sink { [weak self] completion in
+        //                self?.isLoading = false
+        //                if case .failure(let error) = completion {
+        //                    print("Ошибка: \(error.localizedDescription)")
+        //                }
+        //            } receiveValue: { [weak self] nfts in
+        //                self?.nfts = nfts.sorted { $0.id < $1.id }
+        //            }
+        //            .store(in: &cancellableSet)
     }
 
     func isInFavorites(_ nft: NFT, nftInFavorite: [String]) -> Bool {
-        return nftInFavorite.contains { $0 == nft.id }
+        nftInFavorite.contains { $0 == nft.id }
     }
 
     func isInCart(_ nft: NFT, nftInCart: [String]) -> Bool {
-        return nftInCart.contains { $0 == nft.id }
+        nftInCart.contains { $0 == nft.id }
     }
 }
