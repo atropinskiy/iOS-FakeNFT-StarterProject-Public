@@ -2,7 +2,7 @@ import SwiftUI
 
 struct ProfileView: View {
     
-    @StateObject private var viewModel = ProfileEditViewModel()
+    @EnvironmentObject private var profileEditViewModel: ProfileEditViewModel
     @State private var showEditProfileView: Bool = false
     
     var body: some View {
@@ -23,9 +23,8 @@ struct ProfileView: View {
             }
             
             VStack(alignment: .leading) {
-                
                 VStack(alignment: .leading) {
-                    if viewModel.isLoading {
+                    if profileEditViewModel.isLoading {
                         Spacer()
                         ProgressView("Загрузка...")
                             .progressViewStyle(CircularProgressViewStyle(tint: Color(.tBlack)))
@@ -33,7 +32,7 @@ struct ProfileView: View {
                         Spacer()
                     } else {
                         HStack() {
-                            AsyncImage(url: URL(string: viewModel.profile.avatar)) { phase in
+                            AsyncImage(url: URL(string: profileEditViewModel.profile.avatar)) { phase in
                                 switch phase {
                                 case .empty:
                                     ProgressView()
@@ -51,38 +50,35 @@ struct ProfileView: View {
                                     EmptyView()
                                 }
                             }
-                            Text(viewModel.profile.name)
+                            Text(profileEditViewModel.profile.name)
                                 .font(.system(size: 22, weight: .bold))
                             Spacer()
                         }
                         .padding(.top, 20)
                         
                         VStack(alignment: .leading, spacing: 8) {
-                            Text(viewModel.profile.description)
+                            Text(profileEditViewModel.profile.description)
                                 .font(.system(size: 13, weight: .regular))
                                 .foregroundStyle(Color(.tBlack))
                                 .lineLimit(nil)
-                            
-                            Text(viewModel.profile.website)
+                            Text(profileEditViewModel.profile.website)
                                 .font(.system(size: 15, weight: .regular))
                                 .foregroundStyle(Color(.tBlueUn))
                         }
                         .padding(.top, 20)
-                        
                         ContentView()
                             .padding(.top, 40)
-                        
                         Spacer()
-                        
                     }
-                    
-                    
                 }
                 .padding(.horizontal, 16)
                 .sheet(isPresented: $showEditProfileView) {
                     ProfileEditView()
                 }
             }
+        }
+        .task {
+            await profileEditViewModel.loadProfile()
         }
     }
 }
@@ -93,4 +89,5 @@ struct ProfileView: View {
         .environmentObject(FavoriteNFTViewModel())
         .environmentObject(MyNFTViewModel())
 }
+
 

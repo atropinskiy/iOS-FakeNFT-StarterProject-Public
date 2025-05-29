@@ -3,7 +3,7 @@ import SwiftUI
 struct CellFavoriteNFTCell: View {
     
     let nft: NFT
-    
+    @EnvironmentObject private var profileEditViewModel: ProfileEditViewModel
     @State private var rating: Int = 0
     @State private var inFavorites: Bool = true
     
@@ -45,6 +45,9 @@ struct CellFavoriteNFTCell: View {
                 
                 Button(action: {
                     inFavorites.toggle()
+                    Task {
+                        await profileEditViewModel.favoriteAddRemove(nft: nft)
+                    }
                 }, label: {
                     Image(systemName: "heart.fill")
                         .foregroundStyle(inFavorites ? Color(.tRedUn) : Color(.white))
@@ -75,11 +78,9 @@ struct CellFavoriteNFTCell: View {
     }
 }
 
-struct CellFavoriteNFTCellPreview: PreviewProvider {
-    static var previews: some View {
-        CellFavoriteNFTCell(nft: MockNFT.shared.nfts[0])
-            .previewLayout(.sizeThatFits)
-    }
+#Preview {
+    CellFavoriteNFTCell(nft: MockNFT.shared.nfts[0])
+        .environmentObject(ProfileEditViewModel())
 }
 
 

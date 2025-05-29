@@ -3,7 +3,7 @@ import SwiftUI
 struct FavoriteNFTView: View {
     
     @EnvironmentObject var viewModel: FavoriteNFTViewModel
-    @StateObject private var profileViewModel = ProfileEditViewModel()
+    @EnvironmentObject private var profileEditViewModel: ProfileEditViewModel
     @Environment(\.dismiss) private var dismiss
     
     @State private var isFavNftLoading = true
@@ -14,7 +14,7 @@ struct FavoriteNFTView: View {
     ]
     
     var isLoading: Bool {
-        isFavNftLoading || viewModel.isLoading
+        profileEditViewModel.isLoading
     }
     
     var body: some View {
@@ -22,13 +22,13 @@ struct FavoriteNFTView: View {
         NavigationView {
             ZStack {
                 Group {
-                    if viewModel.favoriteNfts.isEmpty && !isLoading {
+                    if profileEditViewModel.myFavNFTS.isEmpty && !isLoading {
                         Text("У вас еще нет избранных NFT")
                             .font(.system(size: 17, weight: .bold))
                     } else {
                         ScrollView {
                             LazyVGrid(columns: columns, spacing: 7) {
-                                ForEach(viewModel.favoriteNfts, id: \.self) { nft in
+                                ForEach(profileEditViewModel.myFavNFTS, id: \.self) { nft in
                                     CellFavoriteNFTCell(nft: nft)
                                 }
                             }
@@ -52,15 +52,8 @@ struct FavoriteNFTView: View {
                     }
                 }
             }
-            .onReceive(profileViewModel.$myFavNFTS) { nfts in
+            .onReceive(profileEditViewModel.$myFavNFTS) { nfts in
                 viewModel.updateNFTs(with: nfts)
-            }
-            .onAppear {
-                Task {
-                    isFavNftLoading = true
-                    await profileViewModel.loadProfile()
-                    isFavNftLoading = false
-                }
             }
         }
         .navigationBarBackButtonHidden(true)
@@ -84,6 +77,8 @@ struct FavoriteNFTView: View {
 
 #Preview {
     FavoriteNFTView()
+        .environmentObject(ProfileEditViewModel())
         .environmentObject(FavoriteNFTViewModel())
 }
+
 

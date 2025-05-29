@@ -3,22 +3,22 @@ import SwiftUI
 struct MyNFTView: View {
     
     @StateObject private var viewModel = MyNFTViewModel()
-    @StateObject private var profileViewModel = ProfileEditViewModel()
+
+    @EnvironmentObject private var profileEditViewModel: ProfileEditViewModel
     @Environment(\.dismiss) private var dismiss
     
     @State private var showSortSheet: Bool = false
-    @State private var isProfileLoading: Bool = true
     
     var body: some View {
         
         NavigationView {
             ZStack {
                 Group {
-                    if viewModel.myNfts.isEmpty && !viewModel.isLoading && !isProfileLoading {
+                    if profileEditViewModel.myLoadedNFTs.isEmpty && !profileEditViewModel.isLoading {
                         Text("У вас еще нет NFT")
                             .font(.system(size: 17, weight: .bold))
                     } else {
-                        List(viewModel.myNfts, id: \.self)  { nft in
+                        List(profileEditViewModel.myLoadedNFTs, id: \.self)  { nft in
                             CellNFTView(nft: nft)
                                 .listStyle(.plain)
                                 .listRowSeparator(.hidden)
@@ -26,9 +26,9 @@ struct MyNFTView: View {
                         }
                     }
                 }
-                .blur(radius: isProfileLoading || viewModel.isLoading ? 3 : 0)
-                
-                if isProfileLoading || viewModel.isLoading {
+                .blur(radius: profileEditViewModel.isLoading ? 3 : 0)
+
+                if profileEditViewModel.isLoading {
                     ZStack {
                         VStack(spacing: 16) {
                             ProgressView()
@@ -40,15 +40,8 @@ struct MyNFTView: View {
                     }
                 }
             }
-            .onReceive(profileViewModel.$myloadedNFTs) { nfts in
+            .onReceive(profileEditViewModel.$myLoadedNFTs) { nfts in
                 viewModel.updateNFTs(with: nfts)
-            }
-            .onAppear {
-                Task {
-                    isProfileLoading = true
-                    await profileViewModel.loadProfile()
-                    isProfileLoading = false
-                }
             }
         }
         .navigationBarBackButtonHidden(true)
@@ -86,17 +79,18 @@ struct MyNFTView: View {
 private struct ButtonStack: View {
     
     @ObservedObject var viewModel: MyNFTViewModel
-    
+    @EnvironmentObject private var profileEditViewModel: ProfileEditViewModel
+
     var body: some View {
         VStack {
             Button("По названию") {
-                viewModel.sortNFTs(by: .name)
+                profileEditViewModel.sortNFTs(by: .name)
             }
             Button("По рейтингу") {
-                viewModel.sortNFTs(by: .rating)
+                profileEditViewModel.sortNFTs(by: .rating)
             }
             Button("По цене") {
-                viewModel.sortNFTs(by: .price)
+                profileEditViewModel.sortNFTs(by: .price)
             }
             Button("Закрыть", role: .cancel) {}
         }
@@ -105,6 +99,7 @@ private struct ButtonStack: View {
 
 #Preview {
     MyNFTView()
-        .environmentObject(MyNFTViewModel())
+        .environmentObject(ProfileEditViewModel())
 }
+
 
