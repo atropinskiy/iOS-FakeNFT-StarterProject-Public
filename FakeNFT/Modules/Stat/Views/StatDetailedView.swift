@@ -72,18 +72,12 @@ struct StatDetailedView: View {
                 .padding(.top, 28)
 
                 VStack(spacing: 0) {
-// Предыдущий вариант - как его заменить с использованием .opacity?
-//                    if user.nfts.count == 0 {
-//                        MenuRow(title: "Коллекция NFT", count: user.nfts.count, destination: EmptyNFTView(title: "Тут NFT нет", imageName: "exclamationmark.octagon", description: "В этой коллекции пока нет ни одного NFT"))
-//                    } else {
-//                        MenuRow(title: "Коллекция NFT", count: user.nfts.count, destination: NFTCollectionView(statUserViewModel: viewModel, user: $user))
-//                    }
-                    MenuRow(title: "Коллекция NFT",
-                            count: user.nfts.count,
-                            destination: user.nfts.count == 0
-                            ? AnyView(EmptyNFTView(title: "Тут NFT нет", imageName: "exclamationmark.octagon", description: "В этой коллекции пока нет ни одного NFT"))
-                            : AnyView(NFTCollectionView(statUserViewModel: viewModel, user: $user))
-                    )
+                    ZStack {
+                        MenuRow(title: "Коллекция NFT", count: user.nfts.count, destination: EmptyNFTView(title: "Тут NFT нет", imageName: "exclamationmark.octagon", description: "В этой коллекции пока нет ни одного NFT"))
+                            .opacity(user.nfts.count == 0 ? 1 : 0)
+                        MenuRow(title: "Коллекция NFT", count: user.nfts.count, destination: NFTCollectionView(statUserViewModel: viewModel, user: $user))
+                            .opacity(user.nfts.count == 0 ? 0 : 1)
+                    }
                 }
                 .padding(.top, 40)
             }
