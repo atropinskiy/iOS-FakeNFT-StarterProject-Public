@@ -5,6 +5,8 @@
 //  Created by Valery Zvonarev on 07.05.2025.
 //
 
+
+//TODO: Упрощенная моковая модель - удалить в финальной реализации
 import Foundation
 
 final class ProfileStatDetailViewModel: ObservableObject {
