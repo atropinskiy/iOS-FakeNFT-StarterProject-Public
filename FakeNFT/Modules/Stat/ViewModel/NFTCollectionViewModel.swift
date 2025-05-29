@@ -18,8 +18,6 @@ final class NFTCollectionViewModel: ObservableObject {
     private var userNFTIDs: [String] = []
     private var cancellableSet: Set<AnyCancellable> = []
 
-    // набор нфт и init() нужны для Preview
-    //    let nft1 = NFT(createdAt: "", name: "Carmine Cervantez", images: ["https://code.s3.yandex.net/Mobile/iOS/NFT/Beige/April/1.png"], rating: 2, description: "", price: 1.78, author: "", id: "1")
     let nft1 = NFT(createdAt: "", name: "Archie", images: ["https://code.s3.yandex.net/Mobile/iOS/NFT/Beige/April/1.png"], rating: 2, description: "", price: 1.78, author: "", id: "1")
     //    let nft1 = NFT(createdAt: "", name: "Archie", images: ["archie"], rating: 2, description: "", price: 1.78, author: "", id: "1")
     let nft2 = NFT(createdAt: "", name: "Emma", images: ["emma"], rating: 4, description: "", price: 1.25, author: "", id: "2")

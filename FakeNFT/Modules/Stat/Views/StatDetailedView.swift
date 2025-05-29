@@ -73,7 +73,9 @@ struct StatDetailedView: View {
 
                 VStack(spacing: 0) {
                     ZStack {
-                        MenuRow(title: "Коллекция NFT", count: user.nfts.count, destination: EmptyNFTView(title: "Тут NFT нет", imageName: "exclamationmark.octagon", description: "В этой коллекции пока нет ни одного NFT"))
+                        MenuRow(title: "Коллекция NFT",
+                                count: user.nfts.count,
+                                destination: EmptyNFTView(title: "Тут NFT нет", imageName: "exclamationmark.octagon", description: "В этой коллекции пока нет ни одного NFT"))
                             .opacity(user.nfts.count == 0 ? 1 : 0)
                         MenuRow(title: "Коллекция NFT", count: user.nfts.count, destination: NFTCollectionView(statUserViewModel: viewModel, user: $user))
                             .opacity(user.nfts.count == 0 ? 0 : 1)

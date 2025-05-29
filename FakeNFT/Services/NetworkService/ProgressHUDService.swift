@@ -7,9 +7,9 @@
 
 import ProgressHUD
 
-final class ProgressHUDService {
+final class ProgressHUDServiceTwo {
 
-    static let shared = ProgressHUDService()
+    static let shared = ProgressHUDServiceTwo()
 
     private init() {}
 

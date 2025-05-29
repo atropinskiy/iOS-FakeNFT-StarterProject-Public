@@ -136,7 +136,7 @@ struct UserWebView: UIViewRepresentable {
 
         func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
             parent.isLoading = true
-            parent.progressHUD.show(message: "Загрузка...")
+            parent.progressHUD.showProgress(message: "Загрузка...")
         }
 
         func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
