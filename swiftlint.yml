@@ -1,0 +1,14 @@
+#
+//  swiftlint.yml
+//  FakeNFT
+//
+//  Created by alex_tr on 05.05.2025.
+//
+
+disabled_rules:
+  - trailing_whitespace  # Отключить правила для лишних пробелов
+  - line_length  # Отключить проверку длины строки
+included:
+  - .  # Проверять все файлы в текущей папке
+excluded:
+  - Pods  # Исключить папку Pods

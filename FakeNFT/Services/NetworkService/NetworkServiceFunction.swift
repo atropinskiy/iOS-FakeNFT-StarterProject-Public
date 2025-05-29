@@ -54,9 +54,9 @@ final class NetworkServiceFunction {
     
     /// Fetch currency by id number
     func fetchCurrency(by id: Int) async throws -> Currency {
-        let curencyID: String = String(id)
+        let currencyID: String = String(id)
         
-        let selectedCurrency: Currency = try await networkService.fetchRequest(endpoint: .currencyIdGet, method: .get, id: curencyID)
+        let selectedCurrency: Currency = try await networkService.fetchRequest(endpoint: .currencyIdGet, method: .get, id: currencyID)
         return selectedCurrency
     }
     
@@ -67,9 +67,9 @@ final class NetworkServiceFunction {
     
     /// Fetch payment success
     func fetchPayment(by id: Int) async throws -> Payment {
-        let curencyID: String = String(id)
+        let currencyID: String = String(id)
         
-        let currencyPayment: Payment = try await networkService.fetchRequest(endpoint: .paymentCurrencyIdGet, method: .get, id: curencyID)
+        let currencyPayment: Payment = try await networkService.fetchRequest(endpoint: .paymentCurrencyIdGet, method: .get, id: currencyID)
         return currencyPayment
     }
     
@@ -105,6 +105,11 @@ final class NetworkServiceFunction {
     /// Fetch user with id
     func fetchUser(by id: String) async throws -> User {
         try await networkService.fetchRequest(endpoint: .userIdGet, method: .get, id: id)
+    }
+    
+    func putLike(profile: Profile) async throws -> Profile {
+        let body = LikesUpdate(likes: profile.likes)
+        return try await networkService.fetchRequest(endpoint: .profileGetPut, method: .put, id: "1", encodableData: body)
     }
 }
 
