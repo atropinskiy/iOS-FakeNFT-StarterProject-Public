@@ -14,7 +14,7 @@ extension View {
             .navigationBarBackButtonHidden(true)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
-                    BackButtonView()
+                    StatBackButtonView()
                 }
             }
     }
