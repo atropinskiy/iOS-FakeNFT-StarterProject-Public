@@ -13,5 +13,4 @@ final class MockNFT {
         NFT(createdAt: "", name: "Ediroga", images: ["ediroga"], rating: 1, description: "", price: 8.88, author: "Hikita", id: "")
      
     ]
-    
 }

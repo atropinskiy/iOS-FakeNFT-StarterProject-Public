@@ -1,20 +1,21 @@
+
 import SwiftUI
 
 struct ContentView: View {
     
     @StateObject private var myNFTViewModel = MyNFTViewModel()
     @StateObject private var favoriteNFTViewModel = FavoriteNFTViewModel()
-    
+    @EnvironmentObject private var profileEditViewModel: ProfileEditViewModel
+
     var body: some View {
-        
         VStack(spacing: 0) {
-            
+
             MenuRow(title: "Мои NFT",
-                    count: MockNFT.shared.nfts.count,
+                    count: profileEditViewModel.myLoadedNFTs.count,
                     destination: MyNFTView().environmentObject(myNFTViewModel))
             
             MenuRow(title: "Избранные NFT",
-                    count: MockNFT.shared.nfts.count,
+                    count: profileEditViewModel.myFavNFTS.count,
                     destination: FavoriteNFTView().environmentObject(favoriteNFTViewModel))
             
             MenuRow(title: "О разработчике",
@@ -43,9 +44,7 @@ struct MenuRow<Destination: View>: View {
                     Text(title)
                         .fontWeight(.semibold)
                 }
-                
                 Spacer()
-                
                 Image(systemName: "chevron.right")
                     .foregroundStyle(Color(.tBlack))
             }
@@ -57,5 +56,6 @@ struct MenuRow<Destination: View>: View {
 
 #Preview {
     ContentView()
+        .environmentObject(ProfileEditViewModel())
 }
 
