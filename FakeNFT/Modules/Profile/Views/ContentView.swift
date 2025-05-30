@@ -54,7 +54,8 @@ struct MenuRow<Destination: View>: View {
     }
 }
 
-//#Preview {
-//    ContentView()
-//}
+#Preview {
+    ContentView()
+        .environmentObject(ProfileEditViewModel())
+}
 
