@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct TabBarView: View {
+    @StateObject var profileViewModel = ProfileEditViewModel()
+    @StateObject private var statViewModel = ProfileStatViewModel()
     var body: some View {
         TabView {
             ProfileView()
@@ -18,7 +20,7 @@ struct TabBarView: View {
                         Text("Профиль")
                     }
                 }
-
+            
             CatalogView()
                 .tabItem {
                     VStack {
@@ -27,7 +29,7 @@ struct TabBarView: View {
                         Text("Каталог")
                     }
                 }
-
+            
             CartView()
                 .tabItem {
                     VStack {
@@ -36,8 +38,7 @@ struct TabBarView: View {
                         Text("Корзина")
                     }
                 }
-
-            StatView()
+            StatView(viewModel: statViewModel)
                 .tabItem {
                     VStack {
                         Image("StatTabBarImage")
@@ -45,9 +46,17 @@ struct TabBarView: View {
                         Text("Статистика")
                     }
                 }
+                .onAppear() {
+                    Task { @MainActor in
+                        await statViewModel.fetchFavoriteAndCart()
+                    }
+                }
         }
         .accentColor(Color(.tBlueUn))
+        .environmentObject(profileViewModel)
     }
+    
+    
 }
 
 #Preview {
