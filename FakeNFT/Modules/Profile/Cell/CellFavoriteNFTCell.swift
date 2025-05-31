@@ -3,21 +3,51 @@ import SwiftUI
 struct CellFavoriteNFTCell: View {
     
     let nft: NFT
-    
+    @EnvironmentObject private var profileEditViewModel: ProfileEditViewModel
     @State private var rating: Int = 0
     @State private var inFavorites: Bool = true
     
     var body: some View {
         HStack(alignment: .center, spacing: 16) {
             ZStack(alignment: .topTrailing) {
-                Image(nft.images[0])
-                    .resizable()
-                    .background(.gray)
-                    .frame(width: 80, height: 80)
-                    .clipShape(RoundedRectangle(cornerRadius: 12))
+                if let imageUrlString = nft.images.first,
+                   let url = URL(string: imageUrlString) {
+                    AsyncImage(url: url) { phase in
+                        switch phase {
+                        case .empty:
+                            ProgressView()
+                                .frame(width: 108, height: 108)
+                                .background(Color.gray.opacity(0.2))
+                                .clipShape(RoundedRectangle(cornerRadius: 12))
+                        case .success(let image):
+                            image
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                                .frame(width: 108, height: 108)
+                                .clipShape(RoundedRectangle(cornerRadius: 12))
+                        case .failure:
+                            Image(systemName: "photo")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 48, height: 48)
+                                .frame(width: 108, height: 108)
+                                .background(Color.gray.opacity(0.2))
+                                .clipShape(RoundedRectangle(cornerRadius: 12))
+                        @unknown default:
+                            EmptyView()
+                        }
+                    }
+                } else {
+                    RoundedRectangle(cornerRadius: 12)
+                        .fill(Color.gray.opacity(0.2))
+                        .frame(width: 108, height: 108)
+                }
                 
                 Button(action: {
                     inFavorites.toggle()
+                    Task {
+                        await profileEditViewModel.favoriteAddRemove(nft: nft)
+                    }
                 }, label: {
                     Image(systemName: "heart.fill")
                         .foregroundStyle(inFavorites ? Color(.tRedUn) : Color(.white))
@@ -48,10 +78,9 @@ struct CellFavoriteNFTCell: View {
     }
 }
 
-struct CellFavoriteNFTCellPreview: PreviewProvider {
-    static var previews: some View {
-        CellFavoriteNFTCell(nft: MockNFT.shared.nfts[0])
-            .previewLayout(.sizeThatFits)
-    }
+#Preview {
+    CellFavoriteNFTCell(nft: MockNFT.shared.nfts[0])
+        .environmentObject(ProfileEditViewModel())
 }
+
 
